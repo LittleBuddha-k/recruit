@@ -46,6 +46,9 @@ spring:
     database: 0
   resources:
     static-locations: classpath:/static/,classpath:/templates/
+  #mvc:
+  #  view:
+  #    suffix: .jsp  将会将试图换为
 #  自定义静态资源路径
 #  resources:
 #    static-locations: classpath:/webpage
@@ -70,7 +73,6 @@ swagger:
 #shiro--认证失败后去请求的路径
 #shiro:
 #  loginUrl: /loginPage
-
 
 
 
