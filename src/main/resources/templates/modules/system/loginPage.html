@@ -43,7 +43,26 @@
 </div>
 <script type="application/javascript">
     $("#login-button").click(function () {
-        alert("点击登录")
+        $.ajax({
+            url: "/recruit/system/login",    //请求的url地址
+            dataType: "json",   //返回格式为json
+            async: true,//请求是否异步，默认为异步，这也是ajax重要特性
+            data: {"username": "admin","password": "admin"},    //参数值
+            type: "POST",   //请求方式
+            beforeSend: function () {
+                //请求前的处理
+            },
+            success: function (result) {
+                //请求成功时处理
+                alert("获取到的返回值："+result.msg)
+            },
+            complete: function () {
+                //请求完成的处理
+            },
+            error: function () {
+                //请求出错处理
+            }
+        })
     })
 </script>
 </body>
