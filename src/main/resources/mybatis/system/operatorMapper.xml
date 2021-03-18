@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.littlebuddha.recruit.modules.mapper.system.OperatorMapper">
+    <sql id="operatorColumns">
+        id AS "id",
+        userusername AS "userusername",
+        password AS "password",
+        salt AS "salt",
+        sex AS "sex",
+        age AS "age",
+        address AS "address",
+        phone AS "phone",
+        resume AS "resume.id",
+        create_by AS "createBy.id",
+        create_date AS "createDate",
+        update_by AS "updateBy.id",
+        update_date AS "updateDate",
+        remarks AS "remarks",
+        del_flag AS "delFlag"
+    </sql>
+
+    <select id="get" resultType="com.littlebuddha.recruit.modules.entity.system.Operator">
+        SELECT
+        <include refid="operatorColumns"/>
+        FROM recruit_recruit_system_operator
+        WHERE id=#{id}
+    </select>
+
+    <select id="selectByusernameAndPassword" resultType="com.littlebuddha.recruit.modules.entity.system.Operator">
+        SELECT
+        <include refid="operatorColumns"/>
+        FROM recruit_system_operator
+        WHERE username=#{username} AND password=#{password}
+    </select>
+
+    <select id="findByusername" resultType="com.littlebuddha.recruit.modules.entity.system.Operator">
+        SELECT
+        <include refid="operatorColumns"/>
+        FROM recruit_system_operator
+        WHERE username=#{username}
+    </select>
+
+    <select id="findList" resultType="com.littlebuddha.recruit.modules.entity.system.Operator">
+        SELECT
+        <include refid="operatorColumns"/>
+        FROM recruit_system_operator a
+        <where>
+            a.is_delete = #{DEL_FLAG_NORMAL}
+            <!-- 判断条件参数是否为空 -->
+            <if test="username != null and username != ''">
+                and a.username = #{username}
+            </if>
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+
+            </when>
+            <otherwise>
+
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="findAllList" resultType="com.littlebuddha.recruit.modules.entity.system.Operator">
+        SELECT
+        <include refid="operatorColumns"/>
+        FROM recruit_system_operator a
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+
+            </when>
+            <otherwise>
+
+            </otherwise>
+        </choose>
+    </select>
+
+    <insert id="insert">
+        INSERT INTO recruit_system_operator(
+            id,
+            username,
+            password,
+            salt,
+            sex,
+            age,
+            address,
+            phone,
+            resume,
+            create_by,
+            create_date,
+            update_by,
+            update_date,
+            remarks,
+            del_flag
+        )VALUES (
+            #{id},
+            #{username},
+            #{password},
+            #{salt},
+            #{sex},
+            #{age},
+            #{address},
+            #{phone},
+            #{resume.id},
+            #{createBy.id},
+            #{createDate},
+            #{updateBy.id},
+            #{updateDate},
+            #{remarks},
+            #{delFlag}
+        )
+    </insert>
+
+    <update id="update">
+        UPDATE recruit_system_operator SET
+            username = #{username},
+            login_username = #{loginusername},
+            password = #{password},
+            salt = #{salt},
+            picture = #{picture},
+            department = #{department.id},
+            work_number = #{workNumber},
+            login_flag = #{loginFlag},
+            login_ip = #{loginIp},
+            login_address = #{loginAddress},
+            create_by = #{createBy.id},
+            create_date = #{createDate},
+            update_by = #{updateBy.id},
+            update_date = #{updateDate},
+            is_delete = #{isDelete},
+            remarks = #{remarks}
+        WHERE id=#{id}
+    </update>
+
+    <update id="deleteByLogic">
+        UPDATE recruit_system_operator SET is_delete = 1
+        WHERE id=#{id}
+    </update>
+
+    <update id="recover">
+        UPDATE recruit_system_operator SET is_delete = 0
+        WHERE id=#{id}
+    </update>
+
+    <delete id="deleteByPhysics">
+        DELETE FROM recruit_system_operator
+        WHERE id=#{id}
+    </delete>
+</mapper>

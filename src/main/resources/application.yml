@@ -60,6 +60,7 @@ mybatis:
     # spring boot集成mybatis的方式打印sql
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   mapper-locations: classpath:mybatis/*/*Mapper.xml
+  type-aliases-package: com.littlebuddha.recruit.modules.entity
 # pagehelper
 pagehelper:
   helperDialect: mysql
