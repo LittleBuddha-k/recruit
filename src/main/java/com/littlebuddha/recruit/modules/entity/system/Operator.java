@@ -16,6 +16,10 @@ public class Operator extends DataEntity<Operator> {
     private String phone;         //个人联系电话
     private Resume resume;        //简历
 
+    public Operator(String username) {
+        this.username = username;
+    }
+
     public String getUsername() {
         return username;
     }

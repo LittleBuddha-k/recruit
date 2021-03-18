@@ -5,10 +5,16 @@ import com.littlebuddha.recruit.modules.base.service.CrudService;
 import com.littlebuddha.recruit.modules.entity.system.Operator;
 import com.littlebuddha.recruit.modules.mapper.system.OperatorMapper;
 import org.apache.shiro.crypto.hash.Md5Hash;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class OperatorService extends CrudService<Operator, OperatorMapper> {
+
+    @Autowired
+    private OperatorMapper operatorMapper;
 
     @Override
     public int save(Operator entity) {
@@ -23,5 +29,9 @@ public class OperatorService extends CrudService<Operator, OperatorMapper> {
         operator.setPassword(md5Hash.toString());
         int save = super.save(operator);
         return save;
+    }
+
+    public List<Operator> findOperatorByName(Operator operator){
+        return operatorMapper.getOperatorByName(operator);
     }
 }

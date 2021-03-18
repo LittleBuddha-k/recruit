@@ -33,7 +33,7 @@
         WHERE username=#{username} AND password=#{password}
     </select>
 
-    <select id="findByusername" resultType="com.littlebuddha.recruit.modules.entity.system.Operator">
+    <select id="getOperatorByName" resultType="com.littlebuddha.recruit.modules.entity.system.Operator">
         SELECT
         <include refid="operatorColumns"/>
         FROM recruit_system_operator

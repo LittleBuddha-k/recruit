@@ -4,6 +4,10 @@ import com.littlebuddha.recruit.modules.base.mapper.BaseMapper;
 import com.littlebuddha.recruit.modules.entity.system.Operator;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 @Mapper
 public interface OperatorMapper extends BaseMapper<Operator> {
+
+    List<Operator> getOperatorByName(Operator operator);
 }
