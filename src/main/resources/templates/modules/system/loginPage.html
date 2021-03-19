@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"  xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <meta charset="UTF-8">
     <title>登录</title>
@@ -54,7 +54,9 @@
             },
             success: function (result) {
                 //请求成功时处理
-                alert("获取到的返回值："+result.msg)
+                if(200 == result.code){
+                    window.location.href = '/recruit/testData'
+                }
             },
             complete: function () {
                 //请求完成的处理

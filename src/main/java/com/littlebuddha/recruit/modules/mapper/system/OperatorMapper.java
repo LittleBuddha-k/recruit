@@ -9,5 +9,5 @@ import java.util.List;
 @Mapper
 public interface OperatorMapper extends BaseMapper<Operator> {
 
-    List<Operator> getOperatorByName(Operator operator);
+    Operator getOperatorByName(Operator operator);
 }

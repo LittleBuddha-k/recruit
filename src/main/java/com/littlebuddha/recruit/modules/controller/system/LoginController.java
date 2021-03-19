@@ -26,7 +26,7 @@ public class LoginController extends BaseController {
     @Autowired
     private OperatorService operatorService;
 
-    @GetMapping("/loginPage")
+    @GetMapping(value = {"/","/loginPage"})
     public String loginPage() {
         return "modules/system/loginPage";
     }
@@ -64,11 +64,14 @@ public class LoginController extends BaseController {
     public Result register(Operator operator){
         Result result = null;
         int save = operatorService.register(operator);
-        if(save != 0){
-            return new Result("200","注册成功");
+        if(save > 0){
+            result = new Result("200","注册成功");
+        }else if (save == 0){
+            result = new Result("304","用户名已存在");
         }else {
-            return new Result("304","注册失败");
+            result = new Result("305","注册失败");
         }
+        return result;
     }
 
     @ResponseBody

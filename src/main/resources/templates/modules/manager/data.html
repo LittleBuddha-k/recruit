@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <meta charset="UTF-8">
     <title>管理2</title>
@@ -13,5 +13,11 @@
 </head>
 <body>
 <div>管理2---受限资源</div>
+<shiro:hasRole name="admin">
+    <div>admin角色</div>
+</shiro:hasRole>
+<shiro:hasRole name="user">
+    <div>user角色</div>
+</shiro:hasRole>
 </body>
 </html>

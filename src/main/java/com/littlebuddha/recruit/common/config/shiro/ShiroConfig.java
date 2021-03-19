@@ -1,6 +1,8 @@
 package com.littlebuddha.recruit.common.config.shiro;
 
+import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 import com.littlebuddha.recruit.common.config.shiro.realms.CustomerRealm;
+import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.realm.Realm;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
@@ -48,7 +50,19 @@ public class ShiroConfig {
     //创建Realm
     @Bean
     public Realm getRealm(){
-        return new CustomerRealm();
+        CustomerRealm customerRealm = new CustomerRealm();
+        //修改凭证匹配器-----密码匹配原则
+        HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
+        //设置加密算法
+        hashedCredentialsMatcher.setHashAlgorithmName("MD5");
+        //设置散列次数
+        hashedCredentialsMatcher.setHashIterations(1024);
+        customerRealm.setCredentialsMatcher(hashedCredentialsMatcher);
+        return customerRealm;
     }
 
+    @Bean
+    public ShiroDialect shiroDialect() {
+        return new ShiroDialect();
+    }
 }

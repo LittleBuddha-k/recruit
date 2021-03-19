@@ -3,7 +3,7 @@
 <mapper namespace="com.littlebuddha.recruit.modules.mapper.system.OperatorMapper">
     <sql id="operatorColumns">
         id AS "id",
-        userusername AS "userusername",
+        username AS "username",
         password AS "password",
         salt AS "salt",
         sex AS "sex",

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"  xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <meta charset="UTF-8">
     <title>注册</title>
@@ -59,6 +59,16 @@
                     setTimeout(function (){
                         window.location.href='/recruit/modules/system/loginPage.html';
                     }, 2000);
+                }else if ("用户名已存在" == result.msg){
+                    alert(result.msg)
+                    setTimeout(function (){
+                        window.location.reload();
+                    }, 1000);
+                }else if ("注册失败" == result.msg){
+                    alert(result.msg)
+                    setTimeout(function (){
+                        window.location.reload();
+                    }, 1000);
                 }
             },
             complete: function () {
