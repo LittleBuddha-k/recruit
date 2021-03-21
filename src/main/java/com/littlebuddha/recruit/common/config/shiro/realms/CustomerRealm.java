@@ -21,11 +21,9 @@ public class CustomerRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
+        //拿到的是个用户名
         String primaryPrincipal = (String)principalCollection.getPrimaryPrincipal();
-        if("admin".equals(primaryPrincipal)){
-            simpleAuthorizationInfo.addRole("admin");
-            return simpleAuthorizationInfo;
-        }
+        OperatorService operatorService = (OperatorService)ApplicationContextUtils.getBean("operatorService");
         return null;
     }
 

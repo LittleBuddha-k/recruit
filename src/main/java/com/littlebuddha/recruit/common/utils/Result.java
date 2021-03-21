@@ -14,6 +14,11 @@ public class Result<T> {
         this.msg = msg;
     }
 
+    public Result(String code, T data) {
+        this.code = code;
+        this.data = data;
+    }
+
     public String getCode() {
         return code;
     }

@@ -1,17 +1,26 @@
 package com.littlebuddha.recruit.modules.base.entity;
 
+import com.github.pagehelper.Page;
 import com.littlebuddha.recruit.modules.entity.system.Operator;
+
+import java.io.Serializable;
 
 /**
  *基础实体继承类
  */
-public abstract class BaseEntity<E> {
+public abstract class BaseEntity<E> implements Serializable {
 
-    protected String id;
+    private String id;
     protected Operator currentUser;
     //private String page;
 
     protected boolean isNewRecord = false;
+
+    /**
+     * 当前实体分页对象
+     * @return
+     */
+    private Page<E> page;
 
     public String getId() {
         return id;
@@ -27,6 +36,14 @@ public abstract class BaseEntity<E> {
 
     public void setCurrentUser(Operator currentUser) {
         this.currentUser = currentUser;
+    }
+
+    public Page<E> getPage() {
+        return page;
+    }
+
+    public void setPage(Page<E> page) {
+        this.page = page;
     }
 
     /**

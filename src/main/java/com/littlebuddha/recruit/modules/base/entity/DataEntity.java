@@ -5,6 +5,8 @@ import com.littlebuddha.recruit.common.utils.AutoId;
 import com.littlebuddha.recruit.common.utils.UserUtils;
 import com.littlebuddha.recruit.modules.entity.system.Operator;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 
 import java.util.Date;
 
@@ -34,31 +36,28 @@ public abstract class DataEntity<E> extends BaseEntity<E>{
     }
 
     /**
-     * 插入之前执行方法，需要手动调用
+     * 保存数据前的操作，手动调用
      */
-    @Override
     public void preInsert(){
-        if (!this.isNewRecord){
+        Subject subject = SecurityUtils.getSubject();
+        Operator entity = (Operator)subject.getPrincipal();
+        if(!this.isNewData){
             setId(AutoId.getAutoId());
         }
-        //Operator operator = UserUtils.getCurrentUser();
-        //if (StringUtils.isNotBlank(operator.getId())){
-        //    this.updateBy = operator;
-        //    this.createBy = operator;
-        //}
-        this.updateDate = new Date();
-        this.createDate = this.updateDate;
+        Date now = new Date();
+        this.createBy = entity;
+        this.createDate = now;
+        this.updateBy = entity;
+        this.updateDate = this.createDate;
     }
 
     /**
-     * 更新之前执行方法，需要手动调用
+     * 更新数据前的操作，手动调用
      */
-    @Override
     public void preUpdate(){
-        //User user = UserUtils.getUser();
-        //if (StringUtils.isNotBlank(user.getId())){
-        //    this.updateBy = user;
-        //}
+        Subject subject = SecurityUtils.getSubject();
+        Operator entity = (Operator)subject.getPrincipal();
+        this.updateBy = entity;
         this.updateDate = new Date();
     }
 

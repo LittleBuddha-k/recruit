@@ -16,6 +16,11 @@ public class Operator extends DataEntity<Operator> {
     private String phone;         //个人联系电话
     private Resume resume;        //简历
 
+    private Role role;            //角色信息
+
+    public Operator() {
+    }
+
     public Operator(String username) {
         this.username = username;
     }
@@ -82,5 +87,13 @@ public class Operator extends DataEntity<Operator> {
 
     public void setResume(Resume resume) {
         this.resume = resume;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

@@ -45,7 +45,7 @@
         <include refid="operatorColumns"/>
         FROM recruit_system_operator a
         <where>
-            a.is_delete = #{DEL_FLAG_NORMAL}
+            a.del_flag = #{DEL_FLAG_NORMAL}
             <!-- 判断条件参数是否为空 -->
             <if test="username != null and username != ''">
                 and a.username = #{username}
@@ -127,18 +127,18 @@
             create_date = #{createDate},
             update_by = #{updateBy.id},
             update_date = #{updateDate},
-            is_delete = #{isDelete},
+            del_flag = #{isDelete},
             remarks = #{remarks}
         WHERE id=#{id}
     </update>
 
     <update id="deleteByLogic">
-        UPDATE recruit_system_operator SET is_delete = 1
+        UPDATE recruit_system_operator SET del_flag = 1
         WHERE id=#{id}
     </update>
 
     <update id="recover">
-        UPDATE recruit_system_operator SET is_delete = 0
+        UPDATE recruit_system_operator SET del_flag = 0
         WHERE id=#{id}
     </update>
 

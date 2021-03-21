@@ -3,6 +3,8 @@ package com.littlebuddha.recruit.modules.entity.system;
 
 import com.littlebuddha.recruit.modules.base.entity.DataEntity;
 
+import java.util.List;
+
 /**
  *
  */

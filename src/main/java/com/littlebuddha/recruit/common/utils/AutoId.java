@@ -21,6 +21,13 @@ public class AutoId {
         return id;
     }
 
+    public static void main(String[] args) {
+        for (int i = 0;i<10;i++){
+            String autoId = getAutoId();
+            System.out.println(autoId);
+        }
+    }
+
     /**
      * 使用SecureRandom随机生成Long.
      */

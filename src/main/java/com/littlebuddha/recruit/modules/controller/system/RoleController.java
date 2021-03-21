@@ -3,30 +3,75 @@
  */
 package com.littlebuddha.recruit.modules.controller.system;
 
+import com.littlebuddha.recruit.common.utils.Result;
 import com.littlebuddha.recruit.modules.base.controller.BaseController;
-import org.apache.shiro.authz.annotation.Logical;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
+import com.littlebuddha.recruit.modules.entity.system.Role;
+import com.littlebuddha.recruit.modules.service.system.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
- * 角色Controller
- * @author jeeplus
- * @version 2016-12-05
+ *
  */
 @Controller
-@RequestMapping(value = "${adminPath}/system/role")
+@RequestMapping(value = "/system/role")
 public class RoleController extends BaseController {
 
+    Result result = null;
+
+    @Autowired
+    private RoleService roleService;
+
+    @GetMapping("/list")
+    public String list(Role role, Model model){
+        model.addAttribute("role",role);
+        List<Role> list = roleService.findList(role);
+        model.addAttribute("list",list);
+        return "modules/system/role";
+    }
+
+    @ResponseBody
+    @PostMapping("/data")
+    public Result<List> data(Role role){
+        List<Role> data = roleService.findList(role);
+        result = new Result("200",data);
+        return result;
+    }
+
+    @GetMapping("/form/{mode}")
+    public String form(@PathVariable(name = "mode")String mode, Role role,Model model){
+        model.addAttribute("role",role);
+        model.addAttribute("mode",mode);
+        return "modules/system/roleForm";
+    }
+
+    @ResponseBody
+    @PostMapping("/save")
+    public Result save(Role role){
+        int save = roleService.save(role);
+        if (save > 0){
+            return new Result("200","保存成功");
+        }else {
+            return new Result("306","未知错误，保存失败");
+        }
+    }
+
+    /**
+     * 物理删除
+     * @return
+     */
+    @ResponseBody
+    @PostMapping("/deleteByPhysics")
+    public Result deleteByPhysics(Role role){
+        int delete =  roleService.deleteByPhysics(role);
+        if (delete > 0){
+            return new Result("200","删除成功");
+        }else {
+            return new Result("306","未知错误，删除失败");
+        }
+    }
 }

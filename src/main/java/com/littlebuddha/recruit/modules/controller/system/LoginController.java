@@ -26,6 +26,10 @@ public class LoginController extends BaseController {
     @Autowired
     private OperatorService operatorService;
 
+    /**
+     * 登录页面
+     * @return
+     */
     @GetMapping(value = {"/","/loginPage"})
     public String loginPage() {
         return "modules/system/loginPage";
@@ -54,11 +58,20 @@ public class LoginController extends BaseController {
         }
     }
 
+    /**
+     * 注册页面
+     * @return
+     */
     @GetMapping("/registerPage")
     public String registerPage() {
         return "modules/system/registerPage";
     }
 
+    /**
+     * 注册
+     * @param operator
+     * @return
+     */
     @ResponseBody
     @PostMapping("/register")
     public Result register(Operator operator){
@@ -74,6 +87,10 @@ public class LoginController extends BaseController {
         return result;
     }
 
+    /**
+     * 退出登录
+     * @return
+     */
     @ResponseBody
     @PostMapping("/logout")
     public Result logout(){
@@ -82,5 +99,14 @@ public class LoginController extends BaseController {
         subject.logout();
         result = new Result("303","退出成功");
         return result;
+    }
+
+    /**
+     * 门户页面
+     * @return
+     */
+    @GetMapping("/portal")
+    public String portal(){
+        return "modules/system/portal";
     }
 }

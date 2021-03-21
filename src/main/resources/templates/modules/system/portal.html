@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="UTF-8">
+    <title>门户信息</title>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="/recruit/css/bootstrap.min.css">
+    <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="/recruit/css/bootstrap-theme.min.css">
+    <script src="/recruit/jquery/jquery-3.3.1.min.js"></script>
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="/recruit/js/bootstrap.min.js"></script>
+</head>
+<body>
+<!--导航条-->
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">查看用户信息</a></li>
+                <li><a href="#">数据恢复与备份</a></li>
+                <li><a href="#">管理管理员</a></li>
+                <li><a href="#">日志管理</a></li>
+                <li><a href="#">发布招聘</a></li>
+                <li><a href="#">招聘通知管理</a></li>
+                <li><a href="#">招聘报名</a></li>
+                <li><a href="#">简历管理</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">登陆者姓名<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">我的简历</a></li>
+                        <li><a href="#">个人设置</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a id="logout">退出登录</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+
+<script type="application/javascript">
+    $("#logout").click(function () {
+        $.ajax({
+            url: "/recruit/system/logout",    //请求的url地址
+            dataType: "json",   //返回格式为json
+            async: true,//请求是否异步，默认为异步，这也是ajax重要特性
+            data: $("#register-form").serialize(),    //参数值
+            type: "POST",   //请求方式
+            beforeSend: function () {
+                //请求前的处理
+            },
+            success: function (result) {
+                //请求成功时处理
+                if ("退出成功" == result.msg){
+                    alert(result.msg)
+                    setTimeout(function (){
+                        window.location.href='/recruit/system/loginPage';
+                    }, 2000);
+                }
+            },
+            complete: function () {
+                //请求完成的处理
+            },
+            error: function () {
+                //请求出错处理
+            }
+        })
+    })
+</script>
+</body>
+</html>
