@@ -1,6 +1,7 @@
 package com.littlebuddha.recruit.modules.controller.system;
 
 import com.littlebuddha.recruit.common.utils.Result;
+import com.littlebuddha.recruit.common.utils.UserUtils;
 import com.littlebuddha.recruit.modules.base.controller.BaseController;
 import com.littlebuddha.recruit.modules.entity.system.Operator;
 import com.littlebuddha.recruit.modules.service.system.OperatorService;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpSession;
 
 /**
  * 登录控制器
@@ -106,7 +109,9 @@ public class LoginController extends BaseController {
      * @return
      */
     @GetMapping("/portal")
-    public String portal(){
+    public String portal(HttpSession session){
+        Operator currentUser = UserUtils.getCurrentUser();
+        session.setAttribute("currentUser",currentUser);
         return "modules/system/portal";
     }
 }

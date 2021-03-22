@@ -31,10 +31,10 @@ public class CustomerRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         OperatorService operatorService = (OperatorService)ApplicationContextUtils.getBean("operatorService");
         String principal = (String) authenticationToken.getPrincipal();
-        Operator operatorByName = operatorService.findOperatorByName(new Operator(principal));
+        Operator operator = operatorService.findOperatorByName(new Operator(principal));
 
-        if(!ObjectUtils.isEmpty(operatorByName)){
-           return  new SimpleAuthenticationInfo(operatorByName.getUsername(),operatorByName.getPassword(), ByteSource.Util.bytes(operatorByName.getSalt()),this.getName());
+        if(!ObjectUtils.isEmpty(operator)){
+           return  new SimpleAuthenticationInfo(operator,operator.getPassword(), ByteSource.Util.bytes(operator.getSalt()),this.getName());
         }
         return null;
     }

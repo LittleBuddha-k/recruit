@@ -2,6 +2,7 @@ package com.littlebuddha.recruit.common.utils;
 
 import com.littlebuddha.recruit.modules.entity.system.Menu;
 import com.littlebuddha.recruit.modules.entity.system.Operator;
+import com.littlebuddha.recruit.modules.service.system.OperatorService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.UnavailableSecurityManagerException;
 import org.apache.shiro.session.InvalidSessionException;
@@ -13,6 +14,8 @@ import java.util.List;
  * 与用户相关操作的帮助类
  */
 public class UserUtils {
+
+    private static OperatorService operatorService = (OperatorService)ApplicationContextUtils.getBean("operatorService");
 
     public static Operator getCurrentUser(){
         Subject subject = SecurityUtils.getSubject();
@@ -36,15 +39,6 @@ public class UserUtils {
         }catch (InvalidSessionException e){
 
         }
-        return null;
-    }
-
-    /**
-     * 获取当前用户菜单列表
-     */
-    public List<Menu> getCurrentUserMenu(){
-        Subject subject = SecurityUtils.getSubject();
-        Operator principal = (Operator) subject.getPrincipal();
         return null;
     }
 }

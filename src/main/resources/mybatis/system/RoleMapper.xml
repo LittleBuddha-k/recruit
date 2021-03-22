@@ -20,10 +20,7 @@
         WHERE id=#{id}
     </select>
 
-    <select id="getRolesByOperatorName" resultType="">
-        SELECT
-            operator_id AS
-    </select>
+
     
     <select id="findList" resultType="com.littlebuddha.recruit.modules.entity.system.Role">
         SELECT

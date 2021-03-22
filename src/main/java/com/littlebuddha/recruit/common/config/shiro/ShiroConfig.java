@@ -27,10 +27,8 @@ public class ShiroConfig {
         Map<String,String> map = new HashMap<>();
         //配置系统公共资源
         map.put("/system/**","anon");
-        map.put("/css/**","anon");
-        map.put("/fonts/**","anon");
-        map.put("/jquery/**","anon");
-        map.put("/js/**","anon");
+        map.put("/bootstrap/**","anon");
+        map.put("/plugins/**","anon");
         //配置系统受限资源
         map.put("/**","authc");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(map);
