@@ -103,15 +103,4 @@ public class LoginController extends BaseController {
         result = new Result("303","退出成功");
         return result;
     }
-
-    /**
-     * 门户页面
-     * @return
-     */
-    @GetMapping("/portal")
-    public String portal(HttpSession session){
-        Operator currentUser = UserUtils.getCurrentUser();
-        session.setAttribute("currentUser",currentUser);
-        return "modules/system/portal";
-    }
 }

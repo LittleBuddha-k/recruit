@@ -29,6 +29,7 @@ public class ShiroConfig {
         map.put("/system/**","anon");
         map.put("/bootstrap/**","anon");
         map.put("/plugins/**","anon");
+        map.put("/pictures/**","anon");
         //配置系统受限资源
         map.put("/**","authc");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(map);
