@@ -13,15 +13,17 @@
         del_flag AS "delFlag"
     </sql>
 
-    <select id="list" resultType="com.littlebuddha.recruit.modules.entity.system.Role">
+    <sql id="roleJoins">
+        LEFT JOIN recruit_operator_role b on a.id=b.role_id
+    </sql>
+
+    <select id="get" resultType="com.littlebuddha.recruit.modules.entity.system.Role">
         SELECT
         <include refid="roleColumns"/>
         FROM recruit_system_role a
         WHERE id=#{id}
     </select>
 
-
-    
     <select id="findList" resultType="com.littlebuddha.recruit.modules.entity.system.Role">
         SELECT
         <include refid="roleColumns"/>
@@ -31,6 +33,28 @@
             <!-- 判断条件参数是否为空 -->
             <if test="name != null and name != ''">
                 and a.name = #{name}
+            </if>
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY a.create_date DESC
+            </when>
+            <otherwise>
+                ORDER BY a.create_date DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="getRolesByOperator" resultType="com.littlebuddha.recruit.modules.entity.system.Role">
+        SELECT
+        <include refid="roleColumns"/>
+        FROM recruit_system_role a
+        <include refid="roleJoins"/>
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
+            <!-- 判断条件参数是否为空 -->
+            <if test="id != null and id != ''">
+                and b.operator_id=#{id}
             </if>
         </where>
         <choose>

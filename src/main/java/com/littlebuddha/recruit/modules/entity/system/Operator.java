@@ -2,6 +2,8 @@ package com.littlebuddha.recruit.modules.entity.system;
 
 import com.littlebuddha.recruit.modules.base.entity.DataEntity;
 
+import java.util.List;
+
 /**
  * 登录用户实体类
  */
@@ -16,7 +18,7 @@ public class Operator extends DataEntity<Operator> {
     private String phone;         //个人联系电话
     private Resume resume;        //简历
 
-    private Role role;            //角色信息
+    private List<Role> roles;            //角色信息
 
     public Operator() {
     }
@@ -89,11 +91,11 @@ public class Operator extends DataEntity<Operator> {
         this.resume = resume;
     }
 
-    public Role getRole() {
-        return role;
+    public List<Role> getRoles() {
+        return roles;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 }
