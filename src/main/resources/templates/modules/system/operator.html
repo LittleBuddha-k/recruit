@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"  xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <meta charset="UTF-8">
     <title>用户管理</title>
@@ -7,38 +7,64 @@
     <link rel="stylesheet" href="/recruit/bootstrap/css/bootstrap.min.css">
     <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
     <link rel="stylesheet" href="/recruit/bootstrap/css/bootstrap-theme.min.css">
+    <!-- 引入bootstrap-table样式 -->
+    <link href="https://cdn.bootcss.com/bootstrap-table/1.11.1/bootstrap-table.min.css" rel="stylesheet">
+    <!--引入jquery-->
     <script src="/recruit/plugins/jquery/jquery-3.3.1.min.js"></script>
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
     <script src="/recruit/bootstrap/js/bootstrap.min.js"></script>
+    <!-- bootstrap-table.min.js -->
+    <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
+    <!-- 引入中文语言包 -->
+    <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/locale/bootstrap-table-zh-CN.min.js"></script>
+    <!--引入本html的js文件-->
+    <script type="text/javascript" src="/recruit/modules/system/operator.js"></script>
 </head>
 <body>
 <!--导航条-->
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">查看用户信息</a></li>
-                <li><a href="#">数据恢复与备份</a></li>
-                <li><a href="#">管理管理员</a></li>
-                <li><a href="#">日志管理</a></li>
-                <li><a href="#">发布招聘</a></li>
-                <li><a href="#">招聘通知管理</a></li>
-                <li><a href="#">招聘报名</a></li>
-                <li><a href="#">简历管理</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">登陆者姓名<span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">我的简历</a></li>
-                        <li><a href="#">个人设置</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a id="logout">退出登录</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
-</nav>
+<div th:insert="modules/common/navbar :: navigation"></div>
+<!--表格显示区域-->
+<div class="container">
+    <div class="row col-xs-12 col-sm-12	col-md-12 col-lg-12" style="margin-top: 30%">
+        <div id="toolbar">
+            <shiro:hasPermission name="marketing:freeProducts:add">
+                <button id="add" class="btn btn-primary" onclick="add()">
+                    <i class="glyphicon glyphicon-plus"></i> 新建
+                </button>
+            </shiro:hasPermission>
+            <shiro:hasPermission name="marketing:freeProducts:edit">
+                <button id="edit" class="btn btn-success" disabled onclick="edit()">
+                    <i class="glyphicon glyphicon-edit"></i> 修改
+                </button>
+            </shiro:hasPermission>
+            <shiro:hasPermission name="marketing:freeProducts:del">
+                <button id="remove" class="btn btn-danger" disabled onclick="deleteAll()">
+                    <i class="glyphicon glyphicon-remove"></i> 删除
+                </button>
+            </shiro:hasPermission>
+            <%--<shiro:hasPermission name="marketing:visiting:import">
+            <button id="btnImport" class="btn btn-info"><i class="fa fa-folder-open-o"></i> 导入</button>
+        </shiro:hasPermission>--%>
+            <shiro:hasPermission name="marketing:freeProducts:export">
+                <button id="export" class="btn btn-warning">
+                    <i class="fa fa-file-excel-o"></i> 导出
+                </button>
+            </shiro:hasPermission>
+            <shiro:hasPermission name="marketing:freeProducts:map">
+                <button id="map" class="btn btn-info" onclick="mapAll()">
+                    <i class="fa fa-search-plus"></i> 定位
+                </button>
+            </shiro:hasPermission>
+            <shiro:hasPermission name="marketing:freeProducts:view">
+                <button id="view" class="btn btn-default" disabled onclick="view()">
+                    <i class="fa fa-search-plus"></i> 查看
+                </button>
+            </shiro:hasPermission>
+        </div>
+        <table id="operatorTable"></table>
+    </div>
+</div>
+
 
 <script type="application/javascript">
     $("#logout").click(function () {
@@ -48,23 +74,14 @@
             async: true,//请求是否异步，默认为异步，这也是ajax重要特性
             data: $("#register-form").serialize(),    //参数值
             type: "POST",   //请求方式
-            beforeSend: function () {
-                //请求前的处理
-            },
             success: function (result) {
                 //请求成功时处理
-                if ("退出成功" == result.msg){
+                if ("退出成功" == result.msg) {
                     alert(result.msg)
-                    setTimeout(function (){
-                        window.location.href='/recruit/system/loginPage';
+                    setTimeout(function () {
+                        window.location.href = '/recruit/system/loginPage';
                     }, 2000);
                 }
-            },
-            complete: function () {
-                //请求完成的处理
-            },
-            error: function () {
-                //请求出错处理
             }
         })
     })

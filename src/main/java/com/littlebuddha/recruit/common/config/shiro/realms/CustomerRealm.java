@@ -24,6 +24,8 @@ public class CustomerRealm extends AuthorizingRealm {
         //拿到的是个用户名
         String primaryPrincipal = (String)principalCollection.getPrimaryPrincipal();
         OperatorService operatorService = (OperatorService)ApplicationContextUtils.getBean("operatorService");
+        //根据完整的用户信息查询用户角色以及用户权限
+
         return null;
     }
 

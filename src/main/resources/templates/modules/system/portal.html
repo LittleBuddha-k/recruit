@@ -18,23 +18,25 @@
 <div class="container">
     <div class="row col-xs-12 col-sm-12	col-md-12 col-lg-12">
         <div class="media" th:each="recruit:${recruitList}">
-            <div class="media-left">
-                <a href="#">
-                    <img class="media-object" src="/recruit/pictures/company/a.jpg"
-                         style="width: 64px;height: 64px;">
-                </a>
-            </div>
-            <div class="media-body">
-                <div class="row col-xs-12 col-sm-12	col-md-12 col-lg-12">
-                    <h4 class="media-heading" th:text="${recruit.getPosition()}"></h4>
+            <a href="#">
+                <div class="media-left">
+                    <a href="#">
+                        <img class="media-object" src="/recruit/pictures/company/a.jpg"
+                             style="width: 64px;height: 64px;">
+                    </a>
                 </div>
-                <div class="row col-xs-12 col-sm-12	col-md-12 col-lg-12">
-                    <span th:text="${recruit.getEmployCount()}"></span>
+                <div class="media-body">
+                    <div class="row col-xs-12 col-sm-12	col-md-12 col-lg-12">
+                        <h4 class="media-heading" th:text="${recruit.getPosition()}"></h4>
+                    </div>
+                    <div class="row col-xs-12 col-sm-12	col-md-12 col-lg-12">
+                        <span th:text="${recruit.getJobInformation()}"></span>
+                    </div>
+                    <div class="row col-xs-12 col-sm-12	col-md-12 col-lg-12">
+                        <span th:text="${recruit.getWorkingYears()}"></span>
+                    </div>
                 </div>
-                <div class="row col-xs-12 col-sm-12	col-md-12 col-lg-12">
-                    <span th:text="${recruit.getWorkingYears()}"></span>
-                </div>
-            </div>
+            </a>
         </div>
     </div>
 </div>
