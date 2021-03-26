@@ -1,6 +1,7 @@
 package com.littlebuddha.recruit.common.config.shiro;
 
 import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
+import com.littlebuddha.recruit.common.config.shiro.cache.RedisCacheManager;
 import com.littlebuddha.recruit.common.config.shiro.realms.CustomerRealm;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
@@ -64,7 +65,7 @@ public class ShiroConfig {
         customerRealm.setCredentialsMatcher(hashedCredentialsMatcher);
 
         //开启数据缓存
-        customerRealm.setCacheManager(new EhCacheManager());
+        customerRealm.setCacheManager(new RedisCacheManager());
         customerRealm.setCachingEnabled(true);
         customerRealm.setAuthenticationCachingEnabled(true);//开启认证缓存
         customerRealm.setAuthenticationCacheName("authenticationCache");
