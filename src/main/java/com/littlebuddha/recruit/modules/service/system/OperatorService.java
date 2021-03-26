@@ -8,6 +8,8 @@ import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class OperatorService extends CrudService<Operator, OperatorMapper> {
 
@@ -38,5 +40,10 @@ public class OperatorService extends CrudService<Operator, OperatorMapper> {
 
     public Operator findOperatorByName(Operator operator) {
         return operatorMapper.getOperatorByName(operator);
+    }
+
+    public Operator findRolesByOperator(Operator operator) {
+        Operator rolesByOperator = operatorMapper.getRolesByOperator(operator);
+        return rolesByOperator;
     }
 }

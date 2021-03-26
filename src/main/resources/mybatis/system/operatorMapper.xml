@@ -19,6 +19,11 @@
         del_flag AS "delFlag"
     </sql>
 
+    <sql id="operatorJoins">
+        LEFT JOIN recruit_operator_role b ON a.id=b.operator_id
+        LEFT JOIN recruit_system_role c ON b.role_id=c.id
+    </sql>
+
     <select id="get" resultType="com.littlebuddha.recruit.modules.entity.system.Operator">
         SELECT
         <include refid="operatorColumns"/>
@@ -26,18 +31,32 @@
         WHERE id=#{id}
     </select>
 
-    <select id="selectByusernameAndPassword" resultType="com.littlebuddha.recruit.modules.entity.system.Operator">
-        SELECT
-        <include refid="operatorColumns"/>
-        FROM recruit_system_operator
-        WHERE username=#{username} AND password=#{password}
-    </select>
-
     <select id="getOperatorByName" resultType="com.littlebuddha.recruit.modules.entity.system.Operator">
         SELECT
         <include refid="operatorColumns"/>
         FROM recruit_system_operator
         WHERE username=#{username}
+    </select>
+
+    <resultMap id="operatorRolesMap" type="com.littlebuddha.recruit.modules.entity.system.Operator">
+        <id column="aid" property="id"/>
+        <result column="ausername" property="username"/>
+        <collection property="roles" javaType="list" ofType="com.littlebuddha.recruit.modules.entity.system.Role">
+            <id column="cid" property="id"/>
+            <result column="cname" property="name"/>
+        </collection>
+    </resultMap>
+    
+    <select id="getRolesByOperator" parameterType="com.littlebuddha.recruit.modules.entity.system.Operator" resultMap="operatorRolesMap">
+        SELECT a.id 'aid',a.username 'ausername',c.id 'cid',c.name 'cname' FROM recruit_system_operator a
+        <include refid="operatorJoins"/>
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
+            <!-- 判断条件参数是否为空 -->
+            <if test="id != null and id != ''">
+                and a.id = #{id}
+            </if>
+        </where>
     </select>
 
     <select id="findList" resultType="com.littlebuddha.recruit.modules.entity.system.Operator">
