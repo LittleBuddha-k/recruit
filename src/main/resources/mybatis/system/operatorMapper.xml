@@ -43,12 +43,12 @@
         <result column="ausername" property="username"/>
         <collection property="roles" javaType="list" ofType="com.littlebuddha.recruit.modules.entity.system.Role">
             <id column="cid" property="id"/>
-            <result column="cname" property="name"/>
+            <result column="cEnglishName" property="englishName"/>
         </collection>
     </resultMap>
     
     <select id="getRolesByOperator" parameterType="com.littlebuddha.recruit.modules.entity.system.Operator" resultMap="operatorRolesMap">
-        SELECT a.id 'aid',a.username 'ausername',c.id 'cid',c.name 'cname' FROM recruit_system_operator a
+        SELECT a.id 'aid',a.username 'ausername',c.id 'cid',c.english_name 'cEnglishName' FROM recruit_system_operator a
         <include refid="operatorJoins"/>
         <where>
             a.del_flag = #{DEL_FLAG_NORMAL}
