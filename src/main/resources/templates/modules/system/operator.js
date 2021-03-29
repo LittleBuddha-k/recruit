@@ -1,91 +1,116 @@
 $(document).ready(function () {
-    $('#operatorTable').bootstrapTable({
-        //请求方法
-        method: 'post',
-        //类型json
-        dataType: "json",
-        contentType: "application/x-www-form-urlencoded",
-        //显示检索按钮
-        showSearch: true,
-        //显示刷新按钮
-        showRefresh: true,
-        //显示切换手机试图按钮
-        showToggle: true,
-        //显示 内容列下拉框
-        showColumns: true,
-        //显示到处按钮
-        showExport: true,
-        //显示切换分页按钮
-        showPaginationSwitch: true,
-        //显示详情按钮
-        detailView: true,
-        //显示详细内容函数
-        detailFormatter: "detailFormatter",
-        //最低显示2行
-        minimumCountColumns: 2,
-        //是否显示行间隔色
-        striped: true,
-        //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
-        cache: false,
-        //是否显示分页（*）
-        pagination: true,
-        //排序方式
-        sortOrder: "asc",
-        //初始化加载第一页，默认第一页
-        pageNumber: 1,
-        //每页的记录行数（*）
-        pageSize: 10,
-        //可供选择的每页的行数（*）
-        pageList: [10, 25, 50, 100],
-        //这个接口需要处理bootstrap table传递的固定参数,并返回特定格式的json数据
-        url: "/recruit/system/operator/data",
-        //默认值为 'limit',传给服务端的参数为：limit, offset, search, sort, order Else
-        //queryParamsType:'',
-        ////查询参数,每次调用是会带上这个参数，可自定义
-        queryParams: function (params) {
-            var searchParam = $("#searchForm").serializeJSON();
-            searchParam.pageNo = params.limit === undefined ? "1" : params.offset / params.limit + 1;
-            searchParam.pageSize = params.limit === undefined ? -1 : params.limit;
-            searchParam.orderBy = params.sort === undefined ? "" : params.sort + " " + params.order;
-            return searchParam;
-        },
-        //分页方式：client客户端分页，server服务端分页（*）
-        sidePagination: "server",
-        contextMenuTrigger: "right",//pc端 按右键弹出菜单
-        contextMenuTriggerMobile: "press",//手机端 弹出菜单，click：单击， press：长按。
-        //contextMenu: '#context-menu',
-        onContextMenuItem: function (row, $el) {
-            if ($el.data("item") == "edit") {
-                edit(row.id);
-            } else if ($el.data("item") == "view") {
-                view(row.id);
-            } else if ($el.data("item") == "delete") {
-                jp.confirm('确认要删除该店内陈列记录吗？', function () {
-                    jp.loading();
-                    jp.get("${ctx}/marketing/storeDisplay/delete?id=" + row.id, function (data) {
-                        if (data.success) {
-                            $('#freeProductsTable').bootstrapTable('refresh');
-                            jp.success(data.msg);
-                        } else {
-                            jp.error(data.msg);
-                        }
-                    })
+    $(function () {
+        //1.初始化Table
+        var oTable = new TableInit();
+        oTable.Init();
 
-                });
-
-            }
-        },
-
-        onClickRow: function (row, $el) {
-        },
-        onShowSearch: function () {
-            $("#search-collapse").slideToggle();
-        },
-        columns: [
-            {
-                checkbox: true
-            }
-        ]
-
+        //2.初始化Button的点击事件
+        var oButtonInit = new ButtonInit();
+        oButtonInit.Init();
     });
+
+    var TableInit = function () {
+        var oTableInit = new Object();
+        //初始化Table
+        oTableInit.Init = function () {
+            $('#operatorTable').bootstrapTable({
+                url: '/recruit/system/operator/data',         //请求后台的URL（*）
+                method: 'post',                      //请求方式（*）
+                toolbar: '#toolbar',                //工具按钮用哪个容器
+                striped: true,                      //是否显示行间隔色
+                cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                pagination: true,                   //是否显示分页（*）
+                sortable: false,                     //是否启用排序
+                sortOrder: "asc",                   //排序方式
+                queryParams: oTableInit.queryParams,//传递参数（*）
+                sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
+                pageNumber: 1,                       //初始化加载第一页，默认第一页
+                pageSize: 10,                       //每页的记录行数（*）
+                pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
+                search: false,                       //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+                strictSearch: true,
+                showColumns: true,                  //是否显示所有的列
+                showRefresh: true,                  //是否显示刷新按钮
+                minimumCountColumns: 2,             //最少允许的列数
+                clickToSelect: true,                //是否启用点击选中行
+                height: 500,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+                uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
+                showToggle: true,                    //是否显示详细视图和列表视图的切换按钮
+                cardView: false,                    //是否显示详细视图
+                detailView: false,                   //是否显示父子表
+                columns: [{
+                    checkbox: true
+                }, {
+                    field: 'username',
+                    title: '名字'
+                }, {
+                    field: 'sex',
+                    title: '性别'
+                }, {
+                    field: 'age',
+                    title: '年龄'
+                }, {
+                    field: 'address',
+                    title: '住址'
+                }, {
+                    field: 'phone',
+                    title: '电话'
+                },]
+            });
+        };
+
+        //得到查询的参数
+        oTableInit.queryParams = function (params) {
+            var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
+                limit: params.limit,   //页面大小
+                offset: params.offset,  //页码
+                departmentname: $("#txt_search_departmentname").val(),
+                statu: $("#txt_search_statu").val()
+            };
+            return temp;
+        };
+        return oTableInit;
+    };
+
+    var ButtonInit = function () {
+        var oInit = new Object();
+        var postdata = {};
+
+        oInit.Init = function () {
+            //初始化页面上面的按钮事件
+        };
+
+        return oInit;
+    };
 })
+
+//获取点击的行的数据id
+function getIdSelections() {
+    return $.map($("#operatorTable").bootstrapTable('getSelections'), function (row) {
+        return row.id
+    });
+}
+
+function add(){
+    window.open('/recruit/system/operator/form/add', "编辑用户信息", 'height=600, width=800, top=30%,left=30%, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
+}
+
+function edit(){
+    alert("编辑按钮")
+}
+
+function view(){
+    alert("查看按钮")
+}
+
+function del(){
+    alert("删除按钮")
+}
+
+function importFile() {
+    alert("导入")
+}
+
+function exportFile() {
+    alert("导出")
+}

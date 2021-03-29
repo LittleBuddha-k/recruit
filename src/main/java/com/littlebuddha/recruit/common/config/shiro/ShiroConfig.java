@@ -28,6 +28,7 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setSecurityManager(defaultWebSecurityManager);
         Map<String,String> map = new HashMap<>();
         //配置系统公共资源
+        map.put("/index.html","anon");
         map.put("/system/loginPage","anon");
         map.put("/system/login","anon");
         map.put("/system/registerPage","anon");
@@ -65,7 +66,7 @@ public class ShiroConfig {
         customerRealm.setCredentialsMatcher(hashedCredentialsMatcher);
 
         //开启数据缓存
-        customerRealm.setCacheManager(new RedisCacheManager());
+        customerRealm.setCacheManager(new EhCacheManager());
         customerRealm.setCachingEnabled(true);
         customerRealm.setAuthenticationCachingEnabled(true);//开启认证缓存
         customerRealm.setAuthenticationCacheName("authenticationCache");

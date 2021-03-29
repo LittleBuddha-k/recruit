@@ -25,54 +25,85 @@
 <div th:insert="modules/common/navbar :: navigation"></div>
 <!--表格显示区域-->
 <div class="container">
-    <div class="row col-xs-12 col-sm-12	col-md-12 col-lg-12" style="margin-top: 30%">
+    <div class="row col-xs-12 col-sm-12	col-md-12 col-lg-12">
+        <!--查询-->
+        <form class="form-horizontal" col-xs-12 col-sm-12	col-md-12 col-lg-12>
+            <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
+                <label for="username" class="col-sm-3 control-label">姓名</label>
+                <div class="col-sm-9">
+                    <input type="username" class="form-control" id="username" name="username" placeholder="姓名">
+                </div>
+            </div>
+            <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
+                <label for="sex" class="col-sm-3 control-label">性别</label>
+                <div class="col-sm-9">
+                    <input type="sex" class="form-control" id="sex" name="sex" placeholder="性别">
+                </div>
+            </div>
+            <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
+                <label for="age" class="col-sm-3 control-label">年龄</label>
+                <div class="col-sm-9">
+                    <input type="age" class="form-control" id="age" name="age" placeholder="年龄">
+                </div>
+            </div>
+            <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
+                <label for="address" class="col-sm-3 control-label">地址</label>
+                <div class="col-sm-9">
+                    <input type="address" class="form-control" id="address" name="address" placeholder="地址">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-3">
+                    <button type="button" class="btn btn-default">查询</button>
+                </div>
+            </div>
+        </form>
+        <!--左上角工具栏-->
         <div id="toolbar">
-            <shiro:hasPermission name="marketing:freeProducts:add">
+            <shiro:hasRole name="admin">
                 <button id="add" class="btn btn-primary" onclick="add()">
                     <i class="glyphicon glyphicon-plus"></i> 新建
                 </button>
-            </shiro:hasPermission>
-            <shiro:hasPermission name="marketing:freeProducts:edit">
-                <button id="edit" class="btn btn-success" disabled onclick="edit()">
-                    <i class="glyphicon glyphicon-edit"></i> 修改
+            </shiro:hasRole>
+            <shiro:hasRole name="admin">
+                <button id="edit" class="btn btn-success" onclick="edit()">
+                    <i class="glyphicon glyphicon-edit"></i> 编辑
                 </button>
-            </shiro:hasPermission>
-            <shiro:hasPermission name="marketing:freeProducts:del">
-                <button id="remove" class="btn btn-danger" disabled onclick="deleteAll()">
-                    <i class="glyphicon glyphicon-remove"></i> 删除
-                </button>
-            </shiro:hasPermission>
-            <%--<shiro:hasPermission name="marketing:visiting:import">
-            <button id="btnImport" class="btn btn-info"><i class="fa fa-folder-open-o"></i> 导入</button>
-        </shiro:hasPermission>--%>
-            <shiro:hasPermission name="marketing:freeProducts:export">
-                <button id="export" class="btn btn-warning">
-                    <i class="fa fa-file-excel-o"></i> 导出
-                </button>
-            </shiro:hasPermission>
-            <shiro:hasPermission name="marketing:freeProducts:map">
-                <button id="map" class="btn btn-info" onclick="mapAll()">
-                    <i class="fa fa-search-plus"></i> 定位
-                </button>
-            </shiro:hasPermission>
-            <shiro:hasPermission name="marketing:freeProducts:view">
+            </shiro:hasRole>
+            <shiro:hasRole name="admin">
                 <button id="view" class="btn btn-default" disabled onclick="view()">
                     <i class="fa fa-search-plus"></i> 查看
                 </button>
-            </shiro:hasPermission>
+            </shiro:hasRole>
+            <shiro:hasRole name="admin">
+                <button id="remove" class="btn btn-danger" onclick="del()">
+                    <i class="glyphicon glyphicon-remove"></i> 删除
+                </button>
+            </shiro:hasRole>
+            <shiro:hasRole name="admin">
+                <button id="btnImport" class="btn btn-info" onclick="importFile()">
+                    <i class="fa fa-folder-open-o"></i> 导入
+                </button>
+            </shiro:hasRole>
+            <shiro:hasRole name="admin">
+                <button id="export" class="btn btn-warning" onclick="exportFile()">
+                    <i class="fa fa-file-excel-o"></i> 导出
+                </button>
+            </shiro:hasRole>
         </div>
+        <!--表格区域-->
         <table id="operatorTable"></table>
     </div>
 </div>
 
-
+<!--退出按钮退出方法-->
 <script type="application/javascript">
     $("#logout").click(function () {
         $.ajax({
             url: "/recruit/system/logout",    //请求的url地址
             dataType: "json",   //返回格式为json
             async: true,//请求是否异步，默认为异步，这也是ajax重要特性
-            data: $("#register-form").serialize(),    //参数值
+            data: "",    //参数值
             type: "POST",   //请求方式
             success: function (result) {
                 //请求成功时处理
