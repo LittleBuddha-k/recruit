@@ -22,7 +22,15 @@ $(document).ready(function () {
                 pagination: true,                   //是否显示分页（*）
                 sortable: false,                     //是否启用排序
                 sortOrder: "asc",                   //排序方式
-                queryParams: oTableInit.queryParams,//传递参数（*）
+                queryParams: function (params) {
+                    var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
+                        limit: params.limit,   //页面大小
+                        offset: params.offset,  //页码
+                        departmentname: $("#txt_search_departmentname").val(),
+                        statu: $("#txt_search_statu").val()
+                    };
+                    return temp;
+                },//传递参数（*）
                 sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
                 pageNumber: 1,                       //初始化加载第一页，默认第一页
                 pageSize: 10,                       //每页的记录行数（*）
@@ -38,7 +46,8 @@ $(document).ready(function () {
                 showToggle: true,                    //是否显示详细视图和列表视图的切换按钮
                 cardView: false,                    //是否显示详细视图
                 detailView: false,                   //是否显示父子表
-                columns: [{
+                columns: [
+                    {
                     checkbox: true
                 }, {
                     field: 'username',
@@ -55,20 +64,11 @@ $(document).ready(function () {
                 }, {
                     field: 'phone',
                     title: '电话'
-                },]
+                }
+                ]
             });
         };
 
-        //得到查询的参数
-        oTableInit.queryParams = function (params) {
-            var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
-                limit: params.limit,   //页面大小
-                offset: params.offset,  //页码
-                departmentname: $("#txt_search_departmentname").val(),
-                statu: $("#txt_search_statu").val()
-            };
-            return temp;
-        };
         return oTableInit;
     };
 
@@ -82,6 +82,12 @@ $(document).ready(function () {
 
         return oInit;
     };
+
+    //查询按钮
+    $("#search").click(function () {
+        //只需刷新bootstraptable，bootstraptable就会去/data接口下带着form参数请求数据
+        $('#operatorTable').bootstrapTable('refresh');
+    })
 })
 
 //获取点击的行的数据id
@@ -91,20 +97,57 @@ function getIdSelections() {
     });
 }
 
-function add(){
-    window.open('/recruit/system/operator/form/add', "编辑用户信息", 'height=600, width=800, top=30%,left=30%, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
+//刷新列表
+function refresh() {
+    $('#operatorTable').bootstrapTable('refresh');
 }
 
-function edit(){
-    alert("编辑按钮")
+function add() {
+    window.open('/recruit/system/operator/form/add', "新建用户信息", 'height=600, width=800, top=30%,left=30%, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
 }
 
-function view(){
-    alert("查看按钮")
+function edit() {
+    let id = getIdSelections();
+    if(id.toString().length > 32){
+        alert("只能选择一条数据")
+    }else if (id.toString().length < 32){
+        alert("请至少选择一条数据")
+    }else if (id.toString().length = 32){
+        window.open('/recruit/system/operator/form/edit?id=' + id, "编辑用户信息", 'height=600, width=800, top=30%,left=30%, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
+    }
+
 }
 
-function del(){
-    alert("删除按钮")
+function view() {
+    let id = getIdSelections();
+    if(id.toString().length > 32){
+        alert("只能选择一条数据")
+    }else if (id.toString().length < 32){
+        alert("请至少选择一条数据")
+    }else if (id.toString().length = 32){
+        window.open('/recruit/system/operator/form/view?id=' + id, "查看用户信息", 'height=600, width=800, top=30%,left=30%, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
+    }
+}
+
+function del() {
+    let ids = getIdSelections();
+    if (ids == null || ids == '') {
+        alert("请至少选择一条数据")
+    } else {
+        $.ajax({
+            url: "/recruit/system/operator/delete?ids=" + ids,    //请求的url地址
+            dataType: "json",   //返回格式为json
+            async: true,//请求是否异步，默认为异步，这也是ajax重要特性
+            data: "",    //参数值
+            type: "POST",   //请求方式
+            success: function (result) {
+                //请求成功时处理
+                alert(result.msg);
+                //重新刷新页面
+                window.location.reload();
+            }
+        });
+    }
 }
 
 function importFile() {

@@ -4,6 +4,7 @@ import com.littlebuddha.recruit.common.utils.Result;
 import com.littlebuddha.recruit.modules.base.controller.BaseController;
 import com.littlebuddha.recruit.modules.entity.system.Operator;
 import com.littlebuddha.recruit.modules.service.system.OperatorService;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,18 @@ public class OperatorController extends BaseController {
 
     @Autowired
     private OperatorService operatorService;
+
+    @ModelAttribute
+    public Operator get(@RequestParam(required = false) String id) {
+        Operator operator = null;
+        if (StringUtils.isNotBlank(id)) {
+            operator = operatorService.get(id);
+        }
+        if (operator == null) {
+            operator = new Operator();
+        }
+        return operator;
+    }
 
     /**
      * 返回用户列表
@@ -56,6 +69,7 @@ public class OperatorController extends BaseController {
      */
     @GetMapping("/form/{mode}")
     public String form(@PathVariable(name = "mode")String mode,Operator operator,Model model){
+        System.out.println(operator);
         model.addAttribute("operator",operator);
         if("add".equals(mode) || "edit".equals(mode) || "view".equals(mode)){
             return "modules/system/operatorForm";
@@ -71,7 +85,26 @@ public class OperatorController extends BaseController {
     @ResponseBody
     @PostMapping("/save")
     public Result save(Operator operator){
+        int save = operatorService.save(operator);
+        if (save > 0){
+            return new Result("200","保存成功");
+        }else {
+            return new Result("310","未知错误！保存失败");
+        }
+    }
 
-        return null;
+    @ResponseBody
+    @PostMapping("/delete")
+    public Result delete(String ids){
+        System.out.println("ids:"+ids);
+        String[] split = ids.split(",");
+        for (String s : split) {
+            Operator operator = operatorService.get(s);
+            if(operator == null){
+                return new Result("311","数据不存在,或已被删除，请刷新试试！");
+            }
+            int i = operatorService.deleteByPhysics(operator);
+        }
+        return new Result("200","数据清除成功");
     }
 }

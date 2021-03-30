@@ -31,30 +31,30 @@
             <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
                 <label for="username" class="col-sm-3 control-label">姓名</label>
                 <div class="col-sm-9">
-                    <input type="username" class="form-control" id="username" name="username" placeholder="姓名">
+                    <input type="username" class="form-control" id="username" name="username" th:value="${operator.getUsername()}" placeholder="姓名">
                 </div>
             </div>
             <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
                 <label for="sex" class="col-sm-3 control-label">性别</label>
                 <div class="col-sm-9">
-                    <input type="sex" class="form-control" id="sex" name="sex" placeholder="性别">
+                    <input type="sex" class="form-control" id="sex" name="sex" th:value="${operator.getSex()}" placeholder="性别">
                 </div>
             </div>
             <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
                 <label for="age" class="col-sm-3 control-label">年龄</label>
                 <div class="col-sm-9">
-                    <input type="age" class="form-control" id="age" name="age" placeholder="年龄">
+                    <input type="age" class="form-control" id="age" name="age" th:value="${operator.getAge()}" placeholder="年龄">
                 </div>
             </div>
             <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
                 <label for="address" class="col-sm-3 control-label">地址</label>
                 <div class="col-sm-9">
-                    <input type="address" class="form-control" id="address" name="address" placeholder="地址">
+                    <input type="address" class="form-control" id="address" name="address" th:value="${operator.getAddress()}" placeholder="地址">
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-sm-3">
-                    <button type="button" class="btn btn-default">查询</button>
+                    <button type="button" class="btn btn-default" th:id="search">查询</button>
                 </div>
             </div>
         </form>
@@ -71,7 +71,7 @@
                 </button>
             </shiro:hasRole>
             <shiro:hasRole name="admin">
-                <button id="view" class="btn btn-default" disabled onclick="view()">
+                <button id="view" class="btn btn-default" onclick="view()">
                     <i class="fa fa-search-plus"></i> 查看
                 </button>
             </shiro:hasRole>
@@ -80,16 +80,16 @@
                     <i class="glyphicon glyphicon-remove"></i> 删除
                 </button>
             </shiro:hasRole>
-            <shiro:hasRole name="admin">
+            <shiro:hasPermission name="admin">
                 <button id="btnImport" class="btn btn-info" onclick="importFile()">
                     <i class="fa fa-folder-open-o"></i> 导入
                 </button>
-            </shiro:hasRole>
-            <shiro:hasRole name="admin">
+            </shiro:hasPermission>
+            <shiro:hasPermission name="admin">
                 <button id="export" class="btn btn-warning" onclick="exportFile()">
                     <i class="fa fa-file-excel-o"></i> 导出
                 </button>
-            </shiro:hasRole>
+            </shiro:hasPermission>
         </div>
         <!--表格区域-->
         <table id="operatorTable"></table>

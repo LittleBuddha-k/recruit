@@ -17,8 +17,24 @@ public class OperatorService extends CrudService<Operator, OperatorMapper> {
     private OperatorMapper operatorMapper;
 
     @Override
-    public int save(Operator entity) {
-        return super.save(entity);
+    public int save(Operator operator) {
+        System.out.println("id:"+operator.getId());
+        int row;
+        if (operator.getIsNewData()){
+            System.out.println("执行新增操作");
+            operator.preInsert();
+            //获取盐值
+            String splicing = AutoId.getSplicing(16);
+            Md5Hash md5Hash = new Md5Hash(operator.getPassword(), splicing, 1024);
+            operator.setSalt(splicing);
+            operator.setPassword(md5Hash.toHex());
+            row = operatorMapper.insert(operator);
+        }else{
+            System.out.println("执行更新操作");
+            operator.preUpdate();
+            row = operatorMapper.update(operator);
+        }
+        return row;
     }
 
     public int register(Operator operator) {

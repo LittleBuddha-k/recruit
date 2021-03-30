@@ -27,7 +27,7 @@
     <select id="get" resultType="com.littlebuddha.recruit.modules.entity.system.Operator">
         SELECT
         <include refid="operatorColumns"/>
-        FROM recruit_recruit_system_operator
+        FROM recruit_system_operator
         WHERE id=#{id}
     </select>
 
@@ -133,21 +133,19 @@
     <update id="update">
         UPDATE recruit_system_operator SET
             username = #{username},
-            login_username = #{loginusername},
             password = #{password},
             salt = #{salt},
-            picture = #{picture},
-            department = #{department.id},
-            work_number = #{workNumber},
-            login_flag = #{loginFlag},
-            login_ip = #{loginIp},
-            login_address = #{loginAddress},
+            sex = #{sex},
+            age = #{age},
+            address = #{address},
+            phone = #{phone},
+            resume = #{resume.id},
             create_by = #{createBy.id},
             create_date = #{createDate},
             update_by = #{updateBy.id},
             update_date = #{updateDate},
-            del_flag = #{isDelete},
-            remarks = #{remarks}
+            remarks = #{remarks},
+            del_flag = #{delFlag}
         WHERE id=#{id}
     </update>
 
