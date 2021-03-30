@@ -64,7 +64,14 @@ $(document).ready(function () {
                 }, {
                     field: 'phone',
                     title: '电话'
-                }
+                },
+                   {
+                    field: 'phone',
+                    title: '操作',
+                    formatter: function (value, row, index) {
+                        return '<button class="btn btn-primary btn-sm" onclick="del(\'' + row.id + '\')">删除</button>';
+                    }
+                   }
                 ]
             });
         };
