@@ -70,7 +70,7 @@ $(document).ready(function () {
                         field: 'phone',
                         title: '操作',
                         formatter: function (value, row, index) {
-                            return '<button class="btn btn-primary btn-sm" onclick="edit(\'' + row.id + '\')">编辑角色</button>';
+                            return '<button class="btn btn-primary btn-sm" onclick="edit(\'' + row.id + '\')">其他功能</button>';
                         }
                     }
                 ]

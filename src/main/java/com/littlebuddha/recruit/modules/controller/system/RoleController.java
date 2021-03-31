@@ -3,16 +3,21 @@
  */
 package com.littlebuddha.recruit.modules.controller.system;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageInfo;
 import com.littlebuddha.recruit.common.utils.Result;
 import com.littlebuddha.recruit.modules.base.controller.BaseController;
 import com.littlebuddha.recruit.modules.entity.system.Role;
 import com.littlebuddha.recruit.modules.service.system.RoleService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -21,57 +26,100 @@ import java.util.List;
 @RequestMapping(value = "/system/role")
 public class RoleController extends BaseController {
 
-    Result result = null;
-
     @Autowired
     private RoleService roleService;
 
-    @GetMapping("/list")
-    public String list(Role role, Model model){
-        model.addAttribute("role",role);
-        List<Role> list = roleService.findList(role);
-        model.addAttribute("list",list);
-        return "modules/system/role";
-    }
-
-    @ResponseBody
-    @PostMapping("/data")
-    public Result<List> data(Role role){
-        List<Role> data = roleService.findList(role);
-        result = new Result("200",data);
-        return result;
-    }
-
-    @GetMapping("/form/{mode}")
-    public String form(@PathVariable(name = "mode")String mode, Role role,Model model){
-        model.addAttribute("role",role);
-        model.addAttribute("mode",mode);
-        return "modules/system/roleForm";
-    }
-
-    @ResponseBody
-    @PostMapping("/save")
-    public Result save(Role role){
-        int save = roleService.save(role);
-        if (save > 0){
-            return new Result("200","保存成功");
-        }else {
-            return new Result("306","未知错误，保存失败");
+    @ModelAttribute
+    public Role get(@RequestParam(required = false) String id) {
+        Role role = null;
+        if (StringUtils.isNotBlank(id)) {
+            role = roleService.get(id);
         }
+        if (role == null) {
+            role = new Role();
+        }
+        return role;
     }
 
     /**
-     * 物理删除
+     * 返回用户列表
+     *
+     * @param
+     * @param model
+     * @param session
+     * @return
+     */
+    //@RequiresPermissions("system/operator/list")
+    @GetMapping("/list")
+    public String list(Role role, Model model, HttpSession session) {
+        model.addAttribute("role", role);
+        return "modules/system/role";
+    }
+
+    /**
+     * 返回数据
+     *
      * @return
      */
     @ResponseBody
-    @PostMapping("/deleteByPhysics")
-    public Result deleteByPhysics(Role role){
-        int delete =  roleService.deleteByPhysics(role);
-        if (delete > 0){
-            return new Result("200","删除成功");
-        }else {
-            return new Result("306","未知错误，删除失败");
+    @PostMapping("/data")
+    public Map data(Role role) {
+        PageInfo<Role> page = roleService.findPage(new Page<Role>(), role);
+        return getBootstrapData(page);
+    }
+
+    @ResponseBody
+    @PostMapping("/allData")
+    public List<Role> allData(Role role){
+        return roleService.findAllList(role);
+    }
+
+    /**
+     * 返回表单
+     *
+     * @param mode
+     * @param
+     * @param model
+     * @return
+     */
+    @GetMapping("/form/{mode}")
+    public String form(@PathVariable(name = "mode") String mode, Role role, Model model) {
+        model.addAttribute("role", role);
+        if ("add".equals(mode) || "edit".equals(mode) || "view".equals(mode)) {
+            return "modules/system/roleForm";
         }
+        return "";
+    }
+
+    /**
+     * 数据保存
+     *
+     * @param
+     * @return
+     */
+    @ResponseBody
+    @PostMapping("/save")
+    public Result save(Role role) {
+        int save = roleService.save(role);
+        if (save > 0) {
+            return new Result("200", "保存成功");
+        } else {
+            return new Result("310", "未知错误！保存失败");
+        }
+    }
+
+    @ResponseBody
+    @PostMapping("/delete")
+    public Result delete(String ids) {
+        System.out.println("ids:" + ids);
+        String[] split = ids.split(",");
+        for (String s : split) {
+            Role role = roleService.get(s);
+            if (role == null) {
+                return new Result("311", "数据不存在,或已被删除，请刷新试试！");
+            }
+            int i = roleService.deleteByPhysics(role);
+        }
+        return new Result("200", "数据清除成功");
     }
 }

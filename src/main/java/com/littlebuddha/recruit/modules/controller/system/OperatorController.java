@@ -7,14 +7,12 @@ import com.littlebuddha.recruit.modules.base.controller.BaseController;
 import com.littlebuddha.recruit.modules.entity.system.Operator;
 import com.littlebuddha.recruit.modules.service.system.OperatorService;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -38,6 +36,7 @@ public class OperatorController extends BaseController {
 
     /**
      * 返回用户列表
+     *
      * @param operator
      * @param model
      * @param session
@@ -45,34 +44,35 @@ public class OperatorController extends BaseController {
      */
     //@RequiresPermissions("system/operator/list")
     @GetMapping("/list")
-    public String list(Operator operator, Model model, HttpSession session){
-        model.addAttribute("operator",operator);
+    public String list(Operator operator, Model model, HttpSession session) {
+        model.addAttribute("operator", operator);
         return "modules/system/operator";
     }
 
     /**
      * 返回数据
+     *
      * @return
      */
     @ResponseBody
     @PostMapping("/data")
-    public Map data(Operator operator){
+    public Map data(Operator operator) {
         PageInfo<Operator> page = operatorService.findPage(new Page<Operator>(), operator);
         return getBootstrapData(page);
     }
 
     /**
      * 返回表单
+     *
      * @param mode
      * @param operator
      * @param model
      * @return
      */
     @GetMapping("/form/{mode}")
-    public String form(@PathVariable(name = "mode")String mode,Operator operator,Model model){
-        System.out.println(operator);
-        model.addAttribute("operator",operator);
-        if("add".equals(mode) || "edit".equals(mode) || "view".equals(mode)){
+    public String form(@PathVariable(name = "mode") String mode, Operator operator, Model model) {
+        model.addAttribute("operator", operator);
+        if ("add".equals(mode) || "edit".equals(mode) || "view".equals(mode)) {
             return "modules/system/operatorForm";
         }
         return "";
@@ -80,32 +80,33 @@ public class OperatorController extends BaseController {
 
     /**
      * 数据保存
+     *
      * @param operator
      * @return
      */
     @ResponseBody
     @PostMapping("/save")
-    public Result save(Operator operator){
+    public Result save(Operator operator) {
         int save = operatorService.save(operator);
-        if (save > 0){
-            return new Result("200","保存成功");
-        }else {
-            return new Result("310","未知错误！保存失败");
+        if (save > 0) {
+            return new Result("200", "保存成功");
+        } else {
+            return new Result("310", "未知错误！保存失败");
         }
     }
 
     @ResponseBody
     @PostMapping("/delete")
-    public Result delete(String ids){
-        System.out.println("ids:"+ids);
+    public Result delete(String ids) {
+        System.out.println("ids:" + ids);
         String[] split = ids.split(",");
         for (String s : split) {
             Operator operator = operatorService.get(s);
-            if(operator == null){
-                return new Result("311","数据不存在,或已被删除，请刷新试试！");
+            if (operator == null) {
+                return new Result("311", "数据不存在,或已被删除，请刷新试试！");
             }
             int i = operatorService.deleteByPhysics(operator);
         }
-        return new Result("200","数据清除成功");
+        return new Result("200", "数据清除成功");
     }
 }
