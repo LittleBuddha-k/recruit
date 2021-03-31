@@ -69,6 +69,15 @@
             <if test="username != null and username != ''">
                 and a.username = #{username}
             </if>
+            <if test="sex != null and sex != ''">
+                and a.sex = #{sex}
+            </if>
+            <if test="age != null and age != ''">
+                and a.age = #{age}
+            </if>
+            <if test="address != null and address != ''">
+                and a.address = #{address}
+            </if>
         </where>
         <choose>
             <when test="page !=null and page.orderBy != null and page.orderBy != ''">

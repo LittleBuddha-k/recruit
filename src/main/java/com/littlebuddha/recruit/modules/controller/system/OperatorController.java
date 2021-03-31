@@ -44,7 +44,6 @@ public class OperatorController extends BaseController {
     //@RequiresPermissions("system/operator/list")
     @GetMapping("/list")
     public String list(Operator operator, Model model, HttpSession session){
-        Operator currentUser = (Operator) session.getAttribute("currentUser");
         model.addAttribute("operator",operator);
         return "modules/system/operator";
     }
