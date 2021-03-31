@@ -52,12 +52,14 @@
             success: function (result) {
                 //请求成功时处理
                 if(200 == result.code){
-                    window.location.href = '/recruit/portal/list'
+                    window.location.href = '/recruit/portal/list';
+                }else {
+                    alert(result.msg);
                 }
             },
             error: function () {
                 //请求出错处理
-                alert("请求出错")
+                alert("请求出错");
             }
         })
     })

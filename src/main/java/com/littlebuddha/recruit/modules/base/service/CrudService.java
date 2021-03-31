@@ -4,6 +4,8 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.littlebuddha.recruit.modules.base.entity.DataEntity;
+import com.littlebuddha.recruit.modules.base.mapper.BaseMapper;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Collection;
@@ -13,7 +15,7 @@ import java.util.List;
  * @author ck
  * @date 2020/7/13 9:23
  */
-public abstract class CrudService<E extends DataEntity,M extends com.littlebuddha.recruit.modules.base.mapper.BaseMapper<E>> {
+public abstract class CrudService<E extends DataEntity,M extends BaseMapper<E>> {
 
     @Autowired
     private M mapper;
@@ -118,6 +120,22 @@ public abstract class CrudService<E extends DataEntity,M extends com.littlebuddh
      */
     public List<E> findAllList(E entity){
         return mapper.findAllList(entity);
+    }
+
+    /**
+     * 查询分页数据
+     * @param page
+     * @param entity
+     * @return
+     */
+    public PageInfo<E> findPage(Page<E> page, E entity){
+        PageHelper.startPage(entity.getPageNo(),entity.getPageSize());
+        if(entity.getPageNo() != null && entity.getPageSize() != null){
+            entity.setPage(page);
+        }
+        List<E> list = mapper.findList(entity);
+        PageInfo<E> pageInfo = new PageInfo<E>(list);
+        return pageInfo;
     }
 
     /**

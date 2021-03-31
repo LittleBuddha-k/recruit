@@ -1,5 +1,7 @@
 package com.littlebuddha.recruit.modules.controller.system;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageInfo;
 import com.littlebuddha.recruit.common.utils.Result;
 import com.littlebuddha.recruit.modules.base.controller.BaseController;
 import com.littlebuddha.recruit.modules.entity.system.Operator;
@@ -55,8 +57,8 @@ public class OperatorController extends BaseController {
     @ResponseBody
     @PostMapping("/data")
     public Map data(Operator operator){
-        List<Operator> list = operatorService.findList(operator);
-        return getBootstrapData(list);
+        PageInfo<Operator> page = operatorService.findPage(new Page<Operator>(), operator);
+        return getBootstrapData(page);
     }
 
     /**

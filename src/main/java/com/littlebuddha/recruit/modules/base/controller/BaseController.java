@@ -1,5 +1,7 @@
 package com.littlebuddha.recruit.modules.base.controller;
 
+import com.github.pagehelper.PageInfo;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,10 +31,11 @@ public abstract class BaseController {
      * @param
      * @return map对象
      */
-    public <T> Map<String, Object> getBootstrapData(List list){
+    public <E> Map<String, Object> getBootstrapData(PageInfo<E> pageInfo){
         Map<String, Object> map = new HashMap<String, Object>();
+        List<E> list = pageInfo.getList();
         map.put("rows", list);
-        map.put("total", list.size());
+        map.put("total", pageInfo.getTotal());
         return map;
     }
 }

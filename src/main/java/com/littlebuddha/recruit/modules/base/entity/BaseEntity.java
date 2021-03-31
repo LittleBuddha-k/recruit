@@ -22,6 +22,10 @@ public abstract class BaseEntity<E> implements Serializable {
      */
     private Page<E> page;
 
+    private Integer pageNo;
+
+    private Integer PageSize;
+
     public String getId() {
         return id;
     }
@@ -44,6 +48,22 @@ public abstract class BaseEntity<E> implements Serializable {
 
     public void setPage(Page<E> page) {
         this.page = page;
+    }
+
+    public Integer getPageNo() {
+        return pageNo;
+    }
+
+    public void setPageNo(Integer pageNo) {
+        this.pageNo = pageNo;
+    }
+
+    public Integer getPageSize() {
+        return PageSize;
+    }
+
+    public void setPageSize(Integer pageSize) {
+        PageSize = pageSize;
     }
 
     /**
