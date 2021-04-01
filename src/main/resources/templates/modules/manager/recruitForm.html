@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="UTF-8">
+    <title>用户管理</title>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="/recruit/bootstrap/css/bootstrap.min.css">
+    <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="/recruit/bootstrap/css/bootstrap-theme.min.css">
+    <script src="/recruit/plugins/jquery/jquery-3.3.1.min.js"></script>
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="/recruit/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <div class="row col-xs-12 col-sm-12	col-md-12 col-lg-12" style="margin-top: 30%">
+        <form class="form-horizontal" col-xs-12 col-sm-12 col-md-12 col-lg-12 id="recruitForm">
+            <input type="hidden" name="id" th:value="${recruit.getId()}">
+            <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
+                <label for="position" class="col-sm-4 control-label">招聘职位</label>
+                <div class="col-sm-8">
+                    <input type="position" class="form-control" id="position" name="position"
+                           th:value="${recruit.getPosition()}" placeholder="招聘职位">
+                </div>
+            </div>
+            <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
+                <label for="salary" class="col-sm-4 control-label">薪资</label>
+                <div class="col-sm-8">
+                    <input type="salary" class="form-control" id="salary" name="salary"
+                           th:value="${recruit.getSalary()}" placeholder="薪资">
+                </div>
+            </div>
+            <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
+                <label for="workingYears" class="col-sm-4 control-label">工作年限</label>
+                <div class="col-sm-8">
+                    <input type="workingYears" class="form-control" id="workingYears" name="workingYears"
+                           th:value="${recruit.getWorkingYears()}" placeholder="工作年限">
+                </div>
+            </div>
+            <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
+                <label for="qualifications" class="col-sm-4 control-label">学历</label>
+                <div class="col-sm-8">
+                    <input type="qualifications" class="form-control" id="qualifications" name="qualifications"
+                           th:value="${recruit.getQualifications()}" placeholder="学历">
+                </div>
+            </div>
+            <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
+                <label for="employCount" class="col-sm-4 control-label">招聘人数</label>
+                <div class="col-sm-8">
+                    <input type="employCount" class="form-control" id="employCount" name="employCount"
+                           th:value="${recruit.getEmployCount()}" placeholder="招聘人数">
+                </div>
+            </div>
+            <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
+                <label for="publicDate" class="col-sm-4 control-label">发布日期</label>
+                <div class="col-sm-8">
+                    <input type="publicDate" class="form-control" id="publicDate" name="publicDate"
+                           th:value="${recruit.getPublicDate()}" placeholder="发布日期">
+                </div>
+            </div>
+            <div class="form-group"  th:if="${'add' == mode || 'edit' == mode}">
+                <div class="col-sm-3">
+                    <button type="button" class="btn btn-default" id="submitButton">提交</button>
+                    <button type="button" class="btn btn-default" id="cancelButton">取消</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    //提交按钮
+    $("#submitButton").click(function () {
+        if ($("#username").val() != '' && $("#password").val() != '') {
+            $.ajax({
+                url: "/recruit/manager/recruit/save",    //请求的url地址
+                dataType: "json",   //返回格式为json
+                async: true,//请求是否异步，默认为异步，这也是ajax重要特性
+                data: $("#recruitForm").serialize(),    //参数值
+                type: "POST",   //请求方式
+                success: function (result) {
+                    //请求成功时处理
+                    alert(result.msg)
+                    window.close();
+                }
+            });
+        }
+    });
+    //取消按钮
+    $("#cancelButton").click(function () {
+        window.close();
+    });
+</script>
+</body>
+</html>

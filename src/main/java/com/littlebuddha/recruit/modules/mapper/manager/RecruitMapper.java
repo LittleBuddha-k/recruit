@@ -1,4 +1,4 @@
-package com.littlebuddha.recruit.modules.mapper.system;
+package com.littlebuddha.recruit.modules.mapper.manager;
 
 
 import com.littlebuddha.recruit.modules.base.mapper.BaseMapper;
