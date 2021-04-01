@@ -58,7 +58,7 @@
                     </div>
                 </label>
             </div>
-            <div class="form-group">
+            <div class="form-group"  th:if="${'add' == mode || 'edit' == mode}">
                 <div class="col-sm-3">
                     <button type="button" class="btn btn-default" id="submitButton">提交</button>
                     <button type="button" class="btn btn-default" id="cancelButton">取消</button>

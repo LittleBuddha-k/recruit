@@ -4,12 +4,23 @@
 <!--导航条-->
 <nav class="navbar navbar-default" th:fragment="navigation">
     <div class="container-fluid">
+        <!-- 主页按钮 -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/recruit/portal/list">主页</a>
+        </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
                 <li><a th:href="@{#}">查看用户信息</a></li>
                 <li><a th:href="@{#}">数据恢复与备份</a></li>
                 <li><a th:href="@{/system/operator/list}">管理管理员</a></li>
+                <li><a th:href="@{/system/role/list}">角色管理</a></li>
                 <li><a th:href="@{#}">日志管理</a></li>
                 <li><a th:href="@{#}">发布招聘</a></li>
                 <li><a th:href="@{#}">招聘通知管理</a></li>

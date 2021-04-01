@@ -1,4 +1,4 @@
-package com.littlebuddha.recruit.modules.entity.system;
+package com.littlebuddha.recruit.modules.entity.manager;
 
 import com.littlebuddha.recruit.modules.base.entity.DataEntity;
 
