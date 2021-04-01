@@ -14,6 +14,8 @@ public class Role extends DataEntity<Role> {
     private String englishName;//英文名称
     private List<Menu> menus;//一个角色拥有多个菜单
 
+    private Operator operator;
+
     public String getName() {
         return name;
     }
@@ -28,5 +30,21 @@ public class Role extends DataEntity<Role> {
 
     public void setEnglishName(String englishName) {
         this.englishName = englishName;
+    }
+
+    public List<Menu> getMenus() {
+        return menus;
+    }
+
+    public void setMenus(List<Menu> menus) {
+        this.menus = menus;
+    }
+
+    public Operator getOperator() {
+        return operator;
+    }
+
+    public void setOperator(Operator operator) {
+        this.operator = operator;
     }
 }

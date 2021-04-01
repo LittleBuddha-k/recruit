@@ -46,7 +46,7 @@
             <result column="cEnglishName" property="englishName"/>
         </collection>
     </resultMap>
-    
+
     <select id="getRolesByOperator" parameterType="com.littlebuddha.recruit.modules.entity.system.Operator" resultMap="operatorRolesMap">
         SELECT a.id 'aid',a.username 'ausername',c.id 'cid',c.english_name 'cEnglishName' FROM recruit_system_operator a
         <include refid="operatorJoins"/>
@@ -139,6 +139,20 @@
         )
     </insert>
 
+    <insert id="insertOperatorRole">
+        INSERT INTO recruit_operator_role(
+            id,
+            operator_id,
+            role_id,
+            del_flag
+        )VALUES (
+            #{id},
+            #{operator.id},
+            #{role.id},
+            #{delFlag}
+       )
+    </insert>
+
     <update id="update">
         UPDATE recruit_system_operator SET
             username = #{username},
@@ -158,6 +172,14 @@
         WHERE id=#{id}
     </update>
 
+    <update id="updateOperatorRole">
+        UPDATE recruit_operator_role SET
+            operator_id = #{operator.id},
+            role_id = #{role.id},
+            del_flag = #{delFlag}
+        WHERE id=#{id}
+    </update>
+
     <update id="deleteByLogic">
         UPDATE recruit_system_operator SET del_flag = 1
         WHERE id=#{id}
@@ -171,5 +193,10 @@
     <delete id="deleteByPhysics">
         DELETE FROM recruit_system_operator
         WHERE id=#{id}
+    </delete>
+
+    <delete id="deleteOperatorRole">
+        DELETE FROM recruit_operator_role
+        WHERE operator_id=#{operator.id}
     </delete>
 </mapper>
