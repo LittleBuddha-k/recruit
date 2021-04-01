@@ -20,14 +20,14 @@
         del_flag AS "delFlag"
     </sql>
 
-    <select id="get" resultType="com.littlebuddha.recruit.modules.entity.system.Recruit">
+    <select id="get" resultType="com.littlebuddha.recruit.modules.entity.manager.Recruit">
         SELECT
         <include refid="recruitColumns"/>
         FROM recruit_information a
         WHERE id=#{id}
     </select>
 
-    <select id="findList" resultType="com.littlebuddha.recruit.modules.entity.system.Recruit">
+    <select id="findList" resultType="com.littlebuddha.recruit.modules.entity.manager.Recruit">
         SELECT
         <include refid="recruitColumns"/>
         FROM recruit_information a
@@ -45,7 +45,7 @@
         </choose>
     </select>
 
-    <insert id="insert" parameterType="com.littlebuddha.recruit.modules.entity.system.Recruit">
+    <insert id="insert" parameterType="com.littlebuddha.recruit.modules.entity.manager.Recruit">
         INSERT INTO recruit_information(
             id,
             position,

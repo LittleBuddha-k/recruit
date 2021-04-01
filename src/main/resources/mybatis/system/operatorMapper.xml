@@ -80,11 +80,11 @@
             </if>
         </where>
         <choose>
-            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
-
+            <when test="orderBy !=null and orderBy != ''">
+                ORDER BY ${orderBy}
             </when>
             <otherwise>
-
+                ORDER BY a.create_date DESC
             </otherwise>
         </choose>
     </select>

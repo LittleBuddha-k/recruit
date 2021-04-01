@@ -2,7 +2,7 @@ package com.littlebuddha.recruit.modules.controller.system;
 
 import com.littlebuddha.recruit.common.utils.UserUtils;
 import com.littlebuddha.recruit.modules.entity.system.Operator;
-import com.littlebuddha.recruit.modules.entity.system.Recruit;
+import com.littlebuddha.recruit.modules.entity.manager.Recruit;
 import com.littlebuddha.recruit.modules.service.system.RecruitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
