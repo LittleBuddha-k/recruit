@@ -19,56 +19,56 @@
             <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
                 <label for="position" class="col-sm-4 control-label">招聘职位</label>
                 <div class="col-sm-8">
-                    <input type="position" class="form-control" id="position" name="position"
+                    <input type="position" class="form-control" id="position" name="position" disabled
                            th:value="${recruit.getPosition()}" placeholder="招聘职位">
                 </div>
             </div>
             <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
                 <label for="salary" class="col-sm-4 control-label">薪资</label>
                 <div class="col-sm-8">
-                    <input type="salary" class="form-control" id="salary" name="salary"
+                    <input type="salary" class="form-control" id="salary" name="salary" disabled
                            th:value="${recruit.getSalary()}" placeholder="薪资">
                 </div>
             </div>
             <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
                 <label for="workingYears" class="col-sm-4 control-label">工作年限</label>
                 <div class="col-sm-8">
-                    <input type="workingYears" class="form-control" id="workingYears" name="workingYears"
+                    <input type="workingYears" class="form-control" id="workingYears" name="workingYears" disabled
                            th:value="${recruit.getWorkingYears()}" placeholder="工作年限">
                 </div>
             </div>
             <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
                 <label for="qualifications" class="col-sm-4 control-label">学历</label>
                 <div class="col-sm-8">
-                    <input type="qualifications" class="form-control" id="qualifications" name="qualifications"
+                    <input type="qualifications" class="form-control" id="qualifications" name="qualifications" disabled
                            th:value="${recruit.getQualifications()}" placeholder="学历">
                 </div>
             </div>
             <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
                 <label for="employCount" class="col-sm-4 control-label">招聘人数</label>
                 <div class="col-sm-8">
-                    <input type="employCount" class="form-control" id="employCount" name="employCount"
+                    <input type="employCount" class="form-control" id="employCount" name="employCount" disabled
                            th:value="${recruit.getEmployCount()}" placeholder="招聘人数">
                 </div>
             </div>
             <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
                 <label for="jobInformation" class="col-sm-4 control-label">工作信息</label>
                 <div class="col-sm-8">
-                    <input type="jobInformation" class="form-control" id="jobInformation" name="jobInformation"
+                    <input type="jobInformation" class="form-control" id="jobInformation" name="jobInformation" disabled
                            th:value="${recruit.getJobInformation()}" placeholder="工作信息">
                 </div>
             </div>
             <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
                 <label for="publicDate" class="col-sm-4 control-label">发布日期</label>
                 <div class="col-sm-8">
-                    <input type="publicDate" class="form-control" id="publicDate" name="publicDate"
+                    <input type="publicDate" class="form-control" id="publicDate" name="publicDate" disabled
                            th:value="${recruit.getPublicDate()}" placeholder="发布日期">
                 </div>
             </div>
-            <div class="form-group"  th:if="${'add' == mode || 'edit' == mode}">
+            <div class="form-group">
                 <div class="col-sm-3">
-                    <button type="button" class="btn btn-default" id="submitButton">提交</button>
-                    <button type="button" class="btn btn-default" id="cancelButton">取消</button>
+                    <button type="button" class="btn btn-default" id="submitButton">申请职位</button>
+                    <button type="button" class="btn btn-default" id="cancelButton">取消申请</button>
                 </div>
             </div>
         </form>
@@ -94,7 +94,7 @@
     });
     //取消按钮
     $("#cancelButton").click(function () {
-        window.close();
+        //将回去已申请中修改申请状态
     });
 </script>
 </body>

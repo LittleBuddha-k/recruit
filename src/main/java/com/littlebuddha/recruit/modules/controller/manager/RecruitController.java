@@ -7,6 +7,8 @@ import com.littlebuddha.recruit.modules.base.controller.BaseController;
 import com.littlebuddha.recruit.modules.entity.manager.Recruit;
 import com.littlebuddha.recruit.modules.service.manager.RecruitService;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -76,6 +78,31 @@ public class RecruitController extends BaseController {
             return "modules/manager/recruitForm";
         }
         return "";
+    }
+
+    /**
+     * 供用户查看招聘信息的详情页
+     * 只有超级管理员或者用户可以进入此页面
+     * @param
+     * @param
+     * @param model
+     * @return
+     */
+    @GetMapping("/detail")
+    public String detail(Recruit recruit, Model model) {
+        model.addAttribute("recruit", recruit);
+        return "modules/manager/recruitDetail";
+    }
+
+    /**
+     * 用户投递简历的处理接口
+     * @return
+     */
+    @ResponseBody
+    @PostMapping("/applyRecruit")
+    public Result applyRecruit(Recruit recruit){
+
+        return null;
     }
 
     /**

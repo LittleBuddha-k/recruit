@@ -16,26 +16,28 @@
 <div th:insert="modules/common/navbar :: navigation"></div>
 <!--招聘信息-->
 <div class="container">
-    <div class="row col-xs-12 col-sm-12	col-md-12 col-lg-12">
-        <div class="media" th:each="recruit:${recruitList}">
-            <div class="media-left">
-                <a href="#">
+    <div class="row col-xs-12 col-sm-12	col-md-12 col-lg-12" th:each="recruit:${recruitList}">
+        <a th:href="@{'/manager/recruit/detail?id='+${recruit.getId()}}">
+            <div class="media">
+                <div class="media-left">
                     <img class="media-object" src="/recruit/pictures/company/a.jpg"
                          style="width: 64px;height: 64px;">
-                </a>
+                </div>
+                <div class="media-body">
+                    <div class="row col-xs-12 col-sm-12	col-md-12 col-lg-12">
+                        <h4 class="media-heading" th:text="${recruit.getPosition()}"
+                            style="width: 50%;float: left"></h4>
+                        <h4 class="media-heading" th:text="${recruit.getSalary()}" style="width: 50%;float: left"></h4>
+                    </div>
+                    <div class="row col-xs-12 col-sm-12	col-md-12 col-lg-12">
+                        <span th:text="${recruit.getJobInformation()}"></span>
+                    </div>
+                    <div class="row col-xs-12 col-sm-12	col-md-12 col-lg-12">
+                        <span th:text="${recruit.getWorkingYears()}"></span>
+                    </div>
+                </div>
             </div>
-            <div class="media-body">
-                <div class="row col-xs-12 col-sm-12	col-md-12 col-lg-12">
-                    <h4 class="media-heading" th:text="${recruit.getPosition()}"></h4>
-                </div>
-                <div class="row col-xs-12 col-sm-12	col-md-12 col-lg-12">
-                    <span th:text="${recruit.getJobInformation()}"></span>
-                </div>
-                <div class="row col-xs-12 col-sm-12	col-md-12 col-lg-12">
-                    <span th:text="${recruit.getWorkingYears()}"></span>
-                </div>
-            </div>
-        </div>
+        </a>
     </div>
 </div>
 <!--分页按钮-->

@@ -65,8 +65,10 @@ $(document).ready(function () {
                     }, {
                         field: 'employCount',
                         title: '招聘人数'
-                    },
-                    {
+                    },{
+                        field: 'jobInformation',
+                        title: '工作信息'
+                    },{
                         field: 'phone',
                         title: '操作',
                         formatter: function (value, row, index) {
