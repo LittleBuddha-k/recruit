@@ -162,7 +162,8 @@ function del() {
                 //请求成功时处理
                 alert(result.msg);
                 //重新刷新页面
-                window.location.reload();
+                //window.location.reload();
+                refresh();
             }
         });
     }

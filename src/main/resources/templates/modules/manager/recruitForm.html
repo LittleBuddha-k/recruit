@@ -65,7 +65,7 @@
                            th:value="${recruit.getPublicDate()}" placeholder="发布日期">
                 </div>
             </div>
-            <div class="form-group"  th:if="${'add' == mode || 'edit' == mode}">
+            <div class="form-group" th:if="${'add' == mode || 'edit' == mode}">
                 <div class="col-sm-3">
                     <button type="button" class="btn btn-default" id="submitButton">提交</button>
                     <button type="button" class="btn btn-default" id="cancelButton">取消</button>
@@ -77,20 +77,21 @@
 <script type="text/javascript">
     //提交按钮
     $("#submitButton").click(function () {
-        if ($("#username").val() != '' && $("#password").val() != '') {
-            $.ajax({
-                url: "/recruit/manager/recruit/save",    //请求的url地址
-                dataType: "json",   //返回格式为json
-                async: true,//请求是否异步，默认为异步，这也是ajax重要特性
-                data: $("#recruitForm").serialize(),    //参数值
-                type: "POST",   //请求方式
-                success: function (result) {
-                    //请求成功时处理
-                    alert(result.msg)
-                    window.close();
-                }
-            });
-        }
+        $.ajax({
+            url: "/recruit/manager/recruit/save",    //请求的url地址
+            dataType: "json",   //返回格式为json
+            async: true,//请求是否异步，默认为异步，这也是ajax重要特性
+            data: $("#recruitForm").serialize(),    //参数值
+            type: "POST",   //请求方式
+            success: function (result) {
+                //请求成功时处理
+                alert(result.msg)
+                //关闭当前小窗口
+                window.close();
+                //刷新整个父窗口
+                window.opener.refresh();
+            }
+        });
     });
     //取消按钮
     $("#cancelButton").click(function () {

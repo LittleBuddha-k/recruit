@@ -59,6 +59,8 @@
                     //请求成功时处理
                     alert(result.msg)
                     window.close();
+                    //刷新整个父窗口
+                    window.opener.refresh();
                 }
             });
         }
