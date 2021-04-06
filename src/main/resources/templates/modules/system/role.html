@@ -29,7 +29,7 @@
 <div class="container">
     <div class="row col-xs-12 col-sm-12	col-md-12 col-lg-12">
         <!--查询-->
-        <form class="form-horizontal" col-xs-12 col-sm-12 col-md-12 col-lg-12 id="roleSearchForm">
+        <form class="form-horizontal collapse" col-xs-12 col-sm-12 col-md-12 col-lg-12 id="roleSearchForm">
             <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
                 <label for="name" class="col-sm-4 control-label">角色名称</label>
                 <div class="col-sm-8">
@@ -84,6 +84,12 @@
                     <i class="fa fa-file-excel-o"></i> 导出
                 </button>
             </shiro:hasPermission>
+        </div>
+        <!--搜索下拉搜寻表单按钮--隐藏状态-->
+        <div id="toolButton" class="collapse">
+            <button type="button" id="searchButton" class="btn btn-default" onclick="showSearchButton()">
+                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+            </button>
         </div>
         <!--表格区域-->
         <table id="roleTable"></table>
