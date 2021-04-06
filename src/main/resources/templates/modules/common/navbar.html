@@ -25,6 +25,7 @@
                 <li><a th:href="@{/manager/recruit/list}">发布招聘</a></li>
                 <li><a th:href="@{#}">招聘通知管理</a></li>
                 <li><a th:href="@{#}">招聘报名</a></li>
+                <li><a th:href="@{/manager/company/list}">招聘公司管理</a></li>
                 <li><a th:href="@{#}">简历管理</a></li>
                 <li class="dropdown" th:if="${session.currentUser != null}" >
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span th:text="${session.currentUser.getUsername()}"></span><span class="caret"></span></a>

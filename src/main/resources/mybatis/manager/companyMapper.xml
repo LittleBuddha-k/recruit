@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.littlebuddha.recruit.modules.mapper.manager.CompanyMapper">
+    <sql id="companyColumns">
+        id AS "id",
+        legal_person AS "legalPerson",
+        chinese_name AS "chineseName",
+        english_name AS "englishName",
+        company_name AS "companyName",
+        headquarters_address AS "headquartersAddress",
+        establish_date AS "establishDate",
+        phone AS "phone",
+        introduction AS "introduction",
+        ranging AS "ranging",
+        nature AS "nature",
+        registered_capital AS "registeredCapital",
+        scale AS "scale",
+        pictures AS "pictures",
+        video AS "video",
+        create_by AS "createBy.id",
+        create_date AS "createDate",
+        update_by AS "updateBy.id",
+        update_date AS "updateDate",
+        remarks AS "remarks",
+        del_flag AS "delFlag"
+    </sql>
+
+    <select id="get" resultType="com.littlebuddha.recruit.modules.entity.manager.Company">
+        SELECT
+        <include refid="companyColumns"/>
+        FROM recruit_manager_company a
+        WHERE id=#{id}
+    </select>
+
+    <select id="findList" resultType="com.littlebuddha.recruit.modules.entity.manager.Company">
+        SELECT
+        <include refid="companyColumns"/>
+        FROM recruit_manager_company a
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
+            <!-- 判断条件参数是否为空 -->
+            <if test="legalPerson != null and legalPerson != ''">
+                and a.legal_person LIKE  CONCAT(CONCAT("%",#{legalPerson}),"%")
+            </if>
+        </where>
+        <choose>
+            <when test="orderBy !=null and orderBy != ''">
+                ORDER BY ${orderBy}
+            </when>
+            <otherwise>
+                ORDER BY a.create_date DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="findAllList" resultType="com.littlebuddha.recruit.modules.entity.manager.Company">
+        SELECT
+        <include refid="companyColumns"/>
+        FROM recruit_manager_company a
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
+            <!-- 判断条件参数是否为空 -->
+        </where>
+        <choose>
+            <when test="orderBy !=null and orderBy != ''">
+                ORDER BY ${orderBy}
+            </when>
+            <otherwise>
+                ORDER BY a.create_date DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <insert id="insert" parameterType="com.littlebuddha.recruit.modules.entity.manager.Company">
+        INSERT INTO recruit_manager_company(
+            id,
+            legal_person,
+            chinese_name,
+            english_name,
+            company_name,
+            headquarters_address,
+            establish_date,
+            phone,
+            introduction,
+            ranging,
+            nature,
+            registered_capital,
+            scale,
+            pictures,
+            video,
+            create_by,
+            create_date,
+            update_by,
+            update_date,
+            remarks,
+            del_flag
+        )VALUES(
+            #{id},
+            #{legalPerson},
+            #{chineseName},
+            #{englishName},
+            #{companyName},
+            #{headquartersAddress},
+            #{establishDate},
+            #{phone},
+            #{introduction},
+            #{ranging},
+            #{nature},
+            #{registeredCapital},
+            #{scale},
+            #{pictures},
+            #{video},
+            #{createBy.id},
+            #{createDate},
+            #{updateBy.id},
+            #{updateDate},
+            #{remarks},
+            #{delFlag}
+        )
+    </insert>
+
+    <update id="update">
+        UPDATE recruit_manager_company SET
+            legal_person = #{legalPerson},
+            chinese_name = #{chineseName},
+            english_name = #{englishName},
+            company_name = #{companyName},
+            headquarters_address = #{headquartersAddress},
+            establish_date = #{establishDate},
+            phone = #{phone},
+            introduction = #{introduction},
+            ranging = #{ranging},
+            nature = #{nature},
+            registered_capital = #{registeredCapital},
+            scale = #{scale},
+            pictures = #{pictures},
+            video = #{video},
+            create_by = #{createBy.id},
+            create_date = #{createDate},
+            update_by = #{updateBy.id},
+            update_date = #{updateDate},
+            remarks = #{remarks},
+            del_flag = #{delFlag}
+        WHERE id=#{id}
+    </update>
+
+    <update id="deleteByLogic">
+        UPDATE recruit_manager_company SET del_flag = 1
+        WHERE id=#{id}
+    </update>
+
+    <update id="recover">
+        UPDATE recruit_manager_company SET del_flag = 0
+        WHERE id=#{id}
+    </update>
+
+    <delete id="deleteByPhysics">
+        DELETE FROM recruit_manager_company
+        WHERE id=#{id}
+    </delete>
+</mapper>

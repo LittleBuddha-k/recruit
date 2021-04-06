@@ -3,8 +3,10 @@ package com.littlebuddha.recruit.modules.controller.manager;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import com.littlebuddha.recruit.common.utils.Result;
+import com.littlebuddha.recruit.common.utils.UserUtils;
 import com.littlebuddha.recruit.modules.base.controller.BaseController;
 import com.littlebuddha.recruit.modules.entity.manager.Recruit;
+import com.littlebuddha.recruit.modules.entity.system.Operator;
 import com.littlebuddha.recruit.modules.service.manager.RecruitService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.Logical;
@@ -96,11 +98,13 @@ public class RecruitController extends BaseController {
 
     /**
      * 用户投递简历的处理接口
+     * 需要将投递申请的用户信息及其投递的岗位信息返回给招聘方
      * @return
      */
     @ResponseBody
     @PostMapping("/applyRecruit")
-    public Result applyRecruit(Recruit recruit){
+    public Result applyRecruit(){
+        Operator currentUser = UserUtils.getCurrentUser();
 
         return null;
     }
