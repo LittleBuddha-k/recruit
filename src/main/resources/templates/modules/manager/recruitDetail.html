@@ -12,53 +12,54 @@
     <script src="/recruit/bootstrap/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div class="container">
-    <div class="row col-xs-12 col-sm-12	col-md-12 col-lg-12" style="margin-top: 30%">
-        <form class="form-horizontal" col-xs-12 col-sm-12 col-md-12 col-lg-12 id="recruitForm">
+<div class="container" style="margin-top: 1%">
+    <div class="row col-xs-12 col-sm-12	col-md-12 col-lg-12" st
+         yle="margin-top: 30%">
+        <form class="form-horizontal" col-xs-12 col-sm-12 col-md-12 col-lg-12 id="recruitDetailForm">
             <input type="hidden" name="id" th:value="${recruit.getId()}">
-            <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
+            <div class="form-group col-xs-12 col-sm-12	col-md-6 col-lg-6">
                 <label for="position" class="col-sm-4 control-label">招聘职位</label>
                 <div class="col-sm-8">
                     <input type="position" class="form-control" id="position" name="position" disabled
                            th:value="${recruit.getPosition()}" placeholder="招聘职位">
                 </div>
             </div>
-            <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
+            <div class="form-group col-xs-12 col-sm-12	col-md-6 col-lg-6">
                 <label for="salary" class="col-sm-4 control-label">薪资</label>
                 <div class="col-sm-8">
                     <input type="salary" class="form-control" id="salary" name="salary" disabled
                            th:value="${recruit.getSalary()}" placeholder="薪资">
                 </div>
             </div>
-            <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
+            <div class="form-group col-xs-12 col-sm-12	col-md-6 col-lg-6">
                 <label for="workingYears" class="col-sm-4 control-label">工作年限</label>
                 <div class="col-sm-8">
                     <input type="workingYears" class="form-control" id="workingYears" name="workingYears" disabled
                            th:value="${recruit.getWorkingYears()}" placeholder="工作年限">
                 </div>
             </div>
-            <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
+            <div class="form-group col-xs-12 col-sm-12	col-md-6 col-lg-6">
                 <label for="qualifications" class="col-sm-4 control-label">学历</label>
                 <div class="col-sm-8">
                     <input type="qualifications" class="form-control" id="qualifications" name="qualifications" disabled
                            th:value="${recruit.getQualifications()}" placeholder="学历">
                 </div>
             </div>
-            <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
+            <div class="form-group col-xs-12 col-sm-12	col-md-6 col-lg-6">
                 <label for="employCount" class="col-sm-4 control-label">招聘人数</label>
                 <div class="col-sm-8">
                     <input type="employCount" class="form-control" id="employCount" name="employCount" disabled
                            th:value="${recruit.getEmployCount()}" placeholder="招聘人数">
                 </div>
             </div>
-            <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
-                <label for="jobInformation" class="col-sm-4 control-label">工作信息</label>
-                <div class="col-sm-8">
-                    <input type="jobInformation" class="form-control" id="jobInformation" name="jobInformation" disabled
-                           th:value="${recruit.getJobInformation()}" placeholder="工作信息">
+            <div class="form-group col-xs-12 col-sm-12	col-md-12 col-lg-12">
+                <label for="jobInformation" class="col-sm-2 control-label">工作信息</label>
+                <div class="col-sm-10">
+                    <textarea class="form-control" rows="5" id="jobInformation" name="jobInformation" disabled
+                              th:text="${recruit.getJobInformation()}" placeholder="工作信息"></textarea>
                 </div>
             </div>
-            <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
+            <div class="form-group col-xs-12 col-sm-12	col-md-6 col-lg-6">
                 <label for="publicDate" class="col-sm-4 control-label">发布日期</label>
                 <div class="col-sm-8">
                     <input type="publicDate" class="form-control" id="publicDate" name="publicDate" disabled
@@ -68,7 +69,7 @@
             <div class="form-group">
                 <div class="col-sm-3">
                     <button type="button" class="btn btn-default" id="submitButton">申请职位</button>
-                    <button type="button" class="btn btn-default" id="cancelButton">取消申请</button>
+                    <button type="button" class="btn btn-default" id="returnButton">返回</button>
                 </div>
             </div>
         </form>
@@ -82,7 +83,7 @@
                 url: "/recruit/manager/recruit/save",    //请求的url地址
                 dataType: "json",   //返回格式为json
                 async: true,//请求是否异步，默认为异步，这也是ajax重要特性
-                data: $("#recruitForm").serialize(),    //参数值
+                data: $("#recruitDetailForm").serialize(),    //参数值
                 type: "POST",   //请求方式
                 success: function (result) {
                     //请求成功时处理
@@ -93,8 +94,9 @@
         }
     });
     //取消按钮
-    $("#cancelButton").click(function () {
-        //将回去已申请中修改申请状态
+    $("#returnButton").click(function () {
+        //返回到前一页面
+        history.go(-1);
     });
 </script>
 </body>

@@ -7,6 +7,10 @@ $(document).ready(function () {
         //2.初始化Button的点击事件
         var oButtonInit = new ButtonInit();
         oButtonInit.Init();
+
+        //3.在表格右上角工具按钮处加入自定义按钮
+        let html = $("#toolButton").html() + $(".columns.columns-right.btn-group.pull-right").html();
+        $(".columns.columns-right.btn-group.pull-right").html(html)
     });
 
     var TableInit = function () {
@@ -163,6 +167,22 @@ function del() {
                 window.location.reload();
             }
         });
+    }
+}
+
+function showSearchButton() {
+    //$("#operatorSearchForm").attr();---也可以给标签设置属性值
+    let attr = $("#operatorSearchForm").data("collapse");
+    if(attr){
+        //1.搜索表里有指定的属性值，此时搜索表为展开状态
+        //2.判断属性值有否,需要移除data属性值，并移除”in“类
+        $("#operatorSearchForm").removeData("collapse");
+        $("#operatorSearchForm").removeClass("in");
+    }else {
+        //1.搜索表里没有指定的属性值，此时搜索表为隐藏状态
+        //2.需要修改属性值，并且添加打开类”in“
+        $("#operatorSearchForm").data("collapse","in");
+        $("#operatorSearchForm").addClass("in");
     }
 }
 
