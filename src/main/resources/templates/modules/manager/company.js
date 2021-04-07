@@ -9,8 +9,8 @@ $(document).ready(function () {
         oButtonInit.Init();
 
         //3.在表格右上角工具按钮处加入自定义按钮
-        let html = $("#toolButton").html() + $(".columns.columns-right.btn-group.pull-right").html();
-        $(".columns.columns-right.btn-group.pull-right").html(html)
+        let html = $("#toolButton").html();
+        $(".columns.columns-right.btn-group.pull-right").append(html);
     });
 
     var TableInit = function () {
@@ -27,10 +27,10 @@ $(document).ready(function () {
                 striped: true,                      //是否显示行间隔色
                 cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
                 pagination: true,                   //是否显示分页（*）
-                sortable: false,                     //是否启用排序
+                sortable: true,                     //是否启用排序
                 sortOrder: "asc",                   //排序方式
                 queryParams: function (params) {
-                    var searchParam = $("#recruitSearchForm").serializeJson();
+                    var searchParam = $("#companySearchForm").serializeJson();
                     searchParam.pageNo = params.limit === undefined ? "1" : params.offset / params.limit + 1;
                     searchParam.pageSize = params.limit === undefined ? -1 : params.limit;
                     searchParam.orderBy = params.sort === undefined ? "" : params.sort + " " + params.order;
@@ -55,28 +55,67 @@ $(document).ready(function () {
                     {
                         checkbox: true
                     }, {
-                        field: 'position',
-                        title: '招聘职位'
+                        field: 'legalPerson',
+                        title: '法人代表',
+                        sortable: "true",
+                        sortName: "a.legal_person"
                     }, {
-                        field: 'salary',
-                        title: '薪资'
+                        field: 'chineseName',
+                        sortable: "true",
+                        title: '中文名称'
                     }, {
-                        field: 'workingYears',
-                        title: '工作年限'
+                        field: 'englishName',
+                        sortable: "true",
+                        title: '英文名称'
                     }, {
-                        field: 'qualifications',
-                        title: '学历'
+                        field: 'companyName',
+                        sortable: "true",
+                        title: '公司名称'
                     }, {
-                        field: 'employCount',
-                        title: '招聘人数'
+                        field: 'headquartersAddress',
+                        sortable: "true",
+                        title: '总部地址'
                     },{
-                        field: 'jobInformation',
-                        title: '工作信息'
+                        field: 'establishDate',
+                        sortable: "true",
+                        title: '成立日期'
+                    },{
+                        field: 'phone',
+                        sortable: "true",
+                        title: '联系电话'
+                    },{
+                        field: 'introduction',
+                        sortable: "true",
+                        title: '介绍'
+                    },{
+                        field: 'ranging',
+                        sortable: "true",
+                        title: '经营范围'
+                    },{
+                        field: 'nature',
+                        sortable: "true",
+                        title: '公司性质'
+                    },{
+                        field: 'registeredCapital',
+                        sortable: "true",
+                        title: '注册资本'
+                    },{
+                        field: 'scale',
+                        sortable: "true",
+                        title: '规模'
+                    },{
+                        field: 'pictures',
+                        sortable: "true",
+                        title: '公司图片宣传'
+                    },{
+                        field: 'video',
+                        sortable: "true",
+                        title: '公司视频宣传'
                     },{
                         field: 'phone',
                         title: '操作',
                         formatter: function (value, row, index) {
-                            return '<button class="btn btn-primary btn-sm" onclick="delivery(\'' + row.id + '\')"> 投递简历 </button> <button class="btn btn-primary btn-sm" onclick="detail(\'' + row.id + '\')"> 查看招聘详情 </button>';
+                            return '<button class="btn btn-primary btn-sm" onclick="delivery(\'' + row.id + '\')"> 权限设置 </button> <button class="btn btn-primary btn-sm" onclick="detail(\'' + row.id + '\')"> 查看 </button>';
                         }
                     }
                 ]
@@ -175,17 +214,17 @@ function del() {
 
 function showSearchButton() {
     //$("#operatorSearchForm").attr();---也可以给标签设置属性值
-    let attr = $("#recruitSearchForm").data("collapse");
+    let attr = $("#companySearchForm").data("collapse");
     if(attr){
         //1.搜索表里有指定的属性值，此时搜索表为展开状态
         //2.判断属性值有否,需要移除data属性值，并移除”in“类
-        $("#recruitSearchForm").removeData("collapse");
-        $("#recruitSearchForm").removeClass("in");
+        $("#companySearchForm").removeData("collapse");
+        $("#companySearchForm").removeClass("in");
     }else {
         //1.搜索表里没有指定的属性值，此时搜索表为隐藏状态
         //2.需要修改属性值，并且添加打开类”in“
-        $("#recruitSearchForm").data("collapse","in");
-        $("#recruitSearchForm").addClass("in");
+        $("#companySearchForm").data("collapse","in");
+        $("#companySearchForm").addClass("in");
     }
 }
 

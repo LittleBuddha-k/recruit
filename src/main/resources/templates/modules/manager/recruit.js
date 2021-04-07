@@ -9,8 +9,8 @@ $(document).ready(function () {
         oButtonInit.Init();
 
         //3.在表格右上角工具按钮处加入自定义按钮
-        let html = $("#toolButton").html() + $(".columns.columns-right.btn-group.pull-right").html();
-        $(".columns.columns-right.btn-group.pull-right").html(html)
+        let html = $("#toolButton").html();
+        $(".columns.columns-right.btn-group.pull-right").append(html);
     });
 
     var TableInit = function () {
