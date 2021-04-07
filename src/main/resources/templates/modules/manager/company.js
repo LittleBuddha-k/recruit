@@ -78,7 +78,10 @@ $(document).ready(function () {
                     },{
                         field: 'establishDate',
                         sortable: "true",
-                        title: '成立日期'
+                        title: '成立日期',
+                        formatter: function(value,row,index){
+                            return rc.dateFormat(value);
+                        }
                     },{
                         field: 'phone',
                         sortable: "true",
