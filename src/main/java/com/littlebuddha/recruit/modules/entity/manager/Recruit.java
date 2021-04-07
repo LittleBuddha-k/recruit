@@ -1,6 +1,7 @@
 package com.littlebuddha.recruit.modules.entity.manager;
 
 import com.littlebuddha.recruit.modules.base.entity.DataEntity;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Date;
 
@@ -78,6 +79,9 @@ public class Recruit extends DataEntity<Recruit> {
     }
 
     public String getCompanyName() {
+        if(company != null && StringUtils.isNotBlank(company.getCompanyName())){
+            this.companyName = company.getCompanyName();
+        }
         return companyName;
     }
 
@@ -86,6 +90,9 @@ public class Recruit extends DataEntity<Recruit> {
     }
 
     public String getAddress() {
+        if(company != null && StringUtils.isNotBlank(company.getHeadquartersAddress())){
+            this.address = company.getHeadquartersAddress();
+        }
         return address;
     }
 
@@ -94,6 +101,9 @@ public class Recruit extends DataEntity<Recruit> {
     }
 
     public String getPhone() {
+        if(company != null && StringUtils.isNotBlank(company.getPhone())){
+            this.phone = company.getPhone();
+        }
         return phone;
     }
 
