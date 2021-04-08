@@ -17,6 +17,7 @@
          yle="margin-top: 30%">
         <form class="form-horizontal" col-xs-12 col-sm-12 col-md-12 col-lg-12 id="recruitDetailForm">
             <input type="hidden" name="id" th:value="${recruit.getId()}">
+            <input type="hidden" name="company.id" th:value="${recruit.getCompany().getId()}">
             <div class="form-group col-xs-12 col-sm-12	col-md-6 col-lg-6">
                 <label for="companyName" class="col-sm-4 control-label">公司名称</label>
                 <div class="col-sm-8">

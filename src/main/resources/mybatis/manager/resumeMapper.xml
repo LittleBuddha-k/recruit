@@ -30,6 +30,19 @@
         WHERE id=#{id}
     </select>
 
+    <select id="getResumeByCurrentOperator" resultType="com.littlebuddha.recruit.modules.entity.manager.Resume">
+        SELECT
+        <include refid="resumeColumns"/>
+        FROM recruit_manager_resume a
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
+            <!-- 判断条件参数是否为空 -->
+            <if test="operator != null and operator.id !=null and operator.id != ''">
+                and a.operator=#{operator.id}
+            </if>
+        </where>
+    </select>
+
     <select id="getResumeByOperator" resultType="com.littlebuddha.recruit.modules.entity.manager.Resume">
         SELECT
         <include refid="resumeColumns"/>

@@ -2,14 +2,19 @@ package com.littlebuddha.recruit.modules.controller.manager;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
+import com.littlebuddha.recruit.common.utils.DateUtils;
 import com.littlebuddha.recruit.common.utils.Result;
 import com.littlebuddha.recruit.common.utils.UserUtils;
 import com.littlebuddha.recruit.modules.base.controller.BaseController;
 import com.littlebuddha.recruit.modules.entity.manager.Company;
+import com.littlebuddha.recruit.modules.entity.manager.ReceivedResume;
 import com.littlebuddha.recruit.modules.entity.manager.Recruit;
+import com.littlebuddha.recruit.modules.entity.manager.Resume;
 import com.littlebuddha.recruit.modules.entity.system.Operator;
 import com.littlebuddha.recruit.modules.service.manager.CompanyService;
+import com.littlebuddha.recruit.modules.service.manager.ReceivedResumeService;
 import com.littlebuddha.recruit.modules.service.manager.RecruitService;
+import com.littlebuddha.recruit.modules.service.manager.ResumeService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +22,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -29,6 +35,9 @@ public class RecruitController extends BaseController {
 
     @Autowired
     private CompanyService companyService;
+
+    @Autowired
+    private ResumeService resumeService;
 
     @ModelAttribute
     public Recruit get(@RequestParam(required = false) String id) {
@@ -111,10 +120,21 @@ public class RecruitController extends BaseController {
     @ResponseBody
     @PostMapping("/applyRecruit")
     public Result applyRecruit(Operator operator,Recruit recruit){
-        //投递简历后只需将当前用户的简历传入相应公司的已接受简历数据中
+        //1.投递简历后只需将当前用户的简历传入相应公司的已接受简历数据中
         Operator currentUser = UserUtils.getCurrentUser();
+        //2.简历
+        Resume resumeByCurrentOperator = resumeService.getResumeByCurrentOperator(new Resume(),currentUser);
+        //3.在什么时候
+        String receivedTime = DateUtils.getFullDate(new Date());
+        //4.投递给了谁
+        //5.再睡哪里投递的是什么职位
         //获取到的招聘信息---recruit
-        return null;
+        ReceivedResume receivedResume = new ReceivedResume();
+        receivedResume.setOperator(currentUser);
+        receivedResume.setResume(resumeByCurrentOperator);
+        receivedResume.setReceivedTime(receivedTime);
+        receivedResume.setRecruit(recruit);
+        return new Result("200","投递简历成功");
     }
 
     /**

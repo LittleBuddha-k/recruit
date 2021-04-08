@@ -77,4 +77,10 @@ public class ResumeService extends CrudService<Resume, ResumeMapper> {
         Resume result = resumeMapper.getResumeByOperator(resume);
         return result;
     }
+
+    public Resume getResumeByCurrentOperator(Resume resume,Operator operator) {
+        resume.setOperator(operator);
+        Resume result = resumeMapper.getResumeByCurrentOperator(resume);
+        return result;
+    }
 }
