@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.littlebuddha.recruit.modules.mapper.manager.ResumeMapper">
+    <sql id="resumeColumns">
+        id AS "id",
+        name AS "name",
+        age AS "age",
+        sex AS "sex",
+        address AS "address",
+        phone AS "phone",
+        email AS "email",
+        education AS "education",
+        skill AS "skill",
+        work_experience AS "workExperience",
+        picture AS "picture",
+        introduction AS "introduction",
+        operator AS "operator.id",
+        create_by AS "createBy.id",
+        create_date AS "createDate",
+        update_by AS "updateBy.id",
+        update_date AS "updateDate",
+        remarks AS "remarks",
+        del_flag AS "delFlag"
+    </sql>
+
+    <select id="get" resultType="com.littlebuddha.recruit.modules.entity.manager.Resume">
+        SELECT
+        <include refid="resumeColumns"/>
+        FROM recruit_manager_resume a
+        WHERE id=#{id}
+    </select>
+
+    <select id="getResumeByOperator" resultType="com.littlebuddha.recruit.modules.entity.manager.Resume">
+        SELECT
+        <include refid="resumeColumns"/>
+        FROM recruit_manager_resume a
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
+            <!-- 判断条件参数是否为空 -->
+            <if test="operator != null and operator.id !=null and operator.id != ''">
+                and a.operator=#{operator.id}
+            </if>
+        </where>
+        <choose>
+            <when test="orderBy !=null and orderBy != ''">
+                ORDER BY ${orderBy}
+            </when>
+            <otherwise>
+                ORDER BY a.create_date DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="findList" resultType="com.littlebuddha.recruit.modules.entity.manager.Resume">
+        SELECT
+        <include refid="resumeColumns"/>
+        FROM recruit_manager_resume a
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
+            <!-- 判断条件参数是否为空 -->
+            <if test="name != null and name != ''">
+                and a.name LIKE  CONCAT(CONCAT("%",#{name}),"%")
+            </if>
+        </where>
+        <choose>
+            <when test="orderBy !=null and orderBy != ''">
+                ORDER BY ${orderBy}
+            </when>
+            <otherwise>
+                ORDER BY a.create_date DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="findAllList" resultType="com.littlebuddha.recruit.modules.entity.manager.Resume">
+        SELECT
+        <include refid="resumeColumns"/>
+        FROM recruit_manager_resume a
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
+            <!-- 判断条件参数是否为空 -->
+        </where>
+        <choose>
+            <when test="orderBy !=null and orderBy != ''">
+                ORDER BY ${orderBy}
+            </when>
+            <otherwise>
+                ORDER BY a.create_date DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <insert id="insert" parameterType="com.littlebuddha.recruit.modules.entity.manager.Resume">
+        INSERT INTO recruit_manager_resume(
+            id,
+            name,
+            age,
+            sex,
+            address,
+            phone,
+            email,
+            education,
+            skill,
+            work_experience,
+            picture,
+            introduction,
+            operator,
+            create_by,
+            create_date,
+            update_by,
+            update_date,
+            remarks,
+            del_flag
+        )VALUES(
+            #{id},
+            #{name},
+            #{age},
+            #{sex},
+            #{address},
+            #{phone},
+            #{email},
+            #{education},
+            #{skill},
+            #{workExperience},
+            #{picture},
+            #{introduction},
+            #{operator.id},
+            #{createBy.id},
+            #{createDate},
+            #{updateBy.id},
+            #{updateDate},
+            #{remarks},
+            #{delFlag}
+        )
+    </insert>
+
+    <update id="update">
+        UPDATE recruit_manager_resume SET
+            name = #{name},
+            age = #{age},
+            sex = #{sex},
+            address = #{address},
+            phone = #{phone},
+            email = #{email},
+            education = #{education},
+            skill = #{skill},
+            work_experience = #{workExperience},
+            picture = #{picture},
+            introduction = #{introduction},
+            operator = #{operator.id},
+            create_by = #{createBy.id},
+            create_date = #{createDate},
+            update_by = #{updateBy.id},
+            update_date = #{updateDate},
+            remarks = #{remarks},
+            del_flag = #{delFlag}
+        WHERE id=#{id}
+    </update>
+
+    <update id="deleteByLogic">
+        UPDATE recruit_manager_resume SET del_flag = 1
+        WHERE id=#{id}
+    </update>
+
+    <update id="recover">
+        UPDATE recruit_manager_resume SET del_flag = 0
+        WHERE id=#{id}
+    </update>
+
+    <delete id="deleteByPhysics">
+        DELETE FROM recruit_manager_resume
+        WHERE id=#{id}
+    </delete>
+</mapper>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="UTF-8">
+    <title>管理</title>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="/recruit/bootstrap/css/bootstrap.min.css">
+    <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="/recruit/bootstrap/css/bootstrap-theme.min.css">
+    <script src="/recruit/plugins/jquery/jquery-3.3.1.min.js"></script>
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="/recruit/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <div class="row col-xs-12 col-sm-12	col-md-12 col-lg-12">
+        <form class="form-horizontal" col-xs-12 col-sm-12 col-md-12 col-lg-12 id="resumeForm">
+            <input type="hidden" name="id" th:value="${resume.getId()}">
+            <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
+                <label for="name" class="col-sm-4 control-label">姓名</label>
+                <div class="col-sm-8">
+                    <input type="name" class="form-control" id="name" name="name"
+                           th:value="${resume.getName()}" placeholder="姓名">
+                </div>
+            </div>
+            <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
+                <label for="age" class="col-sm-4 control-label">年龄</label>
+                <div class="col-sm-8">
+                    <input type="age" class="form-control" id="age" name="age"
+                           th:value="${resume.getAge()}" placeholder="年龄">
+                </div>
+            </div>
+            <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
+                <label for="sex" class="col-sm-4 control-label">性别</label>
+                <div class="col-sm-8">
+                    <input type="sex" class="form-control" id="sex" name="sex"
+                           th:value="${resume.getSex()}" placeholder="性别">
+                </div>
+            </div>
+            <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
+                <label for="address" class="col-sm-4 control-label">地址</label>
+                <div class="col-sm-8">
+                    <input type="address" class="form-control" id="address" name="address"
+                           th:value="${resume.getAddress()}" placeholder="地址">
+                </div>
+            </div>
+            <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
+                <label for="phone" class="col-sm-4 control-label">电话</label>
+                <div class="col-sm-8">
+                    <input type="phone" class="form-control" id="phone" name="phone"
+                           th:value="${resume.getPhone()}" placeholder="电话">
+                </div>
+            </div>
+            <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
+                <label for="email" class="col-sm-4 control-label">邮箱</label>
+                <div class="col-sm-8">
+                    <input type="email" class="form-control" id="email" name="email"
+                           th:value="${resume.getEmail()}" placeholder="邮箱">
+                </div>
+            </div>
+            <div class="form-group col-xs-12 col-sm-12	col-md-12 col-lg-12">
+                <label for="education" class="col-sm-2 control-label">教育经历</label>
+                <div class="col-sm-10">
+                    <textarea class="form-control" rows="5" id="education" name="education"
+                              th:text="${resume.getEducation()}" placeholder="教育经历"></textarea>
+                </div>
+            </div>
+            <div class="form-group col-xs-12 col-sm-12	col-md-12 col-lg-12">
+                <label for="skill" class="col-sm-2 control-label">技能</label>
+                <div class="col-sm-10">
+                    <textarea class="form-control" rows="5" id="skill" name="skill"
+                              th:text="${resume.getSkill()}" placeholder="技能"></textarea>
+                </div>
+            </div>
+            <div class="form-group col-xs-12 col-sm-12	col-md-12 col-lg-12">
+                <label for="workExperience" class="col-sm-2 control-label">工作经验</label>
+                <div class="col-sm-10">
+                    <textarea class="form-control" rows="5" id="workExperience" name="workExperience"
+                              th:text="${resume.getWorkExperience()}" placeholder="工作经验"></textarea>
+                </div>
+            </div>
+            <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
+                <label for="picture" class="col-sm-4 control-label">头像</label>
+                <div class="col-sm-8">
+                    <input type="picture" class="form-control" id="picture" name="picture"
+                           th:value="${resume.getPicture()}" placeholder="头像">
+                </div>
+            </div>
+            <div class="form-group col-xs-12 col-sm-12	col-md-12 col-lg-12">
+                <label for="introduction" class="col-sm-2 control-label">自我介绍</label>
+                <div class="col-sm-10">
+                    <textarea class="form-control" rows="5" id="introduction" name="introduction"
+                              th:text="${resume.getIntroduction()}" placeholder="自我介绍"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-3">
+                    <button type="button" class="btn btn-default" id="submitButton"  th:if="${'add' == mode || 'edit' == mode}">提交</button>
+                    <button type="button" class="btn btn-default" id="cancelButton">返回</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    //提交按钮
+    $("#submitButton").click(function () {
+        $.ajax({
+            url: "/recruit/manager/resume/save",    //请求的url地址
+            dataType: "json",   //返回格式为json
+            async: true,//请求是否异步，默认为异步，这也是ajax重要特性
+            data: $("#recruitForm").serialize(),    //参数值
+            type: "POST",   //请求方式
+            success: function (result) {
+                //请求成功时处理
+                alert(result.msg)
+                //关闭当前小窗口
+                window.close();
+                //刷新整个父窗口
+                window.opener.refresh();
+            }
+        });
+    });
+    //取消按钮
+    $("#cancelButton").click(function () {
+        window.close();
+    });
+</script>
+</body>
+</html>

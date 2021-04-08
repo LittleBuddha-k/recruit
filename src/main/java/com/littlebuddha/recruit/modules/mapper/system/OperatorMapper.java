@@ -33,4 +33,11 @@ public interface OperatorMapper extends BaseMapper<Operator> {
      * @return
      */
     int deleteOperatorRole(OperatorRole operatorRole);
+
+    /**
+     * 根据用户和角色查询是否有operator-role数据
+     * @param util
+     * @return
+     */
+    OperatorRole getOperatorRole(OperatorRole util);
 }

@@ -38,6 +38,25 @@
         WHERE username=#{username}
     </select>
 
+    <!--根据用户和角色查询是否有operator-role数据-->
+    <select id="getOperatorRole" resultType="com.littlebuddha.recruit.modules.entity.system.OperatorRole">
+        SELECT
+        id AS "id",
+        operator_id AS "operator.id",
+        role_id AS "role.id"
+        FROM recruit_operator_role a
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
+            <!-- 判断条件参数是否为空 -->
+            <if test="operator != null and operator.id != null and operator.id != ''">
+                and a.operator_id = #{operator.id}
+            </if>
+            <if test="role != null and role.id != null and role.id != ''">
+                and a.role_id = #{role.id}
+            </if>
+        </where>
+    </select>
+
     <resultMap id="operatorRolesMap" type="com.littlebuddha.recruit.modules.entity.system.Operator">
         <id column="aid" property="id"/>
         <result column="ausername" property="username"/>

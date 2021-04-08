@@ -5,12 +5,10 @@ import com.github.pagehelper.PageInfo;
 import com.littlebuddha.recruit.common.utils.Result;
 import com.littlebuddha.recruit.common.utils.UserUtils;
 import com.littlebuddha.recruit.modules.base.controller.BaseController;
-import com.littlebuddha.recruit.modules.entity.manager.Recruit;
+import com.littlebuddha.recruit.modules.entity.manager.Resume;
 import com.littlebuddha.recruit.modules.entity.system.Operator;
-import com.littlebuddha.recruit.modules.service.manager.RecruitService;
+import com.littlebuddha.recruit.modules.service.manager.ResumeService;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.authz.annotation.Logical;
-import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,22 +18,22 @@ import javax.servlet.http.HttpSession;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/manager/recruit")
-public class RecruitController extends BaseController {
+@RequestMapping("/manager/resume")
+public class ResumeController extends BaseController {
 
     @Autowired
-    private RecruitService recruitService;
+    private ResumeService resumeService;
 
     @ModelAttribute
-    public Recruit get(@RequestParam(required = false) String id) {
-        Recruit recruit = null;
+    public Resume get(@RequestParam(required = false) String id) {
+        Resume resume = null;
         if (StringUtils.isNotBlank(id)) {
-            recruit = recruitService.get(id);
+            resume = resumeService.get(id);
         }
-        if (recruit == null) {
-            recruit = new Recruit();
+        if (resume == null) {
+            resume = new Resume();
         }
-        return recruit;
+        return resume;
     }
 
     /**
@@ -46,11 +44,11 @@ public class RecruitController extends BaseController {
      * @param session
      * @return
      */
-    //@RequiresPermissions("manager/Recruit/list")
+    //@RequiresPermissions("manager/Resume/list")
     @GetMapping("/list")
-    public String list(Recruit recruit, Model model, HttpSession session) {
-        model.addAttribute("recruit", recruit);
-        return "modules/manager/recruit";
+    public String list(Resume resume, Model model, HttpSession session) {
+        model.addAttribute("resume", resume);
+        return "modules/manager/resume";
     }
 
     /**
@@ -60,8 +58,8 @@ public class RecruitController extends BaseController {
      */
     @ResponseBody
     @PostMapping("/data")
-    public Map data(Recruit recruit) {
-        PageInfo<Recruit> page = recruitService.findPage(new Page<Recruit>(), recruit);
+    public Map data(Resume resume) {
+        PageInfo<Resume> page = resumeService.findPage(new Page<Resume>(), resume);
         return getBootstrapData(page);
     }
 
@@ -74,10 +72,10 @@ public class RecruitController extends BaseController {
      * @return
      */
     @GetMapping("/form/{mode}")
-    public String form(@PathVariable(name = "mode") String mode, Recruit recruit, Model model) {
-        model.addAttribute("recruit", recruit);
+    public String form(@PathVariable(name = "mode") String mode, Resume resume, Model model) {
+        model.addAttribute("resume", resume);
         if ("add".equals(mode) || "edit".equals(mode) || "view".equals(mode)) {
-            return "modules/manager/recruitForm";
+            return "modules/manager/resumeForm";
         }
         return "";
     }
@@ -91,24 +89,16 @@ public class RecruitController extends BaseController {
      * @return
      */
     @GetMapping("/detail")
-    public String detail(Recruit recruit, Model model) {
-        model.addAttribute("recruit", recruit);
-        return "modules/manager/recruitDetail";
-    }
-
-    /**
-     * 用户投递简历的处理接口
-     * 需要将投递申请的用户信息及其投递的岗位信息返回给招聘方
-     * @return
-     */
-    @ResponseBody
-    @PostMapping("/applyRecruit")
-    public Result applyRecruit(Operator operator,Recruit recruit){
-        //投递简历后只需将当前用户的简历传入相应公司的已接受简历数据中
+    public String detail(Resume resume,Model model) {
         Operator currentUser = UserUtils.getCurrentUser();
-        //获取到的招聘信息---recruit
-
-        return null;
+        Resume result = null;
+        if (currentUser != null){
+            result = resumeService.getResumeByOperator(resume,currentUser);
+        }
+        String mode = "view";
+        model.addAttribute("mode", mode);
+        model.addAttribute("resume", result);
+        return "modules/manager/resumeDetail";
     }
 
     /**
@@ -119,8 +109,8 @@ public class RecruitController extends BaseController {
      */
     @ResponseBody
     @PostMapping("/save")
-    public Result save(Recruit recruit) {
-        int save = recruitService.save(recruit);
+    public Result save(Resume resume) {
+        int save = resumeService.save(resume);
         if (save > 0) {
             return new Result("200", "保存成功");
         } else {
@@ -133,11 +123,11 @@ public class RecruitController extends BaseController {
     public Result delete(String ids) {
         String[] split = ids.split(",");
         for (String s : split) {
-            Recruit recruit = recruitService.get(s);
-            if (recruit == null) {
+            Resume resume = resumeService.get(s);
+            if (resume == null) {
                 return new Result("311", "数据不存在,或已被删除，请刷新试试！");
             }
-            int i = recruitService.deleteByPhysics(recruit);
+            int i = resumeService.deleteByPhysics(resume);
         }
         return new Result("200", "数据清除成功");
     }

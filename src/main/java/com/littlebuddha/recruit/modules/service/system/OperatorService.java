@@ -54,8 +54,14 @@ public class OperatorService extends CrudService<Operator, OperatorMapper> {
             if(roles != null && !roles.isEmpty()){
                 for (Role role : roles) {
                     util = new OperatorRole(operator,role);
-                    util.preUpdate();
-                    int i = operatorMapper.insertOperatorRole(util);
+                    OperatorRole  operatorRole = operatorMapper.getOperatorRole(util);
+                    if(operatorRole == null){
+                        util.preInsert();
+                        int i = operatorMapper.insertOperatorRole(util);
+                    }else {
+                        util.preUpdate();
+                        int i = operatorMapper.updateOperatorRole(util);
+                    }
                 }
             }
         }
