@@ -125,7 +125,7 @@ function refresh() {
 }
 
 function add() {
-    window.open('/recruit/manager/recruit/form/add', "新建用户信息", 'height=600, width=800, top=30%,left=30%, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
+    window.open('/recruit/manager/recruit/form/add', "新建招聘信息", 'height=600, width=800, top=30%,left=30%, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
 }
 
 function edit() {
@@ -135,7 +135,7 @@ function edit() {
     } else if (id.toString().length < 32) {
         alert("请至少选择一条数据")
     } else if (id.toString().length = 32) {
-        window.open('/recruit/manager/recruit/form/edit?id=' + id, "编辑用户信息", 'height=600, width=800, top=30%,left=30%, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
+        window.open('/recruit/manager/recruit/form/edit?id=' + id, "编辑招聘信息", 'height=600, width=800, top=30%,left=30%, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
     }
 
 }
@@ -147,7 +147,7 @@ function view() {
     } else if (id.toString().length < 32) {
         alert("请至少选择一条数据")
     } else if (id.toString().length = 32) {
-        window.open('/recruit/manager/recruit/form/view?id=' + id, "查看用户信息", 'height=600, width=800, top=30%,left=30%, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
+        window.open('/recruit/manager/recruit/form/view?id=' + id, "查看招聘信息", 'height=600, width=800, top=30%,left=30%, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
     }
 }
 

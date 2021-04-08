@@ -5,18 +5,19 @@ import com.github.pagehelper.PageInfo;
 import com.littlebuddha.recruit.common.utils.Result;
 import com.littlebuddha.recruit.common.utils.UserUtils;
 import com.littlebuddha.recruit.modules.base.controller.BaseController;
+import com.littlebuddha.recruit.modules.entity.manager.Company;
 import com.littlebuddha.recruit.modules.entity.manager.Recruit;
 import com.littlebuddha.recruit.modules.entity.system.Operator;
+import com.littlebuddha.recruit.modules.service.manager.CompanyService;
 import com.littlebuddha.recruit.modules.service.manager.RecruitService;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.authz.annotation.Logical;
-import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -25,6 +26,9 @@ public class RecruitController extends BaseController {
 
     @Autowired
     private RecruitService recruitService;
+
+    @Autowired
+    private CompanyService companyService;
 
     @ModelAttribute
     public Recruit get(@RequestParam(required = false) String id) {
@@ -75,6 +79,9 @@ public class RecruitController extends BaseController {
      */
     @GetMapping("/form/{mode}")
     public String form(@PathVariable(name = "mode") String mode, Recruit recruit, Model model) {
+        List<Company> allCompanyList = companyService.findAllList(new Company());
+        model.addAttribute("mode", mode);
+        model.addAttribute("allCompanyList", allCompanyList);
         model.addAttribute("recruit", recruit);
         if ("add".equals(mode) || "edit".equals(mode) || "view".equals(mode)) {
             return "modules/manager/recruitForm";

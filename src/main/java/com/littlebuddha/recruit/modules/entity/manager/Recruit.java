@@ -17,8 +17,9 @@ public class Recruit extends DataEntity<Recruit> {
     private String employCount;        //招聘人数
     private Date publicDate;           //发布日期
     private Company company;           //公司
+    private String companyId;          //公司id
     private String companyName;        //公司名称
-    private String address;            //地址
+    private String headquartersAddress;//地址
     private String phone;              //公司联系电话
     private String jobInformation;     //工作信息
 
@@ -78,6 +79,17 @@ public class Recruit extends DataEntity<Recruit> {
         this.company = company;
     }
 
+    public String getCompanyId() {
+        if(company != null && StringUtils.isNotBlank(company.getId())){
+            this.companyId = company.getId();
+        }
+        return companyId;
+    }
+
+    public void setCompanyId(String companyId) {
+        this.companyId = companyId;
+    }
+
     public String getCompanyName() {
         if(company != null && StringUtils.isNotBlank(company.getCompanyName())){
             this.companyName = company.getCompanyName();
@@ -89,15 +101,15 @@ public class Recruit extends DataEntity<Recruit> {
         this.companyName = companyName;
     }
 
-    public String getAddress() {
+    public String getHeadquartersAddress() {
         if(company != null && StringUtils.isNotBlank(company.getHeadquartersAddress())){
-            this.address = company.getHeadquartersAddress();
+            this.headquartersAddress = company.getHeadquartersAddress();
         }
-        return address;
+        return headquartersAddress;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setHeadquartersAddress(String headquartersAddress) {
+        this.headquartersAddress = headquartersAddress;
     }
 
     public String getPhone() {
