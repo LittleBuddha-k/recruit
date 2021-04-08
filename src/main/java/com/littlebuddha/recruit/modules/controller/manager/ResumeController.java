@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import java.util.Map;
 
+/**
+ * 简历控制层
+ */
 @Controller
 @RequestMapping("/manager/resume")
 public class ResumeController extends BaseController {
@@ -37,7 +40,7 @@ public class ResumeController extends BaseController {
     }
 
     /**
-     * 返回用户列表
+     * 返回简历列表
      *
      * @param
      * @param model
@@ -81,8 +84,8 @@ public class ResumeController extends BaseController {
     }
 
     /**
-     * 供用户查看招聘信息的详情页
-     * 只有超级管理员或者用户可以进入此页面
+     * 供简历查看招聘信息的详情页
+     * 只有超级管理员或者简历可以进入此页面
      * @param
      * @param
      * @param model

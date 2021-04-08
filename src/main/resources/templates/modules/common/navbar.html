@@ -33,7 +33,7 @@
                             class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <shiro:hasRole name="user">
-                            <li th:if="${session.currentUser != null}"><a th:href="@{'/manager/resume/detail?operator.id='+${session.get('currentUser').getId()}}">我的简历</a></li>
+                            <li th:if="${session.currentUser != null}"><a th:href="@{/manager/resume/detail}">我的简历</a></li>
                         </shiro:hasRole>
                         <shiro:hasRole name="admin">
                             <li th:if="${session.currentUser != null}"><a href="/recruit/manager/resume/list">简历管理</a></li>

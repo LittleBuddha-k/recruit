@@ -107,7 +107,6 @@ public class RecruitController extends BaseController {
         //投递简历后只需将当前用户的简历传入相应公司的已接受简历数据中
         Operator currentUser = UserUtils.getCurrentUser();
         //获取到的招聘信息---recruit
-
         return null;
     }
 
