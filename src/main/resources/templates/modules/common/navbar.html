@@ -24,19 +24,19 @@
                 <li><a th:href="@{/system/role/list}">角色管理</a></li>
                 <li><a th:href="@{#}">日志管理</a></li>
                 <li><a th:href="@{/manager/recruit/list}">发布招聘</a></li>
-                <li><a th:href="@{#}">招聘通知管理</a></li>
-                <li><a th:href="@{#}">招聘报名</a></li>
+                <shiro:hasRole name="company">
+                    <li><a th:href="@{#}">招聘通知管理</a></li>
+                </shiro:hasRole>
                 <li><a th:href="@{/manager/company/list}">招聘公司管理</a></li>
+                <li><a th:href="@{/manager/resume/list}">简历管理</a></li>
                 <li class="dropdown" th:if="${session.currentUser != null}">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                        aria-expanded="false"><span th:text="${session.currentUser.getUsername()}"></span><span
                             class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <shiro:hasRole name="user">
-                            <li th:if="${session.currentUser != null}"><a th:href="@{/manager/resume/detail}">我的简历</a></li>
-                        </shiro:hasRole>
-                        <shiro:hasRole name="admin">
-                            <li th:if="${session.currentUser != null}"><a href="/recruit/manager/resume/list">简历管理</a></li>
+                            <li th:if="${session.currentUser != null}"><a th:href="@{/manager/resume/detail}">我的简历</a>
+                            </li>
                         </shiro:hasRole>
                         <li th:if="${session.currentUser != null}"><a href="#">个人设置</a></li>
                         <li th:if="${session.currentUser != null}" role="separator" class="divider"></li>
