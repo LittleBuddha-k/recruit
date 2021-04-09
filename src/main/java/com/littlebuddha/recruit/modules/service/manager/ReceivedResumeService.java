@@ -5,14 +5,21 @@ import com.github.pagehelper.PageInfo;
 import com.littlebuddha.recruit.common.utils.DateUtils;
 import com.littlebuddha.recruit.common.utils.UserUtils;
 import com.littlebuddha.recruit.modules.base.service.CrudService;
+import com.littlebuddha.recruit.modules.entity.manager.Company;
 import com.littlebuddha.recruit.modules.entity.manager.ReceivedResume;
+import com.littlebuddha.recruit.modules.entity.manager.Recruit;
 import com.littlebuddha.recruit.modules.entity.manager.Resume;
 import com.littlebuddha.recruit.modules.entity.system.Operator;
+import com.littlebuddha.recruit.modules.mapper.manager.CompanyMapper;
 import com.littlebuddha.recruit.modules.mapper.manager.ReceivedResumeMapper;
+import com.littlebuddha.recruit.modules.mapper.manager.RecruitMapper;
 import com.littlebuddha.recruit.modules.mapper.manager.ResumeMapper;
+import com.littlebuddha.recruit.modules.mapper.system.OperatorMapper;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -24,6 +31,18 @@ public class ReceivedResumeService extends CrudService<ReceivedResume, ReceivedR
 
     @Autowired
     private ResumeMapper resumeMapper;
+
+    @Autowired
+    private OperatorMapper operatorMapper;
+
+    @Autowired
+    private ReceivedResumeMapper receivedResumeMapper;
+
+    @Autowired
+    private CompanyMapper companyMapper;
+
+    @Autowired
+    private RecruitMapper recruitMapper;
 
     @Override
     public int save(ReceivedResume receivedResume) {
@@ -59,7 +78,44 @@ public class ReceivedResumeService extends CrudService<ReceivedResume, ReceivedR
 
     @Override
     public PageInfo<ReceivedResume> findPage(Page<ReceivedResume> page, ReceivedResume receivedResume) {
-        return super.findPage(page, receivedResume);
+        PageInfo<ReceivedResume> receivedResumePageInfo = super.findPage(page, receivedResume);
+        List<ReceivedResume> list = receivedResumePageInfo.getList();
+        List<ReceivedResume> result = new ArrayList<>();
+        for (ReceivedResume resume : list) {
+            if (resume.getOperator() != null){
+                Operator operator = operatorMapper.get(resume.getOperator());
+                if (operator == null){
+                    receivedResumeMapper.deleteByPhysics(resume);
+                }else {
+                    resume.setOperator(operator);
+                }
+            }
+            if (resume.getResume() != null){
+                Resume resume1 = resumeMapper.get(resume.getResume());
+                if (resume1 == null){
+                    receivedResumeMapper.deleteByPhysics(resume);
+                }else {
+                    resume.setResume(resume1);
+                }
+            }
+            if (resume.getCompany() != null){
+                Company company = companyMapper.get(resume.getCompany());
+                if (company == null){
+                    receivedResumeMapper.deleteByPhysics(resume);
+                }else {
+                    resume.setCompany(company);
+                }
+            }
+            if (resume.getRecruit() != null){
+                Recruit recruit = recruitMapper.get(resume.getRecruit());
+                if (recruit == null){
+                    receivedResumeMapper.deleteByPhysics(resume);
+                }else {
+                    resume.setRecruit(recruit);
+                }
+            }
+        }
+        return receivedResumePageInfo;
     }
 
     @Override

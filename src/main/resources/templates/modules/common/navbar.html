@@ -25,7 +25,7 @@
                 <li><a th:href="@{#}">日志管理</a></li>
                 <li><a th:href="@{/manager/recruit/list}">发布招聘</a></li>
                 <shiro:hasRole name="company">
-                    <li><a th:href="@{#}">招聘通知管理</a></li>
+                    <li><a th:href="@{/manager/receivedResume/list}">招聘通知管理</a></li>
                 </shiro:hasRole>
                 <li><a th:href="@{/manager/company/list}">招聘公司管理</a></li>
                 <li><a th:href="@{/manager/resume/list}">简历管理</a></li>

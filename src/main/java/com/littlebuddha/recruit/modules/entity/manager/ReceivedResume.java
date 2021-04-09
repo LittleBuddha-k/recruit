@@ -15,6 +15,9 @@ public class ReceivedResume extends DataEntity<ReceivedResume> {
     private Company company;//给谁--给哪家公司的
     private Recruit recruit;//申请的哪个职位
 
+    public ReceivedResume() {
+    }
+
     public ReceivedResume(Recruit recruit) {
         this.recruit = recruit;
     }
@@ -44,9 +47,9 @@ public class ReceivedResume extends DataEntity<ReceivedResume> {
     }
 
     public Company getCompany() {
-        if(recruit != null && recruit.getCompany() != null ){
+        /*if(recruit != null && recruit.getCompany() != null ){
             company = recruit.getCompany();
-        }
+        }*/
         return company;
     }
 
