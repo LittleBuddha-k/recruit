@@ -2,6 +2,7 @@ package com.littlebuddha.recruit.modules.entity.manager;
 
 import com.littlebuddha.recruit.modules.base.entity.DataEntity;
 import com.littlebuddha.recruit.modules.entity.system.Operator;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * 申请职位信息
@@ -13,6 +14,10 @@ public class ReceivedResume extends DataEntity<ReceivedResume> {
     private String receivedTime;//接收到的时间
     private Company company;//给谁--给哪家公司的
     private Recruit recruit;//申请的哪个职位
+
+    public ReceivedResume(Recruit recruit) {
+        this.recruit = recruit;
+    }
 
     public Operator getOperator() {
         return operator;
@@ -39,6 +44,9 @@ public class ReceivedResume extends DataEntity<ReceivedResume> {
     }
 
     public Company getCompany() {
+        if(recruit != null && recruit.getCompany() != null ){
+            company = recruit.getCompany();
+        }
         return company;
     }
 

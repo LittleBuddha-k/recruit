@@ -22,6 +22,12 @@ public class Resume extends DataEntity<Resume> {
 
     private Operator operator;//用户外键
 
+    public Resume() {
+    }
+
+    public Resume(Operator operator) {
+        this.operator = operator;
+    }
 
     public String getName() {
         return name;

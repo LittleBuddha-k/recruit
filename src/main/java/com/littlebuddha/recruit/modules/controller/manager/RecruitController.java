@@ -39,6 +39,9 @@ public class RecruitController extends BaseController {
     @Autowired
     private ResumeService resumeService;
 
+    @Autowired
+    private ReceivedResumeService receivedResumeService;
+
     @ModelAttribute
     public Recruit get(@RequestParam(required = false) String id) {
         Recruit recruit = null;
@@ -119,22 +122,14 @@ public class RecruitController extends BaseController {
      */
     @ResponseBody
     @PostMapping("/applyRecruit")
-    public Result applyRecruit(Operator operator,Recruit recruit){
-        //1.投递简历后只需将当前用户的简历传入相应公司的已接受简历数据中
-        Operator currentUser = UserUtils.getCurrentUser();
-        //2.简历
-        Resume resumeByCurrentOperator = resumeService.getResumeByCurrentOperator(new Resume(),currentUser);
-        //3.在什么时候
-        String receivedTime = DateUtils.getFullDate(new Date());
-        //4.投递给了谁
-        //5.再睡哪里投递的是什么职位
-        //获取到的招聘信息---recruit
-        ReceivedResume receivedResume = new ReceivedResume();
-        receivedResume.setOperator(currentUser);
-        receivedResume.setResume(resumeByCurrentOperator);
-        receivedResume.setReceivedTime(receivedTime);
-        receivedResume.setRecruit(recruit);
-        return new Result("200","投递简历成功");
+    public Result applyRecruit(Recruit recruit){
+        ReceivedResume receivedResume = new ReceivedResume(recruit);
+        int save = receivedResumeService.save(receivedResume);
+        if (save > 0){
+            return new Result("200","投递简历成功");
+        }else {
+            return new Result("310","投递简历失败");
+        }
     }
 
     /**
