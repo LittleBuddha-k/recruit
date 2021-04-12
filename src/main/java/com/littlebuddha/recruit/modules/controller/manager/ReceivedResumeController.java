@@ -84,7 +84,8 @@ public class ReceivedResumeController extends BaseController {
      */
     @GetMapping("/form/{mode}")
     public String form(@PathVariable(name = "mode") String mode, ReceivedResume receivedResume, Model model) {
-        model.addAttribute("receivedResume", receivedResume);
+        ReceivedResume entity = receivedResumeService.get(receivedResume);
+        model.addAttribute("receivedResume", entity);
         if ("add".equals(mode) || "edit".equals(mode) || "view".equals(mode)) {
             return "modules/manager/receivedResumeForm";
         }

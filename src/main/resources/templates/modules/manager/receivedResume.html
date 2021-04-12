@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <meta charset="UTF-8">
-    <title>公司信息管理</title>
+    <title>已收到简历管理</title>
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
     <link rel="stylesheet" href="/recruit/bootstrap/css/bootstrap.min.css">
     <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
@@ -76,11 +76,6 @@
         </form>
         <!--左上角工具栏-->
         <div id="toolbar">
-            <shiro:hasRole name="admin">
-                <button id="edit" class="btn btn-success" onclick="edit()">
-                    <i class="glyphicon glyphicon-edit"></i> 标记已读
-                </button>
-            </shiro:hasRole>
             <shiro:hasRole name="admin">
                 <button id="view" class="btn btn-default" onclick="view()">
                     <i class="fa fa-search-plus"></i> 查看

@@ -15,6 +15,8 @@ public class ReceivedResume extends DataEntity<ReceivedResume> {
     private Company company;//给谁--给哪家公司的
     private Recruit recruit;//申请的哪个职位
 
+    private String status="待读";//消息传递状态
+
     public ReceivedResume() {
     }
 
@@ -63,5 +65,13 @@ public class ReceivedResume extends DataEntity<ReceivedResume> {
 
     public void setRecruit(Recruit recruit) {
         this.recruit = recruit;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

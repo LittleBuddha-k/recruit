@@ -68,12 +68,19 @@ public class ReceivedResumeService extends CrudService<ReceivedResume, ReceivedR
 
     @Override
     public ReceivedResume get(ReceivedResume receivedResume) {
-        return super.get(receivedResume);
+        ReceivedResume entity = super.get(receivedResume);
+        attributeAssignment(entity);
+        System.out.println(entity);
+        return entity;
     }
 
     @Override
     public List<ReceivedResume> findList(ReceivedResume receivedResume) {
-        return super.findList(receivedResume);
+        List<ReceivedResume> list = super.findList(receivedResume);
+        for (ReceivedResume resume : list) {
+            attributeAssignment(resume);
+        }
+        return list;
     }
 
     @Override
@@ -82,40 +89,44 @@ public class ReceivedResumeService extends CrudService<ReceivedResume, ReceivedR
         List<ReceivedResume> list = receivedResumePageInfo.getList();
         List<ReceivedResume> result = new ArrayList<>();
         for (ReceivedResume resume : list) {
-            if (resume.getOperator() != null){
-                Operator operator = operatorMapper.get(resume.getOperator());
-                if (operator == null){
-                    receivedResumeMapper.deleteByPhysics(resume);
-                }else {
-                    resume.setOperator(operator);
-                }
-            }
-            if (resume.getResume() != null){
-                Resume resume1 = resumeMapper.get(resume.getResume());
-                if (resume1 == null){
-                    receivedResumeMapper.deleteByPhysics(resume);
-                }else {
-                    resume.setResume(resume1);
-                }
-            }
-            if (resume.getCompany() != null){
-                Company company = companyMapper.get(resume.getCompany());
-                if (company == null){
-                    receivedResumeMapper.deleteByPhysics(resume);
-                }else {
-                    resume.setCompany(company);
-                }
-            }
-            if (resume.getRecruit() != null){
-                Recruit recruit = recruitMapper.get(resume.getRecruit());
-                if (recruit == null){
-                    receivedResumeMapper.deleteByPhysics(resume);
-                }else {
-                    resume.setRecruit(recruit);
-                }
-            }
+            attributeAssignment(resume);
         }
         return receivedResumePageInfo;
+    }
+
+    private void attributeAssignment(ReceivedResume resume) {
+        if (resume.getOperator() != null){
+            Operator operator = operatorMapper.get(resume.getOperator());
+            if (operator == null){
+                receivedResumeMapper.deleteByPhysics(resume);
+            }else {
+                resume.setOperator(operator);
+            }
+        }
+        if (resume.getResume() != null){
+            Resume resume1 = resumeMapper.get(resume.getResume());
+            if (resume1 == null){
+                receivedResumeMapper.deleteByPhysics(resume);
+            }else {
+                resume.setResume(resume1);
+            }
+        }
+        if (resume.getCompany() != null){
+            Company company = companyMapper.get(resume.getCompany());
+            if (company == null){
+                receivedResumeMapper.deleteByPhysics(resume);
+            }else {
+                resume.setCompany(company);
+            }
+        }
+        if (resume.getRecruit() != null){
+            Recruit recruit = recruitMapper.get(resume.getRecruit());
+            if (recruit == null){
+                receivedResumeMapper.deleteByPhysics(resume);
+            }else {
+                resume.setRecruit(recruit);
+            }
+        }
     }
 
     @Override

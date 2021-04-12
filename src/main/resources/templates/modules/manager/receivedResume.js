@@ -9,7 +9,7 @@ $(document).ready(function () {
         oButtonInit.Init();
 
         //3.在表格右上角工具按钮处加入自定义按钮
-        let html = $("#toolButton").html();
+        var html = $("#toolButton").html();
         $(".columns.columns-right.btn-group.pull-right").append(html);
     });
 
@@ -74,11 +74,17 @@ $(document).ready(function () {
                         title: '应聘公司',
                         sortable: "true",
                         sortName: "company"
+                    }, {
+                        field: 'status',
+                        title: '状态',
+                        sortable: "true",
+                        sortName: "status"
                     },{
                         field: '',
                         title: '操作',
+                        align: 'center',
                         formatter: function (value, row, index) {
-                            return '<button class="btn btn-primary btn-sm" onclick="delivery(\'' + row.id + '\')"> 查看用户信息 </button> <button class="btn btn-primary btn-sm" onclick="detail(\'' + row.id + '\')"> 邀请面试 </button>';
+                            return '<button class="btn btn-primary btn-sm" onclick="operatorInfo(\'' + row.id + '\')"> 查看用户信息 </button> <button class="btn btn-primary btn-sm" onclick="interview(\'' + row.id + '\')"> 邀请面试 </button> <button class="btn btn-primary btn-sm" onclick="sign(\'' + row.id + '\')"> 标记 </button>';
                         }
                     }
                 ]
@@ -127,34 +133,34 @@ function refresh() {
 }
 
 function add() {
-    window.open('/recruit/manager/receivedResume/form/add', "新建招聘公司信息", 'height=600, width=800, top=30%,left=30%, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
+    window.open('/recruit/manager/receivedResume/form/add', "新建申请信息", 'height=600, width=800, top=30%,left=30%, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
 }
 
 function edit() {
-    let id = getIdSelections();
+    var id = getIdSelections();
     if (id.toString().length > 32) {
         alert("只能选择一条数据")
     } else if (id.toString().length < 32) {
         alert("请至少选择一条数据")
     } else if (id.toString().length = 32) {
-        window.open('/recruit/manager/receivedResume/form/edit?id=' + id, "编辑招聘公司信息", 'height=600, width=800, top=30%,left=30%, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
+        window.open('/recruit/manager/receivedResume/form/edit?id=' + id, "编辑申请信息", 'height=600, width=800, top=30%,left=30%, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
     }
 
 }
 
 function view() {
-    let id = getIdSelections();
+    var id = getIdSelections();
     if (id.toString().length > 32) {
         alert("只能选择一条数据")
     } else if (id.toString().length < 32) {
         alert("请至少选择一条数据")
     } else if (id.toString().length = 32) {
-        window.open('/recruit/manager/receivedResume/form/view?id=' + id, "查看招聘公司信息", 'height=600, width=800, top=30%,left=30%, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
+        window.open('/recruit/manager/receivedResume/form/view?id=' + id, "查看申请信息", 'height=600, width=800, top=30%,left=30%, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
     }
 }
 
 function del() {
-    let ids = getIdSelections();
+    var ids = getIdSelections();
     if (ids == null || ids == '') {
         alert("请至少选择一条数据")
     } else {
@@ -177,7 +183,7 @@ function del() {
 
 function showSearchButton() {
     //$("#operatorSearchForm").attr();---也可以给标签设置属性值
-    let attr = $("#receivedResumeSearchForm").data("collapse");
+    var attr = $("#receivedResumeSearchForm").data("collapse");
     if(attr){
         //1.搜索表里有指定的属性值，此时搜索表为展开状态
         //2.判断属性值有否,需要移除data属性值，并移除”in“类
@@ -191,10 +197,14 @@ function showSearchButton() {
     }
 }
 
-function delivery() {
-    alert("投递简历")
+function operatorInfo(id) {
+   rc.open("/recruit/system/operator/form/view?id="+id,"用户信息")
 }
 
-function detail() {
-    alert("查看招聘详情")
+function interview(id) {
+    rc.open("")
+}
+
+function sign(id) {
+    alert("行数据id"+id)
 }
