@@ -16,6 +16,7 @@
     <div class="row col-xs-12 col-sm-12	col-md-12 col-lg-12" style="margin-top: 30%">
         <form class="form-horizontal" col-xs-12 col-sm-12 col-md-12 col-lg-12 id="receivedResumeForm">
             <input type="hidden" name="id" th:value="${receivedResume.getId()}">
+            <input type="hidden" name="status" th:value="${receivedResume.getStatus()}">
             <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
                 <label for="operator" class="col-sm-4 control-label">应聘人</label>
                 <div class="col-sm-8">
