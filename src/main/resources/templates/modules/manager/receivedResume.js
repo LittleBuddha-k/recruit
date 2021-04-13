@@ -79,12 +79,18 @@ $(document).ready(function () {
                         title: '状态',
                         sortable: "true",
                         sortName: "status"
-                    },{
+                    }, {
                         field: '',
                         title: '操作',
                         align: 'center',
                         formatter: function (value, row, index) {
-                            return '<button class="btn btn-primary btn-sm" onclick="operatorInfo(\'' + row.operator.id + '\')"> 查看用户信息 </button> <button class="btn btn-primary btn-sm" onclick="interview(\'' + row.id + '\')"> 邀请面试 </button> <button class="btn btn-primary btn-sm" onclick="sign(\'' + row.id + '\')"> 标记 </button>';
+                            if ("待读" == row.status) {
+                                return '<button class="btn btn-primary btn-sm" onclick="javascript:operatorInfo(\'' + row.id + ',' + row.operator.id + '\')"> 查看用户 </button> ' +
+                                    '<button class="btn btn-primary btn-sm" onclick="javascript:interview(\'' + row.id + '\')"> 邀请面试 </button> ';
+                            } else if ("待面试" == row.status) {
+                                return '<button class="btn btn-primary btn-sm" onclick="javascript:operatorInfo(\'' + row.id + ',' + row.operator.id + '\')"> 查看用户 </button> ' +
+                                    '<button class="btn btn-primary btn-sm" onclick="javascript:offer(\'' + row.id + '\')"> 发送offer </button>';
+                            }
                         }
                     }
                 ]
@@ -184,28 +190,32 @@ function del() {
 function showSearchButton() {
     //$("#operatorSearchForm").attr();---也可以给标签设置属性值
     var attr = $("#receivedResumeSearchForm").data("collapse");
-    if(attr){
+    if (attr) {
         //1.搜索表里有指定的属性值，此时搜索表为展开状态
         //2.判断属性值有否,需要移除data属性值，并移除”in“类
         $("#receivedResumeSearchForm").removeData("collapse");
         $("#receivedResumeSearchForm").removeClass("in");
-    }else {
+    } else {
         //1.搜索表里没有指定的属性值，此时搜索表为隐藏状态
         //2.需要修改属性值，并且添加打开类”in“
-        $("#receivedResumeSearchForm").data("collapse","in");
+        $("#receivedResumeSearchForm").data("collapse", "in");
         $("#receivedResumeSearchForm").addClass("in");
     }
 }
 
-function operatorInfo(operatorId) {
-   rc.open("/recruit/system/operator/form/view?id="+operatorId,"用户信息")
+function operatorInfo(data) {
+    let id = data.split(",")[0];
+    //获取到id属性，修改对应的状态列
+    let operatorId = id = data.split(",")[1];
+    rc.open("/recruit/system/operator/form/view?id=" + operatorId, "用户信息")
 }
 
 function interview(id) {
     //需要对投递人发出面试邀请
-    rc.post();
+    rc.post("/recruit/manager/receivedResume/status/邀请面试", {"id": id, "status": "待面试"});
 }
 
-function sign(id) {
-    alert("行数据id"+id)
+function offer(id) {
+    //需要面试通过的发出offer
+    rc.post("/recruit/manager/receivedResume/status/发送offer", {"id": id, "status": "待入职"});
 }

@@ -112,6 +112,12 @@
         WHERE id=#{id}
     </update>
 
+    <update id="modifyStatus">
+        UPDATE recruit_manager_received_resume SET
+            status = #{status}
+        WHERE id=#{id}
+    </update>
+
     <update id="deleteByLogic">
         UPDATE recruit_manager_received_resume SET del_flag = 1
         WHERE id=#{id}

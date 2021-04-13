@@ -12,4 +12,5 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface ReceivedResumeMapper extends BaseMapper<ReceivedResume> {
 
+    int modifyStatus(ReceivedResume receivedResume);
 }

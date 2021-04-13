@@ -82,6 +82,11 @@
                 </button>
             </shiro:hasRole>
             <shiro:hasRole name="admin">
+                <button id="edit" class="btn btn-default" onclick="edit()">
+                    <i class="fa fa-search-plus"></i> 编辑
+                </button>
+            </shiro:hasRole>
+            <shiro:hasRole name="admin">
                 <button id="remove" class="btn btn-danger" onclick="del()">
                     <i class="glyphicon glyphicon-remove"></i> 删除
                 </button>

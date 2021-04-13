@@ -109,6 +109,22 @@ public class ReceivedResumeController extends BaseController {
         }
     }
 
+    /**
+     * 修改投递----状态
+     * @param receivedResume
+     * @return
+     */
+    @ResponseBody
+    @PostMapping("/status/{action}")
+    public Result status(@PathVariable(name = "action")String action, ReceivedResume receivedResume){
+        int row = receivedResumeService.modifyStatus(receivedResume);
+        if (row > 0){
+            return new Result("200",action + "成功");
+        }else {
+            return new Result("321","未知错误");
+        }
+    }
+
     @ResponseBody
     @PostMapping("/delete")
     public Result delete(String ids) {

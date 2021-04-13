@@ -133,4 +133,9 @@ public class ReceivedResumeService extends CrudService<ReceivedResume, ReceivedR
     public int deleteByPhysics(ReceivedResume receivedResume) {
         return super.deleteByPhysics(receivedResume);
     }
+
+    public int modifyStatus(ReceivedResume receivedResume) {
+        int row = receivedResumeMapper.modifyStatus(receivedResume);
+        return row;
+    }
 }

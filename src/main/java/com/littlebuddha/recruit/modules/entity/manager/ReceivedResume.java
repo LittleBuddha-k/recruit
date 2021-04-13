@@ -15,7 +15,7 @@ public class ReceivedResume extends DataEntity<ReceivedResume> {
     private Company company;//给谁--给哪家公司的
     private Recruit recruit;//申请的哪个职位
 
-    private String status="待读";//消息传递状态
+    private String status="待读";//消息传递状态   待读-待面试-待offer-待入职
 
     public ReceivedResume() {
     }
