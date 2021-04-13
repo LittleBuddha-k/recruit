@@ -51,14 +51,16 @@
                            th:value="${operator.getAddress()}" placeholder="地址">
                 </div>
             </div>
-            <div class="form-group col-xs-12 col-sm-12	col-md-12 col-lg-12" id="roleSelections">
-                <label class="checkbox-inline">
-                    <div class="col-sm-12">
-                        <input type="checkbox" value="option1">超级管理员
-                    </div>
-                </label>
-            </div>
-            <div class="form-group"  th:if="${'add' == mode || 'edit' == mode}">
+            <shiro:hasRole name="admin">
+                <div class="form-group col-xs-12 col-sm-12	col-md-12 col-lg-12" id="roleSelections">
+                    <label class="checkbox-inline">
+                        <div class="col-sm-12">
+                            <input type="checkbox" value="option1">超级管理员
+                        </div>
+                    </label>
+                </div>
+            </shiro:hasRole>
+            <div class="form-group" th:if="${'add' == mode || 'edit' == mode}">
                 <div class="col-sm-3">
                     <button type="button" class="btn btn-default" id="submitButton">提交</button>
                     <button type="button" class="btn btn-default" id="cancelButton">取消</button>
@@ -112,10 +114,10 @@
                 for (let i = 0; i < length; i++) {
                     data[i] = result[i];
                     html = html + "<label class='checkbox-inline'>" +
-                                  "<div class='col-sm-12'>" +
-                                  "<input type='checkbox' id='"+result[i].id+"' value='"+result[i].id+"' name='roles["+i+"].id'> "+result[i].name +
-                                  "</div>" +
-                                  "</label>"
+                        "<div class='col-sm-12'>" +
+                        "<input type='checkbox' id='" + result[i].id + "' value='" + result[i].id + "' name='roles[" + i + "].id'> " + result[i].name +
+                        "</div>" +
+                        "</label>"
                 }
                 $("#roleSelections").html(html)
             }

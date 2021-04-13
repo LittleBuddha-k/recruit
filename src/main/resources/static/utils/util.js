@@ -37,7 +37,7 @@
 
             return times
         },
-        post:function post(url,data) {
+        post: function post(url, data) {
             $.ajax({
                 url: url,    //请求的url地址
                 dataType: "json",   //返回格式为json
@@ -53,7 +53,7 @@
                 }
             });
         },
-        get:function get(url,data) {
+        get: function get(url, data) {
             $.ajax({
                 url: url,    //请求的url地址
                 dataType: "json",   //返回格式为json
@@ -69,15 +69,8 @@
                 }
             });
         },
-        open:function open(url,title) {
-            let id = getIdSelections();
-            if (id.toString().length > 32) {
-                alert("只能选择一条数据")
-            } else if (id.toString().length < 32) {
-                alert("请至少选择一条数据")
-            } else if (id.toString().length = 32) {
-                window.open(url, title, 'height=600, width=800, top=30%,left=30%, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
-            }
+        open: function open(url, title) {
+            window.open(url, title, 'height=600, width=800, top=30%,left=30%, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
         }
     }
 })(jQuery);

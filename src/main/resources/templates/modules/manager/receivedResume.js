@@ -84,7 +84,7 @@ $(document).ready(function () {
                         title: '操作',
                         align: 'center',
                         formatter: function (value, row, index) {
-                            return '<button class="btn btn-primary btn-sm" onclick="operatorInfo(\'' + row.id + '\')"> 查看用户信息 </button> <button class="btn btn-primary btn-sm" onclick="interview(\'' + row.id + '\')"> 邀请面试 </button> <button class="btn btn-primary btn-sm" onclick="sign(\'' + row.id + '\')"> 标记 </button>';
+                            return '<button class="btn btn-primary btn-sm" onclick="operatorInfo(\'' + row.operator.id + '\')"> 查看用户信息 </button> <button class="btn btn-primary btn-sm" onclick="interview(\'' + row.id + '\')"> 邀请面试 </button> <button class="btn btn-primary btn-sm" onclick="sign(\'' + row.id + '\')"> 标记 </button>';
                         }
                     }
                 ]
@@ -197,12 +197,13 @@ function showSearchButton() {
     }
 }
 
-function operatorInfo(id) {
-   rc.open("/recruit/system/operator/form/view?id="+id,"用户信息")
+function operatorInfo(operatorId) {
+   rc.open("/recruit/system/operator/form/view?id="+operatorId,"用户信息")
 }
 
 function interview(id) {
-    rc.open("")
+    //需要对投递人发出面试邀请
+    rc.post();
 }
 
 function sign(id) {
