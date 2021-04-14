@@ -123,6 +123,20 @@ public class RoleController extends BaseController {
         return new Result("200", "数据清除成功");
     }
 
+    @GetMapping("/recoveryList")
+    public String recoveryList(Role role,Model model){
+        model.addAttribute("role",role);
+        return "modules/system/roleRecovery";
+    }
+
+    @ResponseBody
+    @PostMapping("/recoveryData")
+    public Map recoveryData(Role role,Model model){
+        model.addAttribute("role",role);
+        PageInfo<Role> page = roleService.findRecoveryPage(new Page<Role>(), role);
+        return getBootstrapData(page);
+    }
+
     @ResponseBody
     @PostMapping("/recovery")
     public Result recovery(Role role){

@@ -18,7 +18,7 @@ $(document).ready(function () {
         //初始化Table
         oTableInit.Init = function () {
             $('#roleTable').bootstrapTable({
-                url: '/recruit/system/role/data',         //请求后台的URL（*）
+                url: '/recruit/system/role/recoveryData',         //请求后台的URL（*）
                 method: 'post',                      //请求方式（*）
                 //类型json
                 dataType: "json",
@@ -66,7 +66,7 @@ $(document).ready(function () {
                         title: '操作',
                         align: 'center',
                         formatter: function (value, row, index) {
-                            return '<button class="btn btn-primary btn-sm" onclick="edit(\'' + row.id + '\')">其他功能</button>';
+                            return '<button class="btn btn-primary btn-sm" onclick="recoveryData(\'' + row.id + '\')">恢复</button>';
                         }
                     }
                 ]
@@ -184,4 +184,8 @@ function importFile() {
 
 function exportFile() {
     alert("导出")
+}
+
+function recoveryData(id) {
+    rc.post("/recruit/system/role/recovery",{"id":id})
 }

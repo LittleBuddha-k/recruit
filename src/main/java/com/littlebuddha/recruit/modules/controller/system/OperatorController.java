@@ -110,6 +110,20 @@ public class OperatorController extends BaseController {
         return new Result("200", "数据清除成功");
     }
 
+    @GetMapping("/recoveryList")
+    public String recoveryList(Operator operator,Model model){
+        model.addAttribute("operator",operator);
+        return "modules/system/operatorRecovery";
+    }
+
+    @ResponseBody
+    @PostMapping("/recoveryData")
+    public Map recoveryData(Operator operator,Model model){
+        model.addAttribute("operator",operator);
+        PageInfo<Operator> page = operatorService.findRecoveryPage(new Page<Operator>(), operator);
+        return getBootstrapData(page);
+    }
+
     @ResponseBody
     @PostMapping("/recovery")
     public Result recovery(Operator operator){

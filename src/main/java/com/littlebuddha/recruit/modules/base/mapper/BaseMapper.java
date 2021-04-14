@@ -61,6 +61,13 @@ public interface BaseMapper<E> {
     List<E> findList(E entity);
 
     /**
+     * 有条件的查询数据列表
+     * @param entity
+     * @return
+     */
+    List<E> findRecoveryList(E entity);
+
+    /**
      * 查询所有数据
      * @return
      */

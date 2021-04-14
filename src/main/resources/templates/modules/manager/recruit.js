@@ -81,6 +81,7 @@ $(document).ready(function () {
                     },{
                         field: 'phone',
                         title: '操作',
+                        align: 'center',
                         formatter: function (value, row, index) {
                             return '<button class="btn btn-primary btn-sm" onclick="delivery(\'' + row.id + '\')"> 投递简历 </button> <button class="btn btn-primary btn-sm" onclick="detail(\'' + row.id + '\')"> 查看招聘详情 </button>';
                         }

@@ -117,6 +117,7 @@ $(document).ready(function () {
                     },{
                         field: 'phone',
                         title: '操作',
+                        align: 'center',
                         formatter: function (value, row, index) {
                             return '<button class="btn btn-primary btn-sm" onclick="delivery(\'' + row.id + '\')"> 权限设置 </button> <button class="btn btn-primary btn-sm" onclick="detail(\'' + row.id + '\')"> 查看 </button>';
                         }

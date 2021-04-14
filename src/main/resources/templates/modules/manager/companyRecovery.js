@@ -17,8 +17,8 @@ $(document).ready(function () {
         var oTableInit = new Object();
         //初始化Table
         oTableInit.Init = function () {
-            $('#roleTable').bootstrapTable({
-                url: '/recruit/system/role/data',         //请求后台的URL（*）
+            $('#companyTable').bootstrapTable({
+                url: '/recruit/manager/company/recoveryData',         //请求后台的URL（*）
                 method: 'post',                      //请求方式（*）
                 //类型json
                 dataType: "json",
@@ -27,10 +27,10 @@ $(document).ready(function () {
                 striped: true,                      //是否显示行间隔色
                 cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
                 pagination: true,                   //是否显示分页（*）
-                sortable: false,                     //是否启用排序
+                sortable: true,                     //是否启用排序
                 sortOrder: "asc",                   //排序方式
                 queryParams: function (params) {
-                    var searchParam = $("#roleSearchForm").serializeJson();
+                    var searchParam = $("#companySearchForm").serializeJson();
                     searchParam.pageNo = params.limit === undefined ? "1" : params.offset / params.limit + 1;
                     searchParam.pageSize = params.limit === undefined ? -1 : params.limit;
                     searchParam.orderBy = params.sort === undefined ? "" : params.sort + " " + params.order;
@@ -55,18 +55,71 @@ $(document).ready(function () {
                     {
                         checkbox: true
                     }, {
-                        field: 'name',
-                        title: '角色名称'
+                        field: 'legalPerson',
+                        title: '法人代表',
+                        sortable: "true",
+                        sortName: "a.legal_person"
+                    }, {
+                        field: 'chineseName',
+                        sortable: "true",
+                        title: '中文名称'
                     }, {
                         field: 'englishName',
+                        sortable: "true",
                         title: '英文名称'
-                    },
-                    {
+                    }, {
+                        field: 'companyName',
+                        sortable: "true",
+                        title: '公司名称'
+                    }, {
+                        field: 'headquartersAddress',
+                        sortable: "true",
+                        title: '总部地址'
+                    },{
+                        field: 'establishDate',
+                        sortable: "true",
+                        title: '成立日期',
+                        formatter: function(value,row,index){
+                            return rc.dateFormat(value);
+                        }
+                    },{
+                        field: 'phone',
+                        sortable: "true",
+                        title: '联系电话'
+                    },{
+                        field: 'introduction',
+                        sortable: "true",
+                        title: '介绍'
+                    },{
+                        field: 'ranging',
+                        sortable: "true",
+                        title: '经营范围'
+                    },{
+                        field: 'nature',
+                        sortable: "true",
+                        title: '公司性质'
+                    },{
+                        field: 'registeredCapital',
+                        sortable: "true",
+                        title: '注册资本'
+                    },{
+                        field: 'scale',
+                        sortable: "true",
+                        title: '规模'
+                    },{
+                        field: 'pictures',
+                        sortable: "true",
+                        title: '公司图片宣传'
+                    },{
+                        field: 'video',
+                        sortable: "true",
+                        title: '公司视频宣传'
+                    },{
                         field: 'phone',
                         title: '操作',
                         align: 'center',
                         formatter: function (value, row, index) {
-                            return '<button class="btn btn-primary btn-sm" onclick="edit(\'' + row.id + '\')">其他功能</button>';
+                            return '<button class="btn btn-primary btn-sm" onclick="recoveryData(\'' + row.id + '\')">恢复</button>';
                         }
                     }
                 ]
@@ -90,32 +143,32 @@ $(document).ready(function () {
     //查询按钮
     $("#search").click(function () {
         //只需刷新bootstraptable，bootstraptable就会去/data接口下带着form参数请求数据
-        $('#roleTable').bootstrapTable('refresh');
+        $('#companyTable').bootstrapTable('refresh');
     })
 
     //重置按钮
     $("#reset").click(function () {
         //先将查询form的值全部置空
-        $("#roleSearchForm  input").val("");
+        $("#companySearchForm  input").val("");
         //只需刷新bootstraptable，bootstraptable就会去/data接口下带着form参数请求数据
-        $('#roleTable').bootstrapTable('refresh');
+        $('#companyTable').bootstrapTable('refresh');
     })
 })
 
 //获取点击的行的数据id
 function getIdSelections() {
-    return $.map($("#roleTable").bootstrapTable('getSelections'), function (row) {
+    return $.map($("#companyTable").bootstrapTable('getSelections'), function (row) {
         return row.id
     });
 }
 
 //刷新列表
 function refresh() {
-    $('#roleTable').bootstrapTable('refresh');
+    $('#companyTable').bootstrapTable('refresh');
 }
 
 function add() {
-    window.open('/recruit/system/role/form/add', "新建用户信息", 'height=600, width=800, top=30%,left=30%, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
+    window.open('/recruit/manager/company/form/add', "新建招聘公司信息", 'height=600, width=800, top=30%,left=30%, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
 }
 
 function edit() {
@@ -125,7 +178,7 @@ function edit() {
     } else if (id.toString().length < 32) {
         alert("请至少选择一条数据")
     } else if (id.toString().length = 32) {
-        window.open('/recruit/system/role/form/edit?id=' + id, "编辑用户信息", 'height=600, width=800, top=30%,left=30%, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
+        window.open('/recruit/manager/company/form/edit?id=' + id, "编辑招聘公司信息", 'height=600, width=800, top=30%,left=30%, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
     }
 
 }
@@ -137,7 +190,7 @@ function view() {
     } else if (id.toString().length < 32) {
         alert("请至少选择一条数据")
     } else if (id.toString().length = 32) {
-        window.open('/recruit/system/role/form/view?id=' + id, "查看用户信息", 'height=600, width=800, top=30%,left=30%, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
+        window.open('/recruit/manager/company/form/view?id=' + id, "查看招聘公司信息", 'height=600, width=800, top=30%,left=30%, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
     }
 }
 
@@ -147,7 +200,7 @@ function del() {
         alert("请至少选择一条数据")
     } else {
         $.ajax({
-            url: "/recruit/system/role/delete?ids=" + ids,    //请求的url地址
+            url: "/recruit/manager/company/delete?ids=" + ids,    //请求的url地址
             dataType: "json",   //返回格式为json
             async: true,//请求是否异步，默认为异步，这也是ajax重要特性
             data: "",    //参数值
@@ -156,7 +209,8 @@ function del() {
                 //请求成功时处理
                 alert(result.msg);
                 //重新刷新页面
-                window.location.reload();
+                //window.location.reload();
+                refresh();
             }
         });
     }
@@ -164,24 +218,28 @@ function del() {
 
 function showSearchButton() {
     //$("#operatorSearchForm").attr();---也可以给标签设置属性值
-    let attr = $("#roleSearchForm").data("collapse");
+    let attr = $("#companySearchForm").data("collapse");
     if(attr){
         //1.搜索表里有指定的属性值，此时搜索表为展开状态
         //2.判断属性值有否,需要移除data属性值，并移除”in“类
-        $("#roleSearchForm").removeData("collapse");
-        $("#roleSearchForm").removeClass("in");
+        $("#companySearchForm").removeData("collapse");
+        $("#companySearchForm").removeClass("in");
     }else {
         //1.搜索表里没有指定的属性值，此时搜索表为隐藏状态
         //2.需要修改属性值，并且添加打开类”in“
-        $("#roleSearchForm").data("collapse","in");
-        $("#roleSearchForm").addClass("in");
+        $("#companySearchForm").data("collapse","in");
+        $("#companySearchForm").addClass("in");
     }
 }
 
-function importFile() {
-    alert("导入")
+function delivery() {
+    alert("投递简历")
 }
 
-function exportFile() {
-    alert("导出")
+function detail() {
+    alert("查看招聘详情")
+}
+
+function recoveryData(id) {
+    rc.post("/recruit/manager/company/recovery",{"id":id})
 }

@@ -163,6 +163,20 @@ public class RecruitController extends BaseController {
         return new Result("200", "数据清除成功");
     }
 
+    @GetMapping("/recoveryList")
+    public String recoveryList(Recruit recruit,Model model){
+        model.addAttribute("recruit",recruit);
+        return "modules/manager/recruitRecovery";
+    }
+
+    @ResponseBody
+    @PostMapping("/recoveryData")
+    public Map recoveryData(Recruit recruit,Model model){
+        model.addAttribute("recruit",recruit);
+        PageInfo<Recruit> page = recruitService.findRecoveryPage(new Page<Recruit>(), recruit);
+        return getBootstrapData(page);
+    }
+
     @ResponseBody
     @PostMapping("/recovery")
     public Result recovery(Recruit recruit){

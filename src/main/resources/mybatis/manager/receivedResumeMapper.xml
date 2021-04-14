@@ -45,6 +45,27 @@
         </choose>
     </select>
 
+    <select id="findRecoveryList" resultType="com.littlebuddha.recruit.modules.entity.manager.ReceivedResume">
+        SELECT
+        <include refid="receivedResumeColumns"/>
+        FROM recruit_manager_received_resume a
+        <where>
+            a.del_flag = #{DEL_FLAG_DELETE}
+            <!-- 判断条件参数是否为空 -->
+            <if test="operator != null and operator.id !=null and operator.id != ''">
+                and a.operator_id=#{operator.id}
+            </if>
+        </where>
+        <choose>
+            <when test="orderBy !=null and orderBy != ''">
+                ORDER BY ${orderBy}
+            </when>
+            <otherwise>
+                ORDER BY a.create_date DESC
+            </otherwise>
+        </choose>
+    </select>
+
     <select id="findAllList" resultType="com.littlebuddha.recruit.modules.entity.manager.ReceivedResume">
         SELECT
         <include refid="receivedResumeColumns"/>
@@ -123,7 +144,7 @@
         WHERE id=#{id}
     </update>
 
-    <update id="recover">
+    <update id="recovery">
         UPDATE recruit_manager_received_resume SET del_flag = 0
         WHERE id=#{id}
     </update>

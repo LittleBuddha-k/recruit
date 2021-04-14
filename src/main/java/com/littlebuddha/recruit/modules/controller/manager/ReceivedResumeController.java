@@ -139,6 +139,20 @@ public class ReceivedResumeController extends BaseController {
         return new Result("200", "数据清除成功");
     }
 
+    @GetMapping("/recoveryList")
+    public String recoveryList(ReceivedResume receivedResume,Model model){
+        model.addAttribute("receivedResume",receivedResume);
+        return "modules/manager/receivedResumeRecovery";
+    }
+
+    @ResponseBody
+    @PostMapping("/recoveryData")
+    public Map recoveryData(ReceivedResume receivedResume,Model model){
+        model.addAttribute("receivedResume",receivedResume);
+        PageInfo<ReceivedResume> page = receivedResumeService.findRecoveryPage(new Page<ReceivedResume>(), receivedResume);
+        return getBootstrapData(page);
+    }
+
     @ResponseBody
     @PostMapping("/recovery")
     public Result recovery(ReceivedResume receivedResume){

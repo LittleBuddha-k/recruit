@@ -70,6 +70,48 @@
         </choose>
     </select>
 
+    <select id="findRecoveryList" resultType="com.littlebuddha.recruit.modules.entity.manager.Recruit">
+        SELECT
+        <include refid="recruitColumns"/>
+        FROM recruit_manager_recruit a
+        <where>
+            a.del_flag = #{DEL_FLAG_DELETE}
+            <!-- 判断条件参数是否为空 -->
+            <if test="position != null and position != ''">
+                and a.position LIKE  CONCAT(CONCAT("%",#{position}),"%")
+            </if>
+            <if test="salary != null and salary != ''">
+                and a.salary LIKE CONCAT(CONCAT("%",#{salary}),"%")
+            </if>
+            <if test="workingYears != null and workingYears != ''">
+                and a.working_years LIKE CONCAT(CONCAT("%",#{workingYears}),"%")
+            </if>
+            <if test="qualifications != null and qualifications != ''">
+                and a.qualifications LIKE CONCAT(CONCAT("%",#{qualifications}),"%")
+            </if>
+            <if test="employCount != null and employCount != ''">
+                and a.employ_count LIKE CONCAT(CONCAT("%",#{employCount}),"%")
+            </if>
+            <if test="publicDate != null and publicDate != ''">
+                and a.public_date LIKE CONCAT(CONCAT("%",#{publicDate}),"%")
+            </if>
+            <if test="type != null and type != ''">
+                and a.type LIKE CONCAT(CONCAT("%",#{type}),"%")
+            </if>
+            <if test="address != null and address != ''">
+                and a.address LIKE CONCAT(CONCAT("%",#{address}),"%")
+            </if>
+        </where>
+        <choose>
+            <when test="orderBy !=null and orderBy != ''">
+                ORDER BY ${orderBy}
+            </when>
+            <otherwise>
+                ORDER BY a.create_date DESC
+            </otherwise>
+        </choose>
+    </select>
+
     <insert id="insert" parameterType="com.littlebuddha.recruit.modules.entity.manager.Recruit">
         INSERT INTO recruit_manager_recruit(
             id,
@@ -136,7 +178,7 @@
         WHERE id=#{id}
     </update>
 
-    <update id="recover">
+    <update id="recovery">
         UPDATE recruit_manager_recruit SET del_flag = 0
         WHERE id=#{id}
     </update>

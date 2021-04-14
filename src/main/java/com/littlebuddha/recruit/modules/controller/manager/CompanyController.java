@@ -126,6 +126,20 @@ public class CompanyController extends BaseController {
         return new Result("200", "数据清除成功");
     }
 
+    @GetMapping("/recoveryList")
+    public String recoveryList(Company company,Model model){
+        model.addAttribute("company",company);
+        return "modules/manager/companyRecovery";
+    }
+
+    @ResponseBody
+    @PostMapping("/recoveryData")
+    public Map recoveryData(Company company,Model model){
+        model.addAttribute("company",company);
+        PageInfo<Company> page = companyService.findRecoveryPage(new Page<Company>(), company);
+        return getBootstrapData(page);
+    }
+
     @ResponseBody
     @PostMapping("/recovery")
     public Result recovery(Company company){

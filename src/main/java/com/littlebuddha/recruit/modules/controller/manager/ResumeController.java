@@ -135,6 +135,20 @@ public class ResumeController extends BaseController {
         return new Result("200", "数据清除成功");
     }
 
+    @GetMapping("/recoveryList")
+    public String recoveryList(Resume resume,Model model){
+        model.addAttribute("resume",resume);
+        return "modules/manager/resumeRecovery";
+    }
+
+    @ResponseBody
+    @PostMapping("/recoveryData")
+    public Map recoveryData(Resume resume,Model model){
+        model.addAttribute("resume",resume);
+        PageInfo<Resume> page = resumeService.findRecoveryPage(new Page<Resume>(), resume);
+        return getBootstrapData(page);
+    }
+
     @ResponseBody
     @PostMapping("/recovery")
     public Result recovery(Resume resume){

@@ -64,6 +64,27 @@
         </choose>
     </select>
 
+    <select id="findRecoveryList" resultType="com.littlebuddha.recruit.modules.entity.manager.Resume">
+        SELECT
+        <include refid="resumeColumns"/>
+        FROM recruit_manager_resume a
+        <where>
+            a.del_flag = #{DEL_FLAG_DELETE}
+            <!-- 判断条件参数是否为空 -->
+            <if test="name != null and name != ''">
+                and a.name LIKE  CONCAT(CONCAT("%",#{name}),"%")
+            </if>
+        </where>
+        <choose>
+            <when test="orderBy !=null and orderBy != ''">
+                ORDER BY ${orderBy}
+            </when>
+            <otherwise>
+                ORDER BY a.create_date DESC
+            </otherwise>
+        </choose>
+    </select>
+
     <select id="findList" resultType="com.littlebuddha.recruit.modules.entity.manager.Resume">
         SELECT
         <include refid="resumeColumns"/>
@@ -175,7 +196,7 @@
         WHERE id=#{id}
     </update>
 
-    <update id="recover">
+    <update id="recovery">
         UPDATE recruit_manager_resume SET del_flag = 0
         WHERE id=#{id}
     </update>
