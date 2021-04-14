@@ -17,8 +17,8 @@ $(document).ready(function () {
         var oTableInit = new Object();
         //初始化Table
         oTableInit.Init = function () {
-            $('#recruitTable').bootstrapTable({
-                url: '/recruit/manager/recruit/data',         //请求后台的URL（*）
+            $('#portalTable').bootstrapTable({
+                url: '/recruit/portal/data',         //请求后台的URL（*）
                 method: 'post',                      //请求方式（*）
                 //类型json
                 dataType: "json",
@@ -30,7 +30,7 @@ $(document).ready(function () {
                 sortable: false,                     //是否启用排序
                 sortOrder: "asc",                   //排序方式
                 queryParams: function (params) {
-                    var searchParam = $("#recruitSearchForm").serializeJson();
+                    var searchParam = $("#portalSearchForm").serializeJson();
                     searchParam.pageNo = params.limit === undefined ? "1" : params.offset / params.limit + 1;
                     searchParam.pageSize = params.limit === undefined ? -1 : params.limit;
                     searchParam.orderBy = params.sort === undefined ? "" : params.sort + " " + params.order;
@@ -81,6 +81,7 @@ $(document).ready(function () {
                     },{
                         field: 'phone',
                         title: '操作',
+                        align: 'center',
                         formatter: function (value, row, index) {
                             return '<button class="btn btn-primary btn-sm" onclick="delivery(\'' + row.id + '\')"> 投递简历 </button> <button class="btn btn-primary btn-sm" onclick="detail(\'' + row.id + '\')"> 查看招聘详情 </button>';
                         }
@@ -106,32 +107,32 @@ $(document).ready(function () {
     //查询按钮
     $("#search").click(function () {
         //只需刷新bootstraptable，bootstraptable就会去/data接口下带着form参数请求数据
-        $('#recruitTable').bootstrapTable('refresh');
+        $('#portalTable').bootstrapTable('refresh');
     })
 
     //重置按钮
     $("#reset").click(function () {
         //先将查询form的值全部置空
-        $("#recruitSearchForm  input").val("");
+        $("#portalSearchForm  input").val("");
         //只需刷新bootstraptable，bootstraptable就会去/data接口下带着form参数请求数据
-        $('#recruitTable').bootstrapTable('refresh');
+        $('#portalTable').bootstrapTable('refresh');
     })
 })
 
 //获取点击的行的数据id
 function getIdSelections() {
-    return $.map($("#recruitTable").bootstrapTable('getSelections'), function (row) {
+    return $.map($("#portalTable").bootstrapTable('getSelections'), function (row) {
         return row.id
     });
 }
 
 //刷新列表
 function refresh() {
-    $('#recruitTable').bootstrapTable('refresh');
+    $('#portalTable').bootstrapTable('refresh');
 }
 
 function add() {
-    window.open('/recruit/manager/recruit/form/add', "新建招聘信息", 'height=600, width=800, top=30%,left=30%, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
+    window.open('/portal/manager/portal/form/add', "新建招聘信息", 'height=600, width=800, top=30%,left=30%, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
 }
 
 function edit() {
@@ -141,7 +142,7 @@ function edit() {
     } else if (id.toString().length < 32) {
         alert("请至少选择一条数据")
     } else if (id.toString().length = 32) {
-        window.open('/recruit/manager/recruit/form/edit?id=' + id, "编辑招聘信息", 'height=600, width=800, top=30%,left=30%, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
+        window.open('/portal/manager/portal/form/edit?id=' + id, "编辑招聘信息", 'height=600, width=800, top=30%,left=30%, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
     }
 
 }
@@ -153,7 +154,7 @@ function view() {
     } else if (id.toString().length < 32) {
         alert("请至少选择一条数据")
     } else if (id.toString().length = 32) {
-        window.open('/recruit/manager/recruit/form/view?id=' + id, "查看招聘信息", 'height=600, width=800, top=30%,left=30%, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
+        window.open('/portal/manager/portal/form/view?id=' + id, "查看招聘信息", 'height=600, width=800, top=30%,left=30%, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
     }
 }
 
@@ -163,7 +164,7 @@ function del() {
         alert("请至少选择一条数据")
     } else {
         $.ajax({
-            url: "/recruit/manager/recruit/delete?ids=" + ids,    //请求的url地址
+            url: "/portal/manager/portal/delete?ids=" + ids,    //请求的url地址
             dataType: "json",   //返回格式为json
             async: true,//请求是否异步，默认为异步，这也是ajax重要特性
             data: "",    //参数值
@@ -181,24 +182,24 @@ function del() {
 
 function showSearchButton() {
     //$("#operatorSearchForm").attr();---也可以给标签设置属性值
-    let attr = $("#recruitSearchForm").data("collapse");
+    let attr = $("#portalSearchForm").data("collapse");
     if(attr){
         //1.搜索表里有指定的属性值，此时搜索表为展开状态
         //2.判断属性值有否,需要移除data属性值，并移除”in“类
-        $("#recruitSearchForm").removeData("collapse");
-        $("#recruitSearchForm").removeClass("in");
+        $("#portalSearchForm").removeData("collapse");
+        $("#portalSearchForm").removeClass("in");
     }else {
         //1.搜索表里没有指定的属性值，此时搜索表为隐藏状态
         //2.需要修改属性值，并且添加打开类”in“
-        $("#recruitSearchForm").data("collapse","in");
-        $("#recruitSearchForm").addClass("in");
+        $("#portalSearchForm").data("collapse","in");
+        $("#portalSearchForm").addClass("in");
     }
 }
 
-function delivery() {
-    alert("投递简历")
+function delivery(id) {
+    rc.post("/recruit/manager/recruit/applyRecruit",{"id":id});
 }
 
-function detail() {
-    alert("查看招聘详情")
+function detail(id) {
+    rc.open("/recruit/manager/recruit/detail?id="+id,"查看招聘详情");
 }

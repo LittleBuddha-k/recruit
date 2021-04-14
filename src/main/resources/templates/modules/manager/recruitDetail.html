@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <meta charset="UTF-8">
-    <title>用户管理</title>
+    <title>招聘信息详情</title>
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
     <link rel="stylesheet" href="/recruit/bootstrap/css/bootstrap.min.css">
     <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
@@ -79,7 +79,7 @@
                 <div class="form-group">
                     <div class="col-sm-3">
                         <button type="button" class="btn btn-default" id="submitButton">申请职位</button>
-                        <button type="button" class="btn btn-default" id="returnButton">返回</button>
+                        <button type="button" class="btn btn-default" id="closeButton">关闭</button>
                     </div>
                 </div>
             </shiro:hasAnyRoles>
@@ -103,9 +103,9 @@
         });
     });
     //取消按钮
-    $("#returnButton").click(function () {
-        //返回到前一页面
-        history.go(-1);
+    $("#closeButton").click(function () {
+        //关闭当前小窗口
+        window.close();
     });
 </script>
 </body>

@@ -9,6 +9,8 @@
         qualifications AS "qualifications",
         employ_count AS "employCount",
         public_date AS "publicDate",
+        type AS "type",
+        address AS "address",
         company AS "company.id",
         job_information AS "jobInformation",
         create_by AS "createBy.id",
@@ -51,6 +53,12 @@
             <if test="publicDate != null and publicDate != ''">
                 and a.public_date LIKE CONCAT(CONCAT("%",#{publicDate}),"%")
             </if>
+            <if test="type != null and type != ''">
+                and a.type LIKE CONCAT(CONCAT("%",#{type}),"%")
+            </if>
+            <if test="address != null and address != ''">
+                and a.address LIKE CONCAT(CONCAT("%",#{address}),"%")
+            </if>
         </where>
         <choose>
             <when test="orderBy !=null and orderBy != ''">
@@ -71,6 +79,8 @@
             qualifications,
             employ_count,
             public_date,
+            type,
+            address,
             company,
             job_information,
             create_by,
@@ -87,6 +97,8 @@
             #{qualifications},
             #{employCount},
             #{publicDate},
+            #{type},
+            #{address},
             #{company.id},
             #{jobInformation},
             #{createBy.id},
@@ -106,6 +118,8 @@
             qualifications = #{qualifications},
             employ_count = #{employCount},
             public_date = #{publicDate},
+            type = #{type},
+            address = #{address},
             company = #{company.id},
             job_information = #{jobInformation},
             create_by = #{createBy.id},

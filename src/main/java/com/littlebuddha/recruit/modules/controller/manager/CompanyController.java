@@ -10,6 +10,8 @@ import com.littlebuddha.recruit.modules.base.controller.BaseController;
 import com.littlebuddha.recruit.modules.entity.manager.Company;
 import com.littlebuddha.recruit.modules.service.manager.CompanyService;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +27,8 @@ import java.util.Map;
 @Controller
 @RequestMapping(value = "/manager/company")
 public class CompanyController extends BaseController {
+
+    private final Logger log = LoggerFactory.getLogger(CompanyController.class);
 
     @Autowired
     private CompanyService companyService;

@@ -75,25 +75,9 @@ swagger:
 #shiro:
 #  loginUrl: /loginPage
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+logging:
+  pattern:
+    console:"%d - %msg%n"
 
 
 ---

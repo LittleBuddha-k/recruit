@@ -16,6 +16,9 @@ public class Recruit extends DataEntity<Recruit> {
     private String qualifications;     //学历
     private String employCount;        //招聘人数
     private Date publicDate;           //发布日期
+    private String type;//类型
+    private String address;//招聘公司的工作地址
+
     private Company company;           //公司
     private String companyId;          //公司id
     private String companyName;        //公司名称
@@ -69,6 +72,22 @@ public class Recruit extends DataEntity<Recruit> {
 
     public void setPublicDate(Date publicDate) {
         this.publicDate = publicDate;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public Company getCompany() {
