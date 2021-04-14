@@ -83,4 +83,15 @@ public class ResumeService extends CrudService<Resume, ResumeMapper> {
         Resume result = resumeMapper.getResumeByCurrentOperator(resume);
         return result;
     }
+
+    @Override
+    public int deleteByLogic(Resume entity) {
+        return super.deleteByLogic(entity);
+    }
+
+    @Override
+    public int recovery(Resume entity) {
+        int recovery = super.recovery(entity);
+        return recovery;
+    }
 }

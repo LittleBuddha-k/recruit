@@ -142,17 +142,20 @@ public abstract class CrudService<E extends DataEntity,M extends BaseMapper<E>> 
      * 单条逻辑删除数据的恢复
      * @param entity
      */
-    public void recovery(E entity){
+    public int recovery(E entity){
         int row = mapper.recovery(entity);
+        return row;
     }
 
     /**
      * 多条逻辑删除数据的恢复
      * @param entities
      */
-    public void recovery(Collection<E> entities){
+    public int recovery(Collection<E> entities){
+        int recovery = 0;
         for (E entity : entities) {
-            mapper.recovery(entity);
+            recovery = mapper.recovery(entity);
         }
+        return recovery;
     }
 }

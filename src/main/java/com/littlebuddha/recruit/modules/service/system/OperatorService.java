@@ -103,4 +103,15 @@ public class OperatorService extends CrudService<Operator, OperatorMapper> {
         operatorMapper.deleteOperatorRole(operatorRole);
         return i;
     }
+
+    @Override
+    public int deleteByLogic(Operator entity) {
+        return super.deleteByLogic(entity);
+    }
+
+    @Override
+    public int recovery(Operator entity) {
+        int recovery = super.recovery(entity);
+        return recovery;
+    }
 }

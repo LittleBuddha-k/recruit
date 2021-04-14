@@ -134,8 +134,19 @@ public class ReceivedResumeController extends BaseController {
             if (receivedResume == null) {
                 return new Result("311", "数据不存在,或已被删除，请刷新试试！");
             }
-            int i = receivedResumeService.deleteByPhysics(receivedResume);
+            int i = receivedResumeService.deleteByLogic(receivedResume);
         }
         return new Result("200", "数据清除成功");
+    }
+
+    @ResponseBody
+    @PostMapping("/recovery")
+    public Result recovery(ReceivedResume receivedResume){
+        int recovery = receivedResumeService.recovery(receivedResume);
+        if(recovery > 0){
+            return new Result("200", "数据已恢复");
+        }else {
+            return new Result("322", "未知错误，数据恢复失败");
+        }
     }
 }

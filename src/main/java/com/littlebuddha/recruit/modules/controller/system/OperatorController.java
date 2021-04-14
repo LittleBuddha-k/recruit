@@ -105,8 +105,19 @@ public class OperatorController extends BaseController {
             if (operator == null) {
                 return new Result("311", "数据不存在,或已被删除，请刷新试试！");
             }
-            int i = operatorService.deleteByPhysics(operator);
+            int i = operatorService.deleteByLogic(operator);
         }
         return new Result("200", "数据清除成功");
+    }
+
+    @ResponseBody
+    @PostMapping("/recovery")
+    public Result recovery(Operator operator){
+        int recovery = operatorService.recovery(operator);
+        if(recovery > 0){
+            return new Result("200", "数据已恢复");
+        }else {
+            return new Result("322", "未知错误，数据恢复失败");
+        }
     }
 }

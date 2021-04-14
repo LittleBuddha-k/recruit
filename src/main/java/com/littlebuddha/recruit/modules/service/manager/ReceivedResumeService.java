@@ -138,4 +138,15 @@ public class ReceivedResumeService extends CrudService<ReceivedResume, ReceivedR
         int row = receivedResumeMapper.modifyStatus(receivedResume);
         return row;
     }
+
+    @Override
+    public int deleteByLogic(ReceivedResume entity) {
+        return super.deleteByLogic(entity);
+    }
+
+    @Override
+    public int recovery(ReceivedResume entity) {
+        int recovery = super.recovery(entity);
+        return recovery;
+    }
 }

@@ -36,4 +36,15 @@ public class CompanyService extends CrudService<Company, CompanyMapper> {
     public int deleteByPhysics(Company entity) {
         return super.deleteByPhysics(entity);
     }
+
+    @Override
+    public int deleteByLogic(Company entity) {
+        return super.deleteByLogic(entity);
+    }
+
+    @Override
+    public int recovery(Company entity) {
+        int recovery = super.recovery(entity);
+        return recovery;
+    }
 }

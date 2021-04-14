@@ -130,8 +130,19 @@ public class ResumeController extends BaseController {
             if (resume == null) {
                 return new Result("311", "数据不存在,或已被删除，请刷新试试！");
             }
-            int i = resumeService.deleteByPhysics(resume);
+            int i = resumeService.deleteByLogic(resume);
         }
         return new Result("200", "数据清除成功");
+    }
+
+    @ResponseBody
+    @PostMapping("/recovery")
+    public Result recovery(Resume resume){
+        int recovery = resumeService.recovery(resume);
+        if(recovery > 0){
+            return new Result("200", "数据已恢复");
+        }else {
+            return new Result("322", "未知错误，数据恢复失败");
+        }
     }
 }

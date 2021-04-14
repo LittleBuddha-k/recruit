@@ -158,8 +158,19 @@ public class RecruitController extends BaseController {
             if (recruit == null) {
                 return new Result("311", "数据不存在,或已被删除，请刷新试试！");
             }
-            int i = recruitService.deleteByPhysics(recruit);
+            int i = recruitService.deleteByLogic(recruit);
         }
         return new Result("200", "数据清除成功");
+    }
+
+    @ResponseBody
+    @PostMapping("/recovery")
+    public Result recovery(Recruit recruit){
+        int recovery = recruitService.recovery(recruit);
+        if(recovery > 0){
+            return new Result("200", "数据已恢复");
+        }else {
+            return new Result("322", "未知错误，数据恢复失败");
+        }
     }
 }

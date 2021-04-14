@@ -46,4 +46,15 @@ public class RoleService extends CrudService<Role, RoleMapper> {
     public PageInfo<Role> findPage(Page<Role> page, Role entity) {
         return super.findPage(page, entity);
     }
+
+    @Override
+    public int deleteByLogic(Role entity) {
+        return super.deleteByLogic(entity);
+    }
+
+    @Override
+    public int recovery(Role entity) {
+        int recovery = super.recovery(entity);
+        return recovery;
+    }
 }

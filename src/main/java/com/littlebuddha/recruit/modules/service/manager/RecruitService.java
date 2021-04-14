@@ -68,4 +68,15 @@ public class RecruitService extends CrudService<Recruit, RecruitMapper> {
             entity.setCompany(company);
         }
     }
+
+    @Override
+    public int deleteByLogic(Recruit entity) {
+        return super.deleteByLogic(entity);
+    }
+
+    @Override
+    public int recovery(Recruit entity) {
+        int recovery = super.recovery(entity);
+        return recovery;
+    }
 }
