@@ -142,7 +142,7 @@ public class ReceivedResumeController extends BaseController {
     @GetMapping("/recoveryList")
     public String recoveryList(ReceivedResume receivedResume,Model model){
         model.addAttribute("receivedResume",receivedResume);
-        return "modules/manager/receivedResumeRecovery";
+        return "modules/recovery/receivedResumeRecovery";
     }
 
     @ResponseBody

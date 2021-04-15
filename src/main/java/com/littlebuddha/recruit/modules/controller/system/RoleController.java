@@ -126,7 +126,7 @@ public class RoleController extends BaseController {
     @GetMapping("/recoveryList")
     public String recoveryList(Role role,Model model){
         model.addAttribute("role",role);
-        return "modules/system/roleRecovery";
+        return "modules/recovery/roleRecovery";
     }
 
     @ResponseBody

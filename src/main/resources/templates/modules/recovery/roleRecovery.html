@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <meta charset="UTF-8">
-    <title>已收到简历恢复管理</title>
+    <title>角色恢复管理</title>
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
     <link rel="stylesheet" href="/recruit/bootstrap/css/bootstrap.min.css">
     <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
@@ -20,7 +20,7 @@
     <!--引入工具js-->
     <script type="text/javascript" src="/recruit/utils/util.js"></script>
     <!--引入本html的js文件-->
-    <script type="text/javascript" src="/recruit/modules/manager/receivedResumeRecovery.js"></script>
+    <script type="text/javascript" src="/recruit/modules/recovery/roleRecovery.js"></script>
 </head>
 <body>
 <!--导航条-->
@@ -29,42 +29,20 @@
 <div class="container">
     <div class="row col-xs-12 col-sm-12	col-md-12 col-lg-12">
         <!--查询-->
-        <form class="form-horizontal collapse" col-xs-12 col-sm-12 col-md-12 col-lg-12 id="receivedResumeSearchForm">
+        <form class="form-horizontal collapse" col-xs-12 col-sm-12 col-md-12 col-lg-12 id="roleSearchForm">
             <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
-                <label for="operator" class="col-sm-4 control-label">应聘人</label>
+                <label for="name" class="col-sm-4 control-label">角色名称</label>
                 <div class="col-sm-8">
-                    <input type="operator" class="form-control" id="operator" name="operator.id"
-                           th:if="${receivedResume.getOperator() != null}" th:value="${receivedResume.getOperator().getUsername()}" placeholder="应聘人">
-                    <input type="operator" class="form-control" id="operator" name="operator.id"
-                           th:if="${receivedResume.getOperator() == null}" placeholder="应聘人">
+                    <input type="name" class="form-control" id="name" name="name"
+                           th:value="${role.getName()}" placeholder="角色名称">
                 </div>
             </div>
             <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
-                <label for="resume" class="col-sm-4 control-label">简历</label>
+                <label for="englishName" class="col-sm-4 control-label">英文名称</label>
                 <div class="col-sm-8">
-                    <input type="resume" class="form-control" id="resume" name="resume.id"
-                           th:value="${receivedResume.getResume()}" placeholder="简历">
-                </div>
-            </div>
-            <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
-                <label for="receivedTime" class="col-sm-4 control-label">申请时间</label>
-                <div class="col-sm-8">
-                    <input type="receivedTime" class="form-control" id="receivedTime" name="receivedTime"
-                           th:value="${receivedResume.getReceivedTime()}" placeholder="申请时间">
-                </div>
-            </div>
-            <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
-                <label for="company" class="col-sm-4 control-label">公司名称</label>
-                <div class="col-sm-8">
-                    <input type="company" class="form-control" id="company" name="company.id"
-                           th:value="${receivedResume.getCompany()}" placeholder="公司名称">
-                </div>
-            </div>
-            <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
-                <label for="recruit" class="col-sm-4 control-label">招聘职位</label>
-                <div class="col-sm-8">
-                    <input type="recruit" class="form-control" id="recruit" name="recruit.id"
-                           th:value="${receivedResume.getRecruit()}" placeholder="招聘职位">
+                    <input type="englishName" class="form-control" id="englishName" name="englishName"
+                           th:value="${role.getEnglishName()}"
+                           placeholder="英文名称">
                 </div>
             </div>
             <div class="form-group">
@@ -77,13 +55,18 @@
         <!--左上角工具栏-->
         <div id="toolbar">
             <shiro:hasRole name="admin">
-                <button id="view" class="btn btn-default" onclick="view()">
-                    <i class="fa fa-search-plus"></i> 查看
+                <button id="add" class="btn btn-primary" onclick="add()">
+                    <i class="glyphicon glyphicon-plus"></i> 新建
                 </button>
             </shiro:hasRole>
             <shiro:hasRole name="admin">
-                <button id="edit" class="btn btn-default" onclick="edit()">
-                    <i class="fa fa-search-plus"></i> 编辑
+                <button id="edit" class="btn btn-success" onclick="edit()">
+                    <i class="glyphicon glyphicon-edit"></i> 编辑
+                </button>
+            </shiro:hasRole>
+            <shiro:hasRole name="admin">
+                <button id="view" class="btn btn-default" onclick="view()">
+                    <i class="fa fa-search-plus"></i> 查看
                 </button>
             </shiro:hasRole>
             <shiro:hasRole name="admin">
@@ -103,13 +86,13 @@
             </shiro:hasPermission>
         </div>
         <!--搜索下拉搜寻表单按钮--隐藏状态-->
-        <div id="toolButton" class="collapse" style="float:left">
+        <div id="toolButton" class="collapse">
             <button type="button" id="searchButton" class="btn btn-default" onclick="showSearchButton()">
                 <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
             </button>
         </div>
         <!--表格区域-->
-        <table id="receivedResumeTable" style="white-space:nowrap"></table>
+        <table id="roleTable" style="white-space:nowrap"></table>
     </div>
 </div>
 

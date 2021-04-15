@@ -9,7 +9,7 @@ $(document).ready(function () {
         oButtonInit.Init();
 
         //3.在表格右上角工具按钮处加入自定义按钮
-        var html = $("#toolButton").html();
+        let html = $("#toolButton").html();
         $(".columns.columns-right.btn-group.pull-right").append(html);
     });
 
@@ -17,8 +17,8 @@ $(document).ready(function () {
         var oTableInit = new Object();
         //初始化Table
         oTableInit.Init = function () {
-            $('#receivedResumeTable').bootstrapTable({
-                url: '/recruit/manager/receivedResume/data',         //请求后台的URL（*）
+            $('#menuTable').bootstrapTable({
+                url: '/recruit/system/menu/recoveryData',         //请求后台的URL（*）
                 method: 'post',                      //请求方式（*）
                 //类型json
                 dataType: "json",
@@ -27,10 +27,10 @@ $(document).ready(function () {
                 striped: true,                      //是否显示行间隔色
                 cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
                 pagination: true,                   //是否显示分页（*）
-                sortable: true,                     //是否启用排序
+                sortable: false,                     //是否启用排序
                 sortOrder: "asc",                   //排序方式
                 queryParams: function (params) {
-                    var searchParam = $("#receivedResumeSearchForm").serializeJson();
+                    var searchParam = $("#menuSearchForm").serializeJson();
                     searchParam.pageNo = params.limit === undefined ? "1" : params.offset / params.limit + 1;
                     searchParam.pageSize = params.limit === undefined ? -1 : params.limit;
                     searchParam.orderBy = params.sort === undefined ? "" : params.sort + " " + params.order;
@@ -55,45 +55,27 @@ $(document).ready(function () {
                     {
                         checkbox: true
                     }, {
-                        field: 'operator.username',
-                        title: '应聘人',
-                        sortable: "true",
-                        sortName: "operator.username"
+                        field: 'username',
+                        title: '名字'
                     }, {
-                        field: 'recruit.position',
-                        title: '应聘职位',
-                        sortable: "true",
-                        sortName: "recruit.position"
+                        field: 'sex',
+                        title: '性别'
                     }, {
-                        field: 'receivedTime',
-                        title: '应聘时间',
-                        sortable: "true",
-                        sortName: "receivedTime"
+                        field: 'age',
+                        title: '年龄'
                     }, {
-                        field: 'company.companyName',
-                        title: '应聘公司',
-                        sortable: "true",
-                        sortName: "company"
+                        field: 'address',
+                        title: '住址'
                     }, {
-                        field: 'status',
-                        title: '状态',
-                        sortable: "true",
-                        sortName: "status"
-                    }, {
-                        field: '',
+                        field: 'phone',
+                        title: '电话'
+                    },
+                    {
+                        field: 'phone',
                         title: '操作',
                         align: 'center',
                         formatter: function (value, row, index) {
-                            if ("待读" == row.status) {
-                                return '<button class="btn btn-primary btn-sm" onclick="javascript:operatorInfo(\'' + row.id + ',' + row.operator.id + '\')"> 查看用户 </button> ' +
-                                    '<button class="btn btn-primary btn-sm" onclick="javascript:interview(\'' + row.id + '\')"> 邀请面试 </button> ';
-                            } else if ("待面试" == row.status) {
-                                return '<button class="btn btn-primary btn-sm" onclick="javascript:operatorInfo(\'' + row.id + ',' + row.operator.id + '\')"> 查看用户 </button> ' +
-                                    '<button class="btn btn-primary btn-sm" onclick="javascript:offer(\'' + row.id + '\')"> 发送offer </button>';
-                            } else if ("待入职" == row.status) {
-                                return '<button class="btn btn-primary btn-sm" onclick="javascript:operatorInfo(\'' + row.id + ',' + row.operator.id + '\')"> 查看用户 </button> ' +
-                                    '<button class="btn btn-primary btn-sm" onclick="javascript:entry(\'' + row.id + '\')"> 标记入职 </button>';
-                            }
+                            return '<button class="btn btn-primary btn-sm" onclick="recoveryData(\'' + row.id + '\')">恢复</button>';
                         }
                     }
                 ]
@@ -117,64 +99,64 @@ $(document).ready(function () {
     //查询按钮
     $("#search").click(function () {
         //只需刷新bootstraptable，bootstraptable就会去/data接口下带着form参数请求数据
-        $('#receivedResumeTable').bootstrapTable('refresh');
+        $('#menuTable').bootstrapTable('refresh');
     })
 
     //重置按钮
     $("#reset").click(function () {
         //先将查询form的值全部置空
-        $("#receivedResumeSearchForm  input").val("");
+        $("#menuSearchForm  input").val("");
         //只需刷新bootstraptable，bootstraptable就会去/data接口下带着form参数请求数据
-        $('#receivedResumeTable').bootstrapTable('refresh');
+        $('#menuTable').bootstrapTable('refresh');
     })
 })
 
 //获取点击的行的数据id
 function getIdSelections() {
-    return $.map($("#receivedResumeTable").bootstrapTable('getSelections'), function (row) {
+    return $.map($("#menuTable").bootstrapTable('getSelections'), function (row) {
         return row.id
     });
 }
 
 //刷新列表
 function refresh() {
-    $('#receivedResumeTable').bootstrapTable('refresh');
+    $('#menuTable').bootstrapTable('refresh');
 }
 
 function add() {
-    window.open('/recruit/manager/receivedResume/form/add', "新建申请信息", 'height=600, width=800, top=30%,left=30%, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
+    window.open('/recruit/system/menu/form/add', "新建用户信息", 'height=600, width=800, top=30%,left=30%, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
 }
 
 function edit() {
-    var id = getIdSelections();
+    let id = getIdSelections();
     if (id.toString().length > 32) {
         alert("只能选择一条数据")
     } else if (id.toString().length < 32) {
         alert("请至少选择一条数据")
     } else if (id.toString().length = 32) {
-        window.open('/recruit/manager/receivedResume/form/edit?id=' + id, "编辑申请信息", 'height=600, width=800, top=30%,left=30%, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
+        window.open('/recruit/system/menu/form/edit?id=' + id, "编辑用户信息", 'height=600, width=800, top=30%,left=30%, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
     }
 
 }
 
 function view() {
-    var id = getIdSelections();
+    let id = getIdSelections();
     if (id.toString().length > 32) {
         alert("只能选择一条数据")
     } else if (id.toString().length < 32) {
         alert("请至少选择一条数据")
     } else if (id.toString().length = 32) {
-        window.open('/recruit/manager/receivedResume/form/view?id=' + id, "查看申请信息", 'height=600, width=800, top=30%,left=30%, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
+        window.open('/recruit/system/menu/form/view?id=' + id, "查看用户信息", 'height=600, width=800, top=30%,left=30%, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
     }
 }
 
 function del() {
-    var ids = getIdSelections();
+    let ids = getIdSelections();
     if (ids == null || ids == '') {
         alert("请至少选择一条数据")
     } else {
         $.ajax({
-            url: "/recruit/manager/receivedResume/delete?ids=" + ids,    //请求的url地址
+            url: "/recruit/system/menu/delete?ids=" + ids,    //请求的url地址
             dataType: "json",   //返回格式为json
             async: true,//请求是否异步，默认为异步，这也是ajax重要特性
             data: "",    //参数值
@@ -183,47 +165,36 @@ function del() {
                 //请求成功时处理
                 alert(result.msg);
                 //重新刷新页面
-                //window.location.reload();
-                refresh();
+                window.location.reload();
             }
         });
     }
 }
 
 function showSearchButton() {
-    //$("#operatorSearchForm").attr();---也可以给标签设置属性值
-    var attr = $("#receivedResumeSearchForm").data("collapse");
-    if (attr) {
+    //$("#menuSearchForm").attr();---也可以给标签设置属性值
+    let attr = $("#menuSearchForm").data("collapse");
+    if(attr){
         //1.搜索表里有指定的属性值，此时搜索表为展开状态
         //2.判断属性值有否,需要移除data属性值，并移除”in“类
-        $("#receivedResumeSearchForm").removeData("collapse");
-        $("#receivedResumeSearchForm").removeClass("in");
-    } else {
+        $("#menuSearchForm").removeData("collapse");
+        $("#menuSearchForm").removeClass("in");
+    }else {
         //1.搜索表里没有指定的属性值，此时搜索表为隐藏状态
         //2.需要修改属性值，并且添加打开类”in“
-        $("#receivedResumeSearchForm").data("collapse", "in");
-        $("#receivedResumeSearchForm").addClass("in");
+        $("#menuSearchForm").data("collapse","in");
+        $("#menuSearchForm").addClass("in");
     }
 }
 
-function operatorInfo(data) {
-    let id = data.split(",")[0];
-    //获取到id属性，修改对应的状态列
-    let operatorId = id = data.split(",")[1];
-    rc.open("/recruit/system/operator/form/view?id=" + operatorId, "用户信息")
+function importFile() {
+    alert("导入")
 }
 
-function interview(id) {
-    //需要对投递人发出面试邀请
-    rc.post("/recruit/manager/receivedResume/status/邀请面试", {"id": id, "status": "待面试"});
+function exportFile() {
+    alert("导出")
 }
 
-function offer(id) {
-    //需要面试通过的发出offer
-    rc.post("/recruit/manager/receivedResume/status/发送offer", {"id": id, "status": "待入职"});
-}
-
-function entry(id) {
-    //将数据表记为入职状态
-    rc.post("/recruit/manager/receivedResume/status/标记入职", {"id": id, "status": "已入职"});
+function recoveryData(id) {
+    rc.post("/recruit/system/menu/recovery",{"id":id})
 }

@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.littlebuddha.recruit.modules.mapper.system.MenuMapper">
+    <sql id="menuColumns">
+        id AS "id",
+        parent_id AS "parent.id",
+        parent_ids AS "parentIds",
+        name AS "name",
+        href AS "href",
+        target AS "target",
+        icon AS "icon",
+        sort AS "sort",
+        is_show AS "isShow",
+        type AS "type",
+        permission AS "permission",
+        has_children AS "hasChildren",
+        create_by AS "createBy.id",
+        create_date AS "createDate",
+        update_by AS "updateBy.id",
+        update_date AS "updateDate",
+        remarks AS "remarks",
+        del_flag AS "delFlag"
+    </sql>
+
+    <sql id="menuJoins">
+    </sql>
+
+    <select id="get" resultType="com.littlebuddha.recruit.modules.entity.system.Menu">
+        SELECT
+        <include refid="menuColumns"/>
+        FROM recruit_system_menu
+        WHERE id=#{id}
+    </select>
+
+    <select id="findList" resultType="com.littlebuddha.recruit.modules.entity.system.Menu">
+        SELECT
+        <include refid="menuColumns"/>
+        FROM recruit_system_menu a
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
+            <!-- 判断条件参数是否为空 -->
+            <if test="name != null and name != ''">
+                and a.name = #{name}
+            </if>
+        </where>
+        <choose>
+            <when test="orderBy !=null and orderBy != ''">
+                ORDER BY ${orderBy}
+            </when>
+            <otherwise>
+                ORDER BY a.create_date DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="findRecoveryList" resultType="com.littlebuddha.recruit.modules.entity.system.Menu">
+        SELECT
+        <include refid="menuColumns"/>
+        FROM recruit_system_menu a
+        <where>
+            a.del_flag = #{DEL_FLAG_DELETE}
+            <!-- 判断条件参数是否为空 -->
+            <if test="name != null and name != ''">
+                and a.name = #{name}
+            </if>
+        </where>
+        <choose>
+            <when test="orderBy !=null and orderBy != ''">
+                ORDER BY ${orderBy}
+            </when>
+            <otherwise>
+                ORDER BY a.create_date DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="findAllList" resultType="com.littlebuddha.recruit.modules.entity.system.Menu">
+        SELECT
+        <include refid="menuColumns"/>
+        FROM recruit_system_menu a
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+
+            </when>
+            <otherwise>
+
+            </otherwise>
+        </choose>
+    </select>
+
+    <insert id="insert">
+        INSERT INTO recruit_system_menu(
+            id,
+            parent_id,
+            parent_ids,
+            name,
+            href,
+            target,
+            icon,
+            sort,
+            is_show,
+            type,
+            permission,
+            has_children,
+            create_by,
+            create_date,
+            update_by,
+            update_date,
+            remarks,
+            del_flag
+        )VALUES (
+            #{id},
+            #{parent.id},
+            #{parentIds},
+            #{name},
+            #{href},
+            #{target},
+            #{icon},
+            #{sort},
+            #{isShow},
+            #{type},
+            #{permission},
+            #{hasChildren},
+            #{createBy.id},
+            #{createDate},
+            #{updateBy.id},
+            #{updateDate},
+            #{remarks},
+            #{delFlag}
+        )
+    </insert>
+
+    <update id="update">
+        UPDATE recruit_system_menu SET
+            parent_id = #{parent.id},
+            parent_ids = #{parentIds},
+            name = #{name},
+            href = #{href},
+            target = #{target},
+            icon = #{icon},
+            sort = #{sort},
+            is_show = #{isShow},
+            type = #{type},
+            permission = #{permission},
+            has_children = #{hasChildren},
+            create_by = #{createBy.id},
+            create_date = #{createDate},
+            update_by = #{updateBy.id},
+            update_date = #{updateDate},
+            remarks = #{remarks},
+            del_flag = #{delFlag}
+        WHERE id=#{id}
+    </update>
+
+    <update id="deleteByLogic">
+        UPDATE recruit_system_menu SET del_flag = 1
+        WHERE id=#{id}
+    </update>
+
+    <update id="recovery">
+        UPDATE recruit_system_menu SET del_flag = 0
+        WHERE id=#{id}
+    </update>
+
+    <delete id="deleteByPhysics">
+        DELETE FROM recruit_system_menu
+        WHERE id=#{id}
+    </delete>
+</mapper>

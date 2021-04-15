@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <meta charset="UTF-8">
-    <title>公司信息恢复管理</title>
+    <title>招聘恢复管理</title>
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
     <link rel="stylesheet" href="/recruit/bootstrap/css/bootstrap.min.css">
     <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
@@ -20,7 +20,7 @@
     <!--引入工具js-->
     <script type="text/javascript" src="/recruit/utils/util.js"></script>
     <!--引入本html的js文件-->
-    <script type="text/javascript" src="/recruit/modules/manager/companyRecovery.js"></script>
+    <script type="text/javascript" src="/recruit/modules/recovery/recruitRecovery.js"></script>
 </head>
 <body>
 <!--导航条-->
@@ -29,91 +29,56 @@
 <div class="container">
     <div class="row col-xs-12 col-sm-12	col-md-12 col-lg-12">
         <!--查询-->
-        <form class="form-horizontal collapse" col-xs-12 col-sm-12 col-md-12 col-lg-12 id="companySearchForm">
+        <form class="form-horizontal collapse" col-xs-12 col-sm-12 col-md-12 col-lg-12 id="recruitSearchForm">
             <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
-                <label for="legalPerson" class="col-sm-4 control-label">法人代表</label>
+                <label for="position" class="col-sm-4 control-label">招聘职位</label>
                 <div class="col-sm-8">
-                    <input type="legalPerson" class="form-control" id="legalPerson" name="legalPerson"
-                           th:value="${company.getLegalPerson()}" placeholder="法人代表">
+                    <input type="position" class="form-control" id="position" name="position"
+                           th:value="${recruit.getPosition()}" placeholder="招聘职位">
                 </div>
             </div>
             <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
-                <label for="chineseName" class="col-sm-4 control-label">中文名称</label>
+                <label for="salary" class="col-sm-4 control-label">薪资</label>
                 <div class="col-sm-8">
-                    <input type="chineseName" class="form-control" id="chineseName" name="chineseName"
-                           th:value="${company.getChineseName()}" placeholder="中文名称">
+                    <input type="salary" class="form-control" id="salary" name="salary"
+                           th:value="${recruit.getSalary()}" placeholder="薪资">
                 </div>
             </div>
             <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
-                <label for="englishName" class="col-sm-4 control-label">英文名称</label>
+                <label for="workingYears" class="col-sm-4 control-label">工作年限</label>
                 <div class="col-sm-8">
-                    <input type="englishName" class="form-control" id="englishName" name="englishName"
-                           th:value="${company.getEnglishName()}" placeholder="英文名称">
+                    <input type="workingYears" class="form-control" id="workingYears" name="workingYears"
+                           th:value="${recruit.getWorkingYears()}" placeholder="工作年限">
                 </div>
             </div>
             <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
-                <label for="companyName" class="col-sm-4 control-label">公司名称</label>
+                <label for="qualifications" class="col-sm-4 control-label">学历</label>
                 <div class="col-sm-8">
-                    <input type="companyName" class="form-control" id="companyName" name="companyName"
-                           th:value="${company.getCompanyName()}" placeholder="公司名称">
+                    <input type="qualifications" class="form-control" id="qualifications" name="qualifications"
+                           th:value="${recruit.getQualifications()}" placeholder="学历">
                 </div>
             </div>
             <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
-                <label for="headquartersAddress" class="col-sm-4 control-label">总部地址</label>
+                <label for="employCount" class="col-sm-4 control-label">招聘人数</label>
                 <div class="col-sm-8">
-                    <input type="headquartersAddress" class="form-control" id="headquartersAddress" name="headquartersAddress"
-                           th:value="${company.getHeadquartersAddress()}" placeholder="总部地址">
+                    <input type="employCount" class="form-control" id="employCount" name="employCount"
+                           th:value="${recruit.getEmployCount()}" placeholder="招聘人数">
                 </div>
             </div>
             <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
-                <label for="establishDate" class="col-sm-4 control-label">成立日期</label>
+                <label for="publicDate" class="col-sm-4 control-label">发布日期</label>
                 <div class="col-sm-8">
-                    <input type="establishDate" class="form-control" id="establishDate" name="establishDate"
-                           th:value="${company.getEstablishDate()}" placeholder="成立日期">
+                    <input type="publicDate" class="form-control" id="publicDate" name="publicDate"
+                           th:value="${recruit.getPublicDate()}" placeholder="发布日期">
                 </div>
             </div>
-            <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
-                <label for="phone" class="col-sm-4 control-label">联系电话</label>
+            <!--<div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
+                <label for="company.id" class="col-sm-4 control-label">公司</label>
                 <div class="col-sm-8">
-                    <input type="phone" class="form-control" id="phone" name="phone"
-                           th:value="${company.getPhone()}" placeholder="联系电话">
+                    <input type="company.id" class="form-control" id="company.id" name="company.id"
+                           th:value="${recruit.getCompany().getId()}" placeholder="公司">
                 </div>
-            </div>
-            <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
-                <label for="introduction" class="col-sm-4 control-label">介绍</label>
-                <div class="col-sm-8">
-                    <input type="introduction" class="form-control" id="introduction" name="introduction"
-                           th:value="${company.getIntroduction()}" placeholder="介绍">
-                </div>
-            </div>
-            <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
-                <label for="ranging" class="col-sm-4 control-label">经营范围</label>
-                <div class="col-sm-8">
-                    <input type="ranging" class="form-control" id="ranging" name="ranging"
-                           th:value="${company.getRanging()}" placeholder="经营范围">
-                </div>
-            </div>
-            <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
-                <label for="nature" class="col-sm-4 control-label">公司性质</label>
-                <div class="col-sm-8">
-                    <input type="nature" class="form-control" id="nature" name="nature"
-                           th:value="${company.getNature()}" placeholder="公司性质">
-                </div>
-            </div>
-            <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
-                <label for="registeredCapital" class="col-sm-4 control-label">注册资本</label>
-                <div class="col-sm-8">
-                    <input type="registeredCapital" class="form-control" id="registeredCapital" name="registeredCapital"
-                           th:value="${company.getRegisteredCapital()}" placeholder="注册资本">
-                </div>
-            </div>
-            <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
-                <label for="scale" class="col-sm-4 control-label">规模</label>
-                <div class="col-sm-8">
-                    <input type="scale" class="form-control" id="scale" name="scale"
-                           th:value="${company.getScale()}" placeholder="规模">
-                </div>
-            </div>
+            </div>-->
             <div class="form-group">
                 <div class="col-sm-3">
                     <button type="button" class="btn btn-default" th:id="search">查询</button>
@@ -155,13 +120,13 @@
             </shiro:hasPermission>
         </div>
         <!--搜索下拉搜寻表单按钮--隐藏状态-->
-        <div id="toolButton" class="collapse" style="float:left">
+        <div id="toolButton" class="collapse">
             <button type="button" id="searchButton" class="btn btn-default" onclick="showSearchButton()">
                 <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
             </button>
         </div>
         <!--表格区域-->
-        <table id="companyTable" style="white-space:nowrap"></table>
+        <table id="recruitTable" style="white-space:nowrap"></table>
     </div>
 </div>
 

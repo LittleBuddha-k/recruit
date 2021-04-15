@@ -79,6 +79,20 @@ public class OperatorController extends BaseController {
     }
 
     /**
+     * 个人设置
+     *
+     * @param mode
+     * @param operator
+     * @param model
+     * @return
+     */
+    @GetMapping("/setting")
+    public String setting(Operator operator, Model model) {
+        model.addAttribute("operator", operator);
+        return "modules/system/operatorSetting";
+    }
+
+    /**
      * 数据保存
      *
      * @param operator
@@ -111,26 +125,26 @@ public class OperatorController extends BaseController {
     }
 
     @GetMapping("/recoveryList")
-    public String recoveryList(Operator operator,Model model){
-        model.addAttribute("operator",operator);
-        return "modules/system/operatorRecovery";
+    public String recoveryList(Operator operator, Model model) {
+        model.addAttribute("operator", operator);
+        return "modules/recovery/operatorRecovery";
     }
 
     @ResponseBody
     @PostMapping("/recoveryData")
-    public Map recoveryData(Operator operator,Model model){
-        model.addAttribute("operator",operator);
+    public Map recoveryData(Operator operator, Model model) {
+        model.addAttribute("operator", operator);
         PageInfo<Operator> page = operatorService.findRecoveryPage(new Page<Operator>(), operator);
         return getBootstrapData(page);
     }
 
     @ResponseBody
     @PostMapping("/recovery")
-    public Result recovery(Operator operator){
+    public Result recovery(Operator operator) {
         int recovery = operatorService.recovery(operator);
-        if(recovery > 0){
+        if (recovery > 0) {
             return new Result("200", "数据已恢复");
-        }else {
+        } else {
             return new Result("322", "未知错误，数据恢复失败");
         }
     }

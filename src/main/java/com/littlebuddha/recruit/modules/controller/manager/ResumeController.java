@@ -138,7 +138,7 @@ public class ResumeController extends BaseController {
     @GetMapping("/recoveryList")
     public String recoveryList(Resume resume,Model model){
         model.addAttribute("resume",resume);
-        return "modules/manager/resumeRecovery";
+        return "modules/recovery/resumeRecovery";
     }
 
     @ResponseBody

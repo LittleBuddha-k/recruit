@@ -129,7 +129,7 @@ public class CompanyController extends BaseController {
     @GetMapping("/recoveryList")
     public String recoveryList(Company company,Model model){
         model.addAttribute("company",company);
-        return "modules/manager/companyRecovery";
+        return "modules/recovery/companyRecovery";
     }
 
     @ResponseBody
