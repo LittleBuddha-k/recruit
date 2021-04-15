@@ -12,7 +12,6 @@ public class Menu extends DataEntity<Menu> {
 
     private Menu parent;	// 父级菜单
     private String parentIds; // 所有父级编号
-    private List<Menu> children;	// 子级菜单列表
     private String name; 	// 名称
     private String href; 	// 链接
     private String target; 	// 目标（ mainFrame、_blank、_self、_parent、_top）
@@ -22,6 +21,16 @@ public class Menu extends DataEntity<Menu> {
     private String type; //按钮类型
     private String permission; // 权限标识
     private boolean hasChildren;
+
+    private List<Menu> children;	// 子级菜单列表
+
+    public Menu() {
+        super();
+    }
+
+    public Menu(String id) {
+        super(id);
+    }
 
     public Menu getParent() {
         return parent;
@@ -117,5 +126,26 @@ public class Menu extends DataEntity<Menu> {
 
     public void setHasChildren(boolean hasChildren) {
         this.hasChildren = hasChildren;
+    }
+
+    public static void sortList(List<Menu> list, List<Menu> sourcelist, String parentId, boolean cascade){
+        for (int i=0; i<sourcelist.size(); i++){
+            Menu e = sourcelist.get(i);
+            if (e.getParent()!=null && e.getParent().getId()!=null
+                    && e.getParent().getId().equals(parentId)){
+                list.add(e);
+                if (cascade){
+                    // 判断是否还有子节点, 有则继续获取子节点
+                    for (int j=0; j<sourcelist.size(); j++){
+                        Menu child = sourcelist.get(j);
+                        if (child.getParent()!=null && child.getParent().getId()!=null
+                                && child.getParent().getId().equals(e.getId())){
+                            sortList(list, sourcelist, e.getId(), true);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
     }
 }

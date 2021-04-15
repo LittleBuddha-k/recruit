@@ -55,27 +55,43 @@ $(document).ready(function () {
                     {
                         checkbox: true
                     }, {
-                        field: 'username',
-                        title: '名字'
+                        field: 'parentIds',
+                        title: '父级id'
                     }, {
-                        field: 'sex',
-                        title: '性别'
+                        field: 'name',
+                        title: '菜单名字'
                     }, {
-                        field: 'age',
-                        title: '年龄'
+                        field: 'href',
+                        title: '链接'
                     }, {
-                        field: 'address',
-                        title: '住址'
+                        field: 'target',
+                        title: '目标'
                     }, {
-                        field: 'phone',
-                        title: '电话'
+                        field: 'icon',
+                        title: '图标'
+                    }, {
+                        field: 'sort',
+                        title: '排序'
+                    }, {
+                        field: 'isShow',
+                        title: '是否显示'
+                    }, {
+                        field: 'type',
+                        title: '菜单类型'
+                    }, {
+                        field: 'permission',
+                        title: '权限标识'
+                    }, {
+                        field: 'hasChildren',
+                        title: '是否有子类'
                     },
                     {
                         field: 'phone',
                         title: '操作',
                         align: 'center',
                         formatter: function (value, row, index) {
-                            return '<button class="btn btn-primary btn-sm" onclick="recoveryData(\'' + row.id + '\')">恢复</button>';
+                            return '<button class="btn btn-primary btn-sm" onclick="recoveryData(\'' + row.id + '\')">恢复</button>' +
+                                '<button class="btn btn-primary btn-sm" onclick="deleteData(\'' + row.id + '\')">删除</button>';
                         }
                     }
                 ]
@@ -197,4 +213,8 @@ function exportFile() {
 
 function recoveryData(id) {
     rc.post("/recruit/system/menu/recovery",{"id":id})
+}
+
+function deleteData(id) {
+    rc.post("/recruit/system/menu/deleteByPhysics?ids="+id)
 }

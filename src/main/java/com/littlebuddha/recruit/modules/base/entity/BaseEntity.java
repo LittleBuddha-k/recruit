@@ -28,6 +28,14 @@ public abstract class BaseEntity<E> implements Serializable {
 
     private String orderBy;
 
+    public BaseEntity() {
+    }
+
+    public BaseEntity(String id) {
+        this();
+        this.id = id;
+    }
+
     public String getId() {
         return id;
     }

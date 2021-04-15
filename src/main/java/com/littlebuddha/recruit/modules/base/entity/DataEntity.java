@@ -30,6 +30,10 @@ public abstract class DataEntity<E> extends BaseEntity<E>{
         this.delFlag = DEL_FLAG_NORMAL;
     }
 
+    public DataEntity(String id) {
+        super(id);
+    }
+
     @JsonIgnore
     public boolean getIsNewData() {
         return isNewData || StringUtils.isBlank(getId());

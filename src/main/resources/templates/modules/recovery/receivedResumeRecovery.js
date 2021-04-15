@@ -85,7 +85,8 @@ $(document).ready(function () {
                         align: 'center',
                         align: 'center',
                         formatter: function (value, row, index) {
-                            return '<button class="btn btn-primary btn-sm" onclick="recoveryData(\'' + row.id + '\')">恢复</button>';
+                            return '<button class="btn btn-primary btn-sm" onclick="recoveryData(\'' + row.id + '\')">恢复</button>' +
+                                '<button class="btn btn-primary btn-sm" onclick="deleteData(\'' + row.id + '\')">删除</button>';
                         }
                     }
                 ]
@@ -217,4 +218,8 @@ function offer(id) {
 
 function recoveryData(id) {
     rc.post("/recruit/manager/receivedResume/recovery",{"id":id})
+}
+
+function deleteData(id) {
+    rc.post("/recruit/manager/receivedResume/deleteByPhysics?ids="+id)
 }

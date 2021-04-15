@@ -135,6 +135,20 @@ public class ResumeController extends BaseController {
         return new Result("200", "数据清除成功");
     }
 
+    @ResponseBody
+    @PostMapping("/deleteByPhysics")
+    public Result deleteByPhysics(String ids) {
+        String[] split = ids.split(",");
+        for (String s : split) {
+            Resume resume = resumeService.get(s);
+            if (resume == null) {
+                return new Result("311", "数据不存在,或已被删除，请刷新试试！");
+            }
+            int i = resumeService.deleteByPhysics(resume);
+        }
+        return new Result("200", "数据清除成功");
+    }
+
     @GetMapping("/recoveryList")
     public String recoveryList(Resume resume,Model model){
         model.addAttribute("resume",resume);

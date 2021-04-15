@@ -83,7 +83,8 @@ $(document).ready(function () {
                         title: '操作',
                         align: 'center',
                         formatter: function (value, row, index) {
-                            return '<button class="btn btn-primary btn-sm" onclick="recoveryData(\'' + row.id + '\')">恢复</button>';
+                            return '<button class="btn btn-primary btn-sm" onclick="recoveryData(\'' + row.id + '\')">恢复</button>' +
+                                '<button class="btn btn-primary btn-sm" onclick="deleteData(\'' + row.id + '\')">删除</button>';
                         }
                     }
                 ]
@@ -206,4 +207,8 @@ function detail() {
 
 function recoveryData(id) {
     rc.post("/recruit/manager/recruit/recovery",{"id":id})
+}
+
+function deleteData(id) {
+    rc.post("/recruit/manager/recruit/deleteByPhysics?ids="+id)
 }
