@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *菜单控制层
+ * 菜单控制层
  */
 @Controller
 @RequestMapping(value = "/system/menu")
@@ -70,7 +70,7 @@ public class MenuController extends BaseController {
 
     @ResponseBody
     @PostMapping("/allData")
-    public List<Menu> allData(Menu menu){
+    public List<Menu> allData(Menu menu) {
         return menuService.findAllList(menu);
     }
 
@@ -84,13 +84,20 @@ public class MenuController extends BaseController {
      */
     @GetMapping("/form/{mode}")
     public String form(@PathVariable(name = "mode") String mode, Menu menu, Model model) {
+        //当查看的菜单为师祖级菜单
+        if (menu.getParent() == null || StringUtils.isBlank(menu.getParent().getId())) {
+            menu.setParent(menuService.getTopMenu());
+        }
+        //为其设置parent
+        if (menu.getParent() != null && StringUtils.isNotBlank(menu.getParent().getId())) {
+            Menu entity = menuService.get(new Menu(menu.getParent().getId()));
+            menu.setParent(entity);
+        }
+        //前端下拉选项数据
         List<Menu> allList = menuService.findAllList(new Menu());
         model.addAttribute("allList", allList);
         model.addAttribute("menu", menu);
-        if ("add".equals(mode) || "edit".equals(mode) || "view".equals(mode)) {
-            return "modules/system/menuForm";
-        }
-        return "";
+        return "modules/system/menuForm";
     }
 
     /**
@@ -140,26 +147,26 @@ public class MenuController extends BaseController {
     }
 
     @GetMapping("/recoveryList")
-    public String recoveryList(Menu menu,Model model){
-        model.addAttribute("menu",menu);
+    public String recoveryList(Menu menu, Model model) {
+        model.addAttribute("menu", menu);
         return "modules/recovery/menuRecovery";
     }
 
     @ResponseBody
     @PostMapping("/recoveryData")
-    public Map recoveryData(Menu menu,Model model){
-        model.addAttribute("menu",menu);
+    public Map recoveryData(Menu menu, Model model) {
+        model.addAttribute("menu", menu);
         PageInfo<Menu> page = menuService.findRecoveryPage(new Page<Menu>(), menu);
         return getBootstrapData(page);
     }
 
     @ResponseBody
     @PostMapping("/recovery")
-    public Result recovery(Menu menu){
+    public Result recovery(Menu menu) {
         int recovery = menuService.recovery(menu);
-        if(recovery > 0){
+        if (recovery > 0) {
             return new Result("200", "数据已恢复");
-        }else {
+        } else {
             return new Result("322", "未知错误，数据恢复失败");
         }
     }
