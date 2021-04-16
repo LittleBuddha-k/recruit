@@ -17,11 +17,11 @@
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <form class="navbar-form navbar-left" th:if="${showNavSearch != null}">
+            <form class="navbar-form navbar-left" th:if="${showNavSearch != null}" id="navSearchForm">
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="搜索">
+                    <input type="text" class="form-control" placeholder="搜索" id="navSearchParam">
                 </div>
-                <button type="button" class="btn btn-default" id="navSearch">搜索职位</button>
+                <button type="button" class="btn btn-default" id="navSearchButton">搜索职位</button>
             </form>
             <ul class="nav navbar-nav navbar-right">
                 <shiro:hasAnyRoles name="admin,manager">

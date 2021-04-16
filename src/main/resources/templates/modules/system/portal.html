@@ -30,6 +30,7 @@
     <div class="row col-xs-12 col-sm-12	col-md-12 col-lg-12">
         <!--查询-->
         <form class="form-horizontal collapse" col-xs-12 col-sm-12 col-md-12 col-lg-12 id="portalSearchForm">
+            <input type="hidden" id="navSearch" name="navSearch">
             <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
                 <label for="position" class="col-sm-4 control-label">招聘职位</label>
                 <div class="col-sm-8">
@@ -79,39 +80,6 @@
                 </div>
             </div>
         </form>
-        <!--左上角工具栏-->
-        <!--<div id="toolbar">
-            <shiro:hasRole name="admin">
-                <button id="add" class="btn btn-primary" onclick="add()">
-                    <i class="glyphicon glyphicon-plus"></i> 新建
-                </button>
-            </shiro:hasRole>
-            <shiro:hasRole name="admin">
-                <button id="edit" class="btn btn-success" onclick="edit()">
-                    <i class="glyphicon glyphicon-edit"></i> 编辑
-                </button>
-            </shiro:hasRole>
-            <shiro:hasRole name="admin">
-                <button id="view" class="btn btn-default" onclick="view()">
-                    <i class="fa fa-search-plus"></i> 查看
-                </button>
-            </shiro:hasRole>
-            <shiro:hasRole name="admin">
-                <button id="remove" class="btn btn-danger" onclick="del()">
-                    <i class="glyphicon glyphicon-remove"></i> 删除
-                </button>
-            </shiro:hasRole>
-            <shiro:hasPermission name="admin">
-                <button id="btnImport" class="btn btn-info" onclick="importFile()">
-                    <i class="fa fa-folder-open-o"></i> 导入
-                </button>
-            </shiro:hasPermission>
-            <shiro:hasPermission name="admin">
-                <button id="export" class="btn btn-warning" onclick="exportFile()">
-                    <i class="fa fa-file-excel-o"></i> 导出
-                </button>
-            </shiro:hasPermission>
-        </div>-->
         <!-- 搜索下拉搜寻表单按钮--隐藏状态 -->
         <div id="toolButton" class="collapse">
             <button type="button" id="searchButton" class="btn btn-default" onclick="showSearchButton()">
@@ -142,6 +110,12 @@
                 }
             }
         })
+    });
+    //主页的搜索
+    $("#navSearchButton").click(function () {
+        let navSearchParam = $("#navSearchParam").val();
+        $("#navSearch").val(navSearchParam);
+        $('#portalTable').bootstrapTable('refresh');
     })
 </script>
 </body>

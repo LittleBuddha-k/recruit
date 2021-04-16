@@ -59,6 +59,12 @@
             <if test="address != null and address != ''">
                 and a.address LIKE CONCAT(CONCAT("%",#{address}),"%")
             </if>
+            <if test="navSearch != null and navSearch != ''">
+                and a.position LIKE  CONCAT(CONCAT("%",#{navSearch}),"%")
+                OR a.salary LIKE CONCAT(CONCAT("%",#{navSearch}),"%")
+                OR a.type LIKE CONCAT(CONCAT("%",#{navSearch}),"%")
+                OR a.address LIKE CONCAT(CONCAT("%",#{navSearch}),"%")
+            </if>
         </where>
         <choose>
             <when test="orderBy !=null and orderBy != ''">
