@@ -84,6 +84,8 @@ public class MenuController extends BaseController {
      */
     @GetMapping("/form/{mode}")
     public String form(@PathVariable(name = "mode") String mode, Menu menu, Model model) {
+        List<Menu> allList = menuService.findAllList(new Menu());
+        model.addAttribute("allList", allList);
         model.addAttribute("menu", menu);
         if ("add".equals(mode) || "edit".equals(mode) || "view".equals(mode)) {
             return "modules/system/menuForm";

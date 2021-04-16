@@ -90,7 +90,7 @@ $(document).ready(function () {
                         title: '操作',
                         align: 'center',
                         formatter: function (value, row, index) {
-                            return '<button class="btn btn-primary btn-sm" onclick="edit(\'' + row.id + '\')">其他功能</button>';
+                            return '<button class="btn btn-primary btn-sm" onclick="addChildren(\'' + row.id + '\')">添加下级菜单</button>';
                         }
                     }
                 ]
@@ -208,4 +208,8 @@ function importFile() {
 
 function exportFile() {
     alert("导出")
+}
+
+function addChildren(parentId) {
+    rc.post("/recruit/system/menu/delete")
 }
