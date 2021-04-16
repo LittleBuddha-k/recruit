@@ -3,10 +3,11 @@ package com.littlebuddha.recruit.modules.service.system;
 import com.littlebuddha.recruit.common.utils.AutoId;
 import com.littlebuddha.recruit.common.utils.Result;
 import com.littlebuddha.recruit.modules.base.service.CrudService;
-import com.littlebuddha.recruit.modules.entity.system.Operator;
-import com.littlebuddha.recruit.modules.entity.system.Role;
-import com.littlebuddha.recruit.modules.entity.system.OperatorRole;
+import com.littlebuddha.recruit.modules.entity.system.*;
+import com.littlebuddha.recruit.modules.mapper.system.MenuMapper;
 import com.littlebuddha.recruit.modules.mapper.system.OperatorMapper;
+import com.littlebuddha.recruit.modules.mapper.system.RoleMapper;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,12 @@ public class OperatorService extends CrudService<Operator, OperatorMapper> {
 
     @Autowired
     private OperatorMapper operatorMapper;
+
+    @Autowired
+    private RoleMapper roleMapper;
+
+    @Autowired
+    private MenuMapper menuMapper;
 
     @Override
     public int save(Operator operator) {
@@ -94,6 +101,11 @@ public class OperatorService extends CrudService<Operator, OperatorMapper> {
         return rolesByOperator;
     }
 
+    public List<Menu> findMenusByRole(Role role) {
+        List<Menu> menus = operatorMapper.getMenusByRole(role);
+        return menus;
+    }
+
     @Override
     public int deleteByPhysics(Operator entity) {
         int i = super.deleteByPhysics(entity);
@@ -113,5 +125,19 @@ public class OperatorService extends CrudService<Operator, OperatorMapper> {
     public int recovery(Operator entity) {
         int recovery = super.recovery(entity);
         return recovery;
+    }
+
+    public List<RoleMenu> findRoleMenusByRole(Role role) {
+        List<RoleMenu> roleMenus = operatorMapper.getRoleMenusByRole(new RoleMenu(role));
+        for (RoleMenu roleMenu : roleMenus) {
+            if(roleMenu.getRole() != null && StringUtils.isNotBlank(roleMenu.getRole().getId())){
+
+            }
+            if(roleMenu.getMenu() != null && StringUtils.isNotBlank(roleMenu.getMenu().getId())){
+                Menu menu = menuMapper.get(roleMenu.getMenu());
+                roleMenu.setMenu(menu);
+            }
+        }
+        return roleMenus;
     }
 }

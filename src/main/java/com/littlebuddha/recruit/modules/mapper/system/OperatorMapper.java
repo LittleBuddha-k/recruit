@@ -1,9 +1,10 @@
 package com.littlebuddha.recruit.modules.mapper.system;
 
 import com.littlebuddha.recruit.modules.base.mapper.BaseMapper;
-import com.littlebuddha.recruit.modules.entity.system.Operator;
-import com.littlebuddha.recruit.modules.entity.system.OperatorRole;
+import com.littlebuddha.recruit.modules.entity.system.*;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 @Mapper
 public interface OperatorMapper extends BaseMapper<Operator> {
@@ -14,6 +15,7 @@ public interface OperatorMapper extends BaseMapper<Operator> {
 
     /**
      * 对operator---role表的操作
+     *
      * @param operatorRole
      * @return
      */
@@ -22,6 +24,7 @@ public interface OperatorMapper extends BaseMapper<Operator> {
 
     /**
      * 根据用户更新operator-role中间表数据
+     *
      * @param operatorRole
      * @return
      */
@@ -29,6 +32,7 @@ public interface OperatorMapper extends BaseMapper<Operator> {
 
     /**
      * 根据用户删除operator-role中间表数据
+     *
      * @param operatorRole
      * @return
      */
@@ -36,8 +40,19 @@ public interface OperatorMapper extends BaseMapper<Operator> {
 
     /**
      * 根据用户和角色查询是否有operator-role数据
+     *
      * @param util
      * @return
      */
     OperatorRole getOperatorRole(OperatorRole util);
+
+    List<Menu> getMenusByRole(Role role);
+
+    /**
+     * 通过角色查找菜单
+     *
+     * @param role
+     * @return
+     */
+    List<RoleMenu> getRoleMenusByRole(RoleMenu roleMenu);
 }

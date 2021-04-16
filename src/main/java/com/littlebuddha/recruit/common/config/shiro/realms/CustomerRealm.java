@@ -3,6 +3,7 @@ package com.littlebuddha.recruit.common.config.shiro.realms;
 import com.littlebuddha.recruit.common.utils.ApplicationContextUtils;
 import com.littlebuddha.recruit.modules.entity.system.Operator;
 import com.littlebuddha.recruit.modules.entity.system.Role;
+import com.littlebuddha.recruit.modules.entity.system.RoleMenu;
 import com.littlebuddha.recruit.modules.service.system.OperatorService;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -39,6 +40,12 @@ public class CustomerRealm extends AuthorizingRealm {
             roles.forEach(role -> {
                 simpleAuthorizationInfo.addRole(role.getEnglishName());
             });
+            for (Role role : roles) {
+                List<RoleMenu> roleMenus = operatorService.findRoleMenusByRole(role);
+                roleMenus.forEach(roleMenu->{
+                    simpleAuthorizationInfo.addStringPermission(roleMenu.getMenu().getPermission());
+                });
+            }
             return simpleAuthorizationInfo;
         }
         return null;
