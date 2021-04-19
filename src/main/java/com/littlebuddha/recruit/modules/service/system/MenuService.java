@@ -4,6 +4,8 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import com.littlebuddha.recruit.modules.base.service.CrudService;
 import com.littlebuddha.recruit.modules.entity.system.Menu;
+import com.littlebuddha.recruit.modules.entity.system.Role;
+import com.littlebuddha.recruit.modules.entity.system.RoleMenu;
 import com.littlebuddha.recruit.modules.mapper.system.MenuMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,5 +104,24 @@ public class MenuService extends CrudService<Menu, MenuMapper> {
         menu.setId("-1");
         Menu topMenu = get(menu);
         return topMenu;
+    }
+
+    /**
+     * 通过角色查询菜单
+     * @param role
+     * @return
+     */
+    public List<RoleMenu> findRoleMenusByRole(Role role) {
+        List<RoleMenu> roleMenus = menuMapper.getRoleMenusByRole(new RoleMenu(role));
+        for (RoleMenu roleMenu : roleMenus) {
+            if(roleMenu.getRole() != null && StringUtils.isNotBlank(roleMenu.getRole().getId())){
+
+            }
+            if(roleMenu.getMenu() != null && StringUtils.isNotBlank(roleMenu.getMenu().getId())){
+                Menu menu = menuMapper.get(roleMenu.getMenu());
+                roleMenu.setMenu(menu);
+            }
+        }
+        return roleMenus;
     }
 }

@@ -5,6 +5,7 @@ import com.littlebuddha.recruit.modules.entity.system.Operator;
 import com.littlebuddha.recruit.modules.entity.system.Role;
 import com.littlebuddha.recruit.modules.entity.system.RoleMenu;
 import com.littlebuddha.recruit.modules.mapper.system.MenuMapper;
+import com.littlebuddha.recruit.modules.service.system.MenuService;
 import com.littlebuddha.recruit.modules.service.system.OperatorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,14 +20,18 @@ public class PortalService {
     private MenuMapper menuMapper;
 
     @Autowired
+    private MenuService menuService;
+
+    @Autowired
     private OperatorService operatorService;
 
     public List<Menu> findMenus(Operator currentUser) {
-        List<Role> roles = currentUser.getRoles();
+        Operator rolesByOperator = operatorService.findRolesByOperator(currentUser);
+        List<Role> roles = rolesByOperator.getRoles();
         List<RoleMenu> translate = new ArrayList<>();
         List<Menu> menus = new ArrayList<>();
         for (Role role : roles) {
-            List<RoleMenu> roleMenusByRole = operatorService.findRoleMenusByRole(role);
+            List<RoleMenu> roleMenusByRole = menuService.findRoleMenusByRole(role);
             translate.addAll(roleMenusByRole);
         }
         for (RoleMenu roleMenu : translate) {
@@ -35,6 +40,7 @@ public class PortalService {
             }
         }
         removeDuplicate(menus);
+        System.out.println("地方都是");
         return menus;
     }
 

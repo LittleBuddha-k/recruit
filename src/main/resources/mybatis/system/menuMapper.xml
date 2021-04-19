@@ -32,6 +32,15 @@
         WHERE id=#{id}
     </select>
 
+    <select id="getRoleMenusByRole" parameterType="com.littlebuddha.recruit.modules.entity.system.RoleMenu" resultType="com.littlebuddha.recruit.modules.entity.system.RoleMenu">
+        SELECT
+            a.id AS "id",
+            a.role_id AS "role.id",
+            a.menu_id AS "menu.id"
+        FROM recruit_role_menu a
+        WHERE a.role_id=#{role.id}
+    </select>
+
     <select id="findList" resultType="com.littlebuddha.recruit.modules.entity.system.Menu">
         SELECT
         <include refid="menuColumns"/>

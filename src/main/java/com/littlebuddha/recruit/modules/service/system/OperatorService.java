@@ -30,7 +30,7 @@ public class OperatorService extends CrudService<Operator, OperatorMapper> {
     public int save(Operator operator) {
         int operatorRow;
         //这一步保存的是operator数据
-        if (operator.getIsNewData()){
+        if (operator.getIsNewData()) {
             System.out.println("执行新增操作");
             operator.preInsert();
             //获取盐值
@@ -43,14 +43,14 @@ public class OperatorService extends CrudService<Operator, OperatorMapper> {
             //这里应该将operator form填写的roles数据单独保存到operator-role表格
             List<Role> roles = operator.getRoles();
             OperatorRole util = null;
-            if(roles != null && !roles.isEmpty()){
+            if (roles != null && !roles.isEmpty()) {
                 for (Role role : roles) {
-                    util = new OperatorRole(operator,role);
+                    util = new OperatorRole(operator, role);
                     util.preInsert();
                     int i = operatorMapper.insertOperatorRole(util);
                 }
             }
-        }else{
+        } else {
             System.out.println("执行更新操作");
             operator.preUpdate();
             operatorRow = operatorMapper.update(operator);
@@ -58,16 +58,18 @@ public class OperatorService extends CrudService<Operator, OperatorMapper> {
             //这里应该将operator form填写的roles数据单独保存到operator-role表格
             List<Role> roles = operator.getRoles();
             OperatorRole util = null;
-            if(roles != null && !roles.isEmpty()){
+            if (roles != null && !roles.isEmpty()) {
                 for (Role role : roles) {
-                    util = new OperatorRole(operator,role);
-                    OperatorRole  operatorRole = operatorMapper.getOperatorRole(util);
-                    if(operatorRole == null){
-                        util.preInsert();
-                        int i = operatorMapper.insertOperatorRole(util);
-                    }else {
-                        util.preUpdate();
-                        int i = operatorMapper.updateOperatorRole(util);
+                    if (StringUtils.isNotBlank(role.getId())) {
+                        util = new OperatorRole(operator, role);
+                        OperatorRole operatorRole = operatorMapper.getOperatorRole(util);
+                        if (operatorRole == null) {
+                            util.preInsert();
+                            int i = operatorMapper.insertOperatorRole(util);
+                        } else {
+                            util.preUpdate();
+                            int i = operatorMapper.updateOperatorRole(util);
+                        }
                     }
                 }
             }
@@ -130,10 +132,10 @@ public class OperatorService extends CrudService<Operator, OperatorMapper> {
     public List<RoleMenu> findRoleMenusByRole(Role role) {
         List<RoleMenu> roleMenus = operatorMapper.getRoleMenusByRole(new RoleMenu(role));
         for (RoleMenu roleMenu : roleMenus) {
-            if(roleMenu.getRole() != null && StringUtils.isNotBlank(roleMenu.getRole().getId())){
+            if (roleMenu.getRole() != null && StringUtils.isNotBlank(roleMenu.getRole().getId())) {
 
             }
-            if(roleMenu.getMenu() != null && StringUtils.isNotBlank(roleMenu.getMenu().getId())){
+            if (roleMenu.getMenu() != null && StringUtils.isNotBlank(roleMenu.getMenu().getId())) {
                 Menu menu = menuMapper.get(roleMenu.getMenu());
                 roleMenu.setMenu(menu);
             }

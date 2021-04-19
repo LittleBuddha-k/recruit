@@ -51,6 +51,7 @@ public class PortalController extends BaseController {
         model.addAttribute("showNavSearch", true);
         //访问主页时查询菜单列表，存入session
         List<Menu> menus = portalService.findMenus(currentUser);
+        model.addAttribute("menus", menus);
         model.addAttribute("portal", recruit);
         return "modules/system/portal";
     }
