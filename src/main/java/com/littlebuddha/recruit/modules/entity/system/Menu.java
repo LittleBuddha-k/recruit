@@ -120,7 +120,7 @@ public class Menu extends DataEntity<Menu> {
         this.permission = permission;
     }
 
-    public boolean isHasChildren() {
+    public boolean getHasChildren() {
         return hasChildren;
     }
 
