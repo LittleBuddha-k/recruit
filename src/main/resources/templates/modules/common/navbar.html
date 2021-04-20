@@ -68,7 +68,8 @@
                         <li><a th:href="@{/manager/recruit/list}">发布招聘</a></li>
                         <li role="separator" class="divider"></li>
                         <shiro:hasRole name="company">
-                            <li><a th:href="@{/manager/receivedResume/list}">招聘通知管理 <span class="badge">4</span></a></li>
+                            <li><a th:href="@{/manager/receivedResume/list}">招聘通知管理 <span class="badge">4</span></a>
+                            </li>
                         </shiro:hasRole>
                         <li role="separator" class="divider"></li>
                         <li><a th:href="@{/manager/company/list}">招聘公司管理</a></li>
@@ -85,7 +86,9 @@
                             <li th:if="${session.currentUser != null}"><a th:href="@{/manager/resume/detail}">我的简历</a>
                             </li>
                         </shiro:hasRole>
-                        <li th:if="${session.currentUser != null}"><a th:href="@{'/system/operator/setting?id=' + ${session.currentUser.getId()}}">个人设置</a></li>
+                        <li th:if="${session.currentUser != null}"><a
+                                th:href="@{'/system/operator/setting?id=' + ${session.currentUser.getId()}}">个人设置</a>
+                        </li>
                         <li th:if="${session.currentUser != null}" role="separator" class="divider"></li>
                         <li th:if="${session.currentUser != null}"><a href="#" id="logout">退出登录</a></li>
                     </ul>
@@ -96,6 +99,8 @@
             </ul>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
+    <!--引入本html的js文件-->
+    <script type="text/javascript" src="/recruit/modules/common/navbar.js"></script>
 </nav>
 </body>
 </html>

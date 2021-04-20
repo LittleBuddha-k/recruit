@@ -18,7 +18,7 @@ $(document).ready(function () {
         //初始化Table
         oTableInit.Init = function () {
             $('#portalTable').bootstrapTable({
-                url: '/recruit/portal/data',         //请求后台的URL（*）
+                url: '/recruit/manager/recruit/data',         //请求后台的URL（*）
                 method: 'post',                      //请求方式（*）
                 //类型json
                 dataType: "json",

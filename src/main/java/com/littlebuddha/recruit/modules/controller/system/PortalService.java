@@ -40,7 +40,6 @@ public class PortalService {
             }
         }
         removeDuplicate(menus);
-        System.out.println("地方都是");
         return menus;
     }
 
@@ -55,5 +54,23 @@ public class PortalService {
             }
         }
         return list;
+    }
+
+    /**
+     * 排序
+     * @return
+     */
+    public List<Menu> sort(){
+
+        return null;
+    }
+
+    /**
+     * set子集
+     * @return
+     */
+    public List<Menu> setData(){
+
+        return null;
     }
 }
