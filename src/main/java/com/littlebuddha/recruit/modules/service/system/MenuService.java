@@ -151,14 +151,10 @@ public class MenuService extends CrudService<Menu, MenuMapper> {
         //去重
         removeDuplicate(menus);
         //挑选父级id=topMenu Id的数据
-        for (Menu menu : menus) {
-            if(menu.getParent() != null && StringUtils.isNotBlank(menu.getParent().getId()) && StringUtils.isNotBlank(menu.getId())){
-                if (menu.getParent().getId() != getTopMenu().getId()){
-                    menus.remove(menu);
-                }
-            }
-        }
-        return menus;
+        List<Menu> result = new ArrayList<>();
+        String id = getTopMenu().getId();
+        //todo
+        return result;
     }
 
     //去重
