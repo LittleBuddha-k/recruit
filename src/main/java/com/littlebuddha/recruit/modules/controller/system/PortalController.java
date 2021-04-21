@@ -6,6 +6,8 @@ import com.littlebuddha.recruit.modules.entity.manager.Recruit;
 import com.littlebuddha.recruit.modules.entity.system.Menu;
 import com.littlebuddha.recruit.modules.entity.system.Operator;
 import com.littlebuddha.recruit.modules.service.manager.RecruitService;
+import com.littlebuddha.recruit.modules.service.system.MenuService;
+import com.littlebuddha.recruit.modules.service.system.PortalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +30,9 @@ public class PortalController extends BaseController {
     @Autowired
     private PortalService portalService;
 
+    @Autowired
+    private MenuService menuService;
+
     /**
      * 门户页面
      *
@@ -40,8 +45,10 @@ public class PortalController extends BaseController {
         //是否显示主页导航条的搜索框
         model.addAttribute("showNavSearch", true);
         //访问主页时查询菜单列表，存入session
-        List<Menu> menus = portalService.findMenus(currentUser);
-        model.addAttribute("menus", menus);
+        //List<Menu> menus = portalService.findMenus(currentUser);
+        //查询一级菜单-----父级id= topMenu的id
+        List<Menu> levelOneMenus = menuService.findLevelOneMenus(currentUser);
+        model.addAttribute("levelOneMenus", levelOneMenus);
         model.addAttribute("portal", recruit);
         return "modules/system/portal";
     }

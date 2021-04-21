@@ -4,6 +4,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import com.littlebuddha.recruit.modules.base.service.CrudService;
 import com.littlebuddha.recruit.modules.entity.system.Menu;
+import com.littlebuddha.recruit.modules.entity.system.Operator;
 import com.littlebuddha.recruit.modules.entity.system.Role;
 import com.littlebuddha.recruit.modules.entity.system.RoleMenu;
 import com.littlebuddha.recruit.modules.mapper.system.MenuMapper;
@@ -22,6 +23,9 @@ public class MenuService extends CrudService<Menu, MenuMapper> {
 
     @Autowired
     private MenuMapper menuMapper;
+
+    @Autowired
+    private OperatorService operatorService;
 
     @Override
     public int save(Menu menu) {
@@ -123,5 +127,49 @@ public class MenuService extends CrudService<Menu, MenuMapper> {
             }
         }
         return roleMenus;
+    }
+
+    /**
+     * 查询用户的一级菜单列表
+     * @param currentUser
+     * @return
+     */
+    public List<Menu> findLevelOneMenus(Operator currentUser) {
+        Operator rolesByOperator = operatorService.findRolesByOperator(currentUser);
+        List<Role> roles = rolesByOperator.getRoles();
+        List<RoleMenu> translate = new ArrayList<>();
+        List<Menu> menus = new ArrayList<>();
+        for (Role role : roles) {
+            List<RoleMenu> roleMenusByRole = findRoleMenusByRole(role);
+            translate.addAll(roleMenusByRole);
+        }
+        for (RoleMenu roleMenu : translate) {
+            if (roleMenu.getMenu() != null) {
+                menus.add(roleMenu.getMenu());
+            }
+        }
+        //去重
+        removeDuplicate(menus);
+        //挑选父级id=topMenu Id的数据
+        for (Menu menu : menus) {
+            if(menu.getParent() != null && StringUtils.isNotBlank(menu.getParent().getId()) && StringUtils.isNotBlank(menu.getId())){
+                if (menu.getParent().getId() != getTopMenu().getId()){
+                    menus.remove(menu);
+                }
+            }
+        }
+        return menus;
+    }
+
+    //去重
+    public static List removeDuplicate(List<Menu> list) {
+        for (int i = 0; i < list.size() - 1; i++) {
+            for (int j = list.size() - 1; j > i; j--) {
+                if (list.get(j).getId().equals(list.get(i).getId())) {
+                    list.remove(j);
+                }
+            }
+        }
+        return list;
     }
 }

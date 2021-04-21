@@ -1,4 +1,4 @@
-package com.littlebuddha.recruit.modules.controller.system;
+package com.littlebuddha.recruit.modules.service.system;
 
 import com.littlebuddha.recruit.modules.entity.system.Menu;
 import com.littlebuddha.recruit.modules.entity.system.Operator;
@@ -46,7 +46,6 @@ public class PortalService {
         List<Menu> target = new ArrayList<>();
         sort(menus,target,menuService.getTopMenu().getId());
         setData(target);
-        System.out.println("34234");
         return target;
     }
 
@@ -103,8 +102,9 @@ public class PortalService {
                 root = source;
             }
             for (Menu menu : menuList) {
-                if (menu.getParent().getId().equals(source.getId())) {
-                    source.getChildren().add(source);
+                if (menu.getParent() != null && menu.getParent().getId().equals(source.getId())) {
+                    List<Menu> children = source.getChildren();
+                    children.add(menu);
                 }
             }
         }

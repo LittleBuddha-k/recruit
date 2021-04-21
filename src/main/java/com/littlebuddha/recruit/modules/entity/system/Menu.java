@@ -3,6 +3,7 @@ package com.littlebuddha.recruit.modules.entity.system;
 
 import com.littlebuddha.recruit.modules.base.entity.DataEntity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -49,6 +50,9 @@ public class Menu extends DataEntity<Menu> {
     }
 
     public List<Menu> getChildren() {
+        if (children == null){
+            children = new ArrayList<>();
+        }
         return children;
     }
 
