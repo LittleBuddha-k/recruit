@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -154,6 +155,13 @@ public class MenuService extends CrudService<Menu, MenuMapper> {
         List<Menu> result = new ArrayList<>();
         String id = getTopMenu().getId();
         //todo
+        for (Menu menu : menus) {
+            if(menu.getParent() != null && StringUtils.isNotBlank(menu.getParent().getId())){
+                if(id.equals(menu.getParent().getId())){
+                    result.add(menu);
+                }
+            }
+        }
         return result;
     }
 
