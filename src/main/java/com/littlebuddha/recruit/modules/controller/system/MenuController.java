@@ -6,8 +6,10 @@ package com.littlebuddha.recruit.modules.controller.system;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import com.littlebuddha.recruit.common.utils.Result;
+import com.littlebuddha.recruit.common.utils.UserUtils;
 import com.littlebuddha.recruit.modules.base.controller.BaseController;
 import com.littlebuddha.recruit.modules.entity.system.Menu;
+import com.littlebuddha.recruit.modules.entity.system.Operator;
 import com.littlebuddha.recruit.modules.service.system.MenuService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +52,7 @@ public class MenuController extends BaseController {
      * @return
      */
     //@RequiresPermissions("system/operator/list")
-    @GetMapping("/list")
+    @GetMapping(value = {"/","/list"})
     public String list(Menu menu, Model model, HttpSession session) {
         model.addAttribute("menu", menu);
         return "modules/system/menu";
@@ -72,6 +74,20 @@ public class MenuController extends BaseController {
     @PostMapping("/allData")
     public List<Menu> allData(Menu menu) {
         return menuService.findAllList(menu);
+    }
+
+    @ResponseBody
+    @PostMapping("/levelOneMenus")
+    public Result levelOneMenus(Menu menu){
+        Result result = null;
+        Operator currentUser = UserUtils.getCurrentUser();
+        List<Menu> levelOneMenus = menuService.findLevelOneMenus(currentUser);
+        if (levelOneMenus != null && levelOneMenus.size() > 0){
+            result = new Result("200",levelOneMenus);
+        }else {
+            result = new Result("350","获取一级菜单失败");
+        }
+        return result;
     }
 
     /**

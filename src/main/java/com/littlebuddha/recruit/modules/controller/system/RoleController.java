@@ -50,7 +50,7 @@ public class RoleController extends BaseController {
      * @return
      */
     //@RequiresPermissions("system/operator/list")
-    @GetMapping("/list")
+    @GetMapping(value = {"/","/list"})
     public String list(Role role, Model model, HttpSession session) {
         model.addAttribute("role", role);
         return "modules/system/role";

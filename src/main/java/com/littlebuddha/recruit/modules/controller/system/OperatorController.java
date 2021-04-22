@@ -43,7 +43,7 @@ public class OperatorController extends BaseController {
      * @return
      */
     //@RequiresPermissions("system/operator/list")
-    @GetMapping("/list")
+    @GetMapping(value = {"/","/list"})
     public String list(Operator operator, Model model, HttpSession session) {
         model.addAttribute("operator", operator);
         return "modules/system/operator";

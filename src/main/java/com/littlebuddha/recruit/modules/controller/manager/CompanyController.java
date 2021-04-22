@@ -54,7 +54,7 @@ public class CompanyController extends BaseController {
      * @return
      */
     //@RequiresPermissions("manager/operator/list")
-    @GetMapping("/list")
+    @GetMapping(value = {"/","/list"})
     public String list(Company company, Model model, HttpSession session) {
         model.addAttribute("company", company);
         return "modules/manager/company";

@@ -50,7 +50,7 @@ public class ReceivedResumeController extends BaseController {
      * @return
      */
     //@RequiresPermissions("manager/operator/list")
-    @GetMapping("/list")
+    @GetMapping(value = {"/","/list"})
     public String list(ReceivedResume receivedResume, Model model, HttpSession session) {
         model.addAttribute("receivedResume", receivedResume);
         return "modules/manager/receivedResume";

@@ -58,7 +58,7 @@ public class RecruitController extends BaseController {
      * @return
      */
     //@RequiresPermissions("manager/Recruit/list")
-    @GetMapping("/list")
+    @GetMapping(value = {"/","/list"})
     public String list(Recruit recruit, Model model, HttpSession session) {
         model.addAttribute("recruit", recruit);
         return "modules/manager/recruit";

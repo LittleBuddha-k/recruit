@@ -1,4 +1,5 @@
 $(document).ready(function () {
+
     $("#logout").click(function () {
         $.ajax({
             url: "/recruit/system/logout",    //请求的url地址

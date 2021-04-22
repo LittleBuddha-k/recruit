@@ -48,7 +48,7 @@ public class ResumeController extends BaseController {
      * @return
      */
     //@RequiresPermissions("manager/Resume/list")
-    @GetMapping("/list")
+    @GetMapping(value = {"/","/list"})
     public String list(Resume resume, Model model, HttpSession session) {
         model.addAttribute("resume", resume);
         return "modules/manager/resume";
