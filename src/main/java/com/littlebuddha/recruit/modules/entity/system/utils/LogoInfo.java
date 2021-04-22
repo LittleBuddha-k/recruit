@@ -10,8 +10,10 @@ public class LogoInfo {
 
     @Value("${logo.title}")
     private String title;
+
     @Value("${logo.image}")
     private String image;
+
     @Value("${logo.href}")
     private String href;
 

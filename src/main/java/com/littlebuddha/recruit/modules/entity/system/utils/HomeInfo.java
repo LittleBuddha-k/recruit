@@ -13,6 +13,7 @@ public class HomeInfo {
 
     @Value("${home.title}")
     private String title;
+
     @Value("${home.href}")
     private String href;
 

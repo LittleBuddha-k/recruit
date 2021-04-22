@@ -14,7 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -41,7 +43,7 @@ public class PortalController extends BaseController {
      * @return
      */
     @GetMapping(value = {"/","/list"})
-    public String portal(Recruit recruit, HttpSession session, Model model,LogoInfo logoInfo) {
+    public String list(Recruit recruit, HttpSession session, Model model,LogoInfo logoInfo) {
         Operator currentUser = UserUtils.getCurrentUser();
         session.setAttribute("currentUser", currentUser);
         //是否显示主页导航条的搜索框
@@ -49,5 +51,13 @@ public class PortalController extends BaseController {
         model.addAttribute("portal", recruit);
         System.out.println(logoInfo);
         return "modules/system/portal";
+    }
+
+    @ResponseBody
+    @PostMapping("/data")
+    public Portal data(){
+        Portal portal = new Portal();
+
+        return portal;
     }
 }
