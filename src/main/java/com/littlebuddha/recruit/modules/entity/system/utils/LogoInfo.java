@@ -1,16 +1,18 @@
 package com.littlebuddha.recruit.modules.entity.system.utils;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 @Component
+@ConfigurationProperties(prefix ="logo")
 public class LogoInfo {
 
-    @Value("${logoInfo.title}")
+    @Value("${logo.title}")
     private String title;
-    @Value("${logoInfo.image}")
+    @Value("${logo.image}")
     private String image;
-    @Value("${logoInfo.href}")
+    @Value("${logo.href}")
     private String href;
 
     public String getTitle() {
