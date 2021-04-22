@@ -1,0 +1,51 @@
+package com.littlebuddha.recruit.modules.entity.system;
+
+
+import com.littlebuddha.recruit.modules.base.entity.DataEntity;
+import com.littlebuddha.recruit.modules.entity.system.utils.HomeInfo;
+import com.littlebuddha.recruit.modules.entity.system.utils.LogoInfo;
+import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ *返回到首页的数据
+ */
+@Component
+public class Portal extends DataEntity<Portal> {
+
+    private HomeInfo homeInfo;
+    private LogoInfo logoInfo;
+    private Menu menuInfo;
+
+    public HomeInfo getHomeInfo() {
+        if (homeInfo == null){
+            homeInfo = new HomeInfo();
+        }
+        return homeInfo;
+    }
+
+    public void setHomeInfo(HomeInfo homeInfo) {
+        this.homeInfo = homeInfo;
+    }
+
+    public LogoInfo getLogoInfo() {
+        if (logoInfo == null){
+            logoInfo = new LogoInfo();
+        }
+        return logoInfo;
+    }
+
+    public void setLogoInfo(LogoInfo logoInfo) {
+        this.logoInfo = logoInfo;
+    }
+
+    public Menu getMenuInfo() {
+        return menuInfo;
+    }
+
+    public void setMenuInfo(Menu menuInfo) {
+        this.menuInfo = menuInfo;
+    }
+}

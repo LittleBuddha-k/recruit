@@ -5,6 +5,7 @@ import com.littlebuddha.recruit.modules.base.controller.BaseController;
 import com.littlebuddha.recruit.modules.entity.manager.Recruit;
 import com.littlebuddha.recruit.modules.entity.system.Menu;
 import com.littlebuddha.recruit.modules.entity.system.Operator;
+import com.littlebuddha.recruit.modules.entity.system.Portal;
 import com.littlebuddha.recruit.modules.service.manager.RecruitService;
 import com.littlebuddha.recruit.modules.service.system.MenuService;
 import com.littlebuddha.recruit.modules.service.system.PortalService;
@@ -45,6 +46,8 @@ public class PortalController extends BaseController {
         //是否显示主页导航条的搜索框
         model.addAttribute("showNavSearch", true);
         model.addAttribute("portal", recruit);
+        Portal portal = new Portal();
+        System.out.println(portal);
         return "modules/system/portal";
     }
 }
