@@ -8,13 +8,13 @@ import org.springframework.stereotype.Component;
  * 首页信息
  */
 @Component
-@ConfigurationProperties(prefix ="home")
+@ConfigurationProperties(prefix ="homeinfo")
 public class HomeInfo {
 
-    @Value("${home.title}")
+    @Value("${homeinfo.title}")
     private String title;
 
-    @Value("${home.href}")
+    @Value("${homeinfo.href}")
     private String href;
 
     public String getTitle() {

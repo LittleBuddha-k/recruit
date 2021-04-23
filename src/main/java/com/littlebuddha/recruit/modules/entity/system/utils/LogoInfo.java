@@ -5,16 +5,16 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 @Component
-@ConfigurationProperties(prefix ="logo")
+@ConfigurationProperties(prefix ="logoinfo")
 public class LogoInfo {
 
-    @Value("${logo.title}")
+    @Value("${logoinfo.title}")
     private String title;
 
-    @Value("${logo.image}")
+    @Value("${logoinfo.image}")
     private String image;
 
-    @Value("${logo.href}")
+    @Value("${logoinfo.href}")
     private String href;
 
     public String getTitle() {

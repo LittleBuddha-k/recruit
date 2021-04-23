@@ -6,6 +6,7 @@ import com.littlebuddha.recruit.modules.entity.manager.Recruit;
 import com.littlebuddha.recruit.modules.entity.system.Menu;
 import com.littlebuddha.recruit.modules.entity.system.Operator;
 import com.littlebuddha.recruit.modules.entity.system.Portal;
+import com.littlebuddha.recruit.modules.entity.system.utils.HomeInfo;
 import com.littlebuddha.recruit.modules.entity.system.utils.LogoInfo;
 import com.littlebuddha.recruit.modules.service.manager.RecruitService;
 import com.littlebuddha.recruit.modules.service.system.MenuService;
@@ -37,19 +38,24 @@ public class PortalController extends BaseController {
     @Autowired
     private MenuService menuService;
 
+    @Autowired
+    private LogoInfo logoInfo;//logo信息--保存在配置文件中
+
+    @Autowired
+    private HomeInfo homeInfo;//home信息--保存在配置文件中
+
     /**
      * 门户页面
      *
      * @return
      */
     @GetMapping(value = {"/","/list"})
-    public String list(Recruit recruit, HttpSession session, Model model,LogoInfo logoInfo) {
+    public String list(Recruit recruit, HttpSession session, Model model) {
         Operator currentUser = UserUtils.getCurrentUser();
         session.setAttribute("currentUser", currentUser);
         //是否显示主页导航条的搜索框
         model.addAttribute("showNavSearch", true);
         model.addAttribute("portal", recruit);
-        System.out.println(logoInfo);
         return "modules/system/portal";
     }
 
@@ -57,6 +63,8 @@ public class PortalController extends BaseController {
     @PostMapping("/data")
     public Portal data(){
         Portal portal = new Portal();
+        portal.setHomeInfo(homeInfo);
+        portal.setLogoInfo(logoInfo);
 
         return portal;
     }

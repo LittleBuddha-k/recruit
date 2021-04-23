@@ -79,14 +79,14 @@ logging:
   pattern:
     console:"%d - %msg%n"
 
-home:
+homeinfo:
   title: 首页
   href: /recruit/manager/recruit/list
 
-logo:
+logoinfo:
   title: 招聘管理系统后台
-  image:
-  href:
+  image: 1
+  href: 2
 
 ---
 server:
