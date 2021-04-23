@@ -17,7 +17,7 @@ public class Portal extends DataEntity<Portal> {
 
     private HomeInfo homeInfo;
     private LogoInfo logoInfo;
-    private Menu menuInfo;
+    private List<Menu> menuInfo;
 
     public HomeInfo getHomeInfo() {
         if (homeInfo == null){
@@ -41,11 +41,11 @@ public class Portal extends DataEntity<Portal> {
         this.logoInfo = logoInfo;
     }
 
-    public Menu getMenuInfo() {
+    public List<Menu> getMenuInfo() {
         return menuInfo;
     }
 
-    public void setMenuInfo(Menu menuInfo) {
+    public void setMenuInfo(List<Menu> menuInfo) {
         this.menuInfo = menuInfo;
     }
 }

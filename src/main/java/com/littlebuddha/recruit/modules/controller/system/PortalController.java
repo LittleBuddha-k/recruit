@@ -65,7 +65,6 @@ public class PortalController extends BaseController {
         Portal portal = new Portal();
         portal.setHomeInfo(homeInfo);
         portal.setLogoInfo(logoInfo);
-
         return portal;
     }
 }

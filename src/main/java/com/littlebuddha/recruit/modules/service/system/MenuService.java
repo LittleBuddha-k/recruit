@@ -2,12 +2,15 @@ package com.littlebuddha.recruit.modules.service.system;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
+import com.littlebuddha.recruit.common.utils.MenuUtils;
+import com.littlebuddha.recruit.common.utils.UserUtils;
 import com.littlebuddha.recruit.modules.base.service.CrudService;
 import com.littlebuddha.recruit.modules.entity.system.Menu;
 import com.littlebuddha.recruit.modules.entity.system.Operator;
 import com.littlebuddha.recruit.modules.entity.system.Role;
 import com.littlebuddha.recruit.modules.entity.system.RoleMenu;
 import com.littlebuddha.recruit.modules.mapper.system.MenuMapper;
+import com.littlebuddha.recruit.modules.mapper.system.RoleMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +30,43 @@ public class MenuService extends CrudService<Menu, MenuMapper> {
 
     @Autowired
     private OperatorService operatorService;
+
+    @Autowired
+    private RoleMapper roleMapper;
+
+    @Override
+    public Menu get(Menu menu) {
+        return super.get(menu);
+    }
+
+    /**
+     * 获取最顶级的一个菜单
+     *
+     * @param
+     * @return
+     */
+    public Menu getTopMenu() {
+        Menu menu = new Menu();
+        menu.setId("-1");
+        Menu topMenu = get(menu);
+        return topMenu;
+    }
+
+    @Override
+    public List<Menu> findList(Menu menu) {
+        List<Menu> list = super.findList(menu);
+        return list;
+    }
+
+    @Override
+    public List<Menu> findAllList(Menu menu) {
+        return super.findAllList(menu);
+    }
+
+    @Override
+    public PageInfo<Menu> findPage(Page<Menu> page, Menu menu) {
+        return super.findPage(page, menu);
+    }
 
     @Override
     public int save(Menu menu) {
@@ -68,26 +108,6 @@ public class MenuService extends CrudService<Menu, MenuMapper> {
     }
 
     @Override
-    public Menu get(Menu menu) {
-        return super.get(menu);
-    }
-
-    @Override
-    public List<Menu> findList(Menu menu) {
-        return super.findList(menu);
-    }
-
-    @Override
-    public List<Menu> findAllList(Menu menu) {
-        return super.findAllList(menu);
-    }
-
-    @Override
-    public PageInfo<Menu> findPage(Page<Menu> page, Menu menu) {
-        return super.findPage(page, menu);
-    }
-
-    @Override
     public int deleteByLogic(Menu menu) {
         return super.deleteByLogic(menu);
     }
@@ -99,81 +119,36 @@ public class MenuService extends CrudService<Menu, MenuMapper> {
     }
 
     /**
-     * 获取最顶级的一个菜单
-     *
-     * @param
+     * 将会返回menu集合-----排序+set子集
      * @return
      */
-    public Menu getTopMenu() {
-        Menu menu = new Menu();
-        menu.setId("-1");
-        Menu topMenu = get(menu);
-        return topMenu;
-    }
-
-    /**
-     * 通过角色查询菜单
-     * @param role
-     * @return
-     */
-    public List<RoleMenu> findRoleMenusByRole(Role role) {
-        List<RoleMenu> roleMenus = menuMapper.getRoleMenusByRole(new RoleMenu(role));
-        for (RoleMenu roleMenu : roleMenus) {
-            if(roleMenu.getRole() != null && StringUtils.isNotBlank(roleMenu.getRole().getId())){
-
-            }
-            if(roleMenu.getMenu() != null && StringUtils.isNotBlank(roleMenu.getMenu().getId())){
-                Menu menu = menuMapper.get(roleMenu.getMenu());
-                roleMenu.setMenu(menu);
-            }
-        }
-        return roleMenus;
-    }
-
-    /**
-     * 查询用户的一级菜单列表
-     * @param currentUser
-     * @return
-     */
-    public List<Menu> findLevelOneMenus(Operator currentUser) {
+    public List<Menu> findMenuInfo(){
+        Operator currentUser = UserUtils.getCurrentUser();
         Operator rolesByOperator = operatorService.findRolesByOperator(currentUser);
         List<Role> roles = rolesByOperator.getRoles();
-        List<RoleMenu> translate = new ArrayList<>();
-        List<Menu> menus = new ArrayList<>();
+        List<Menu> menuData = new ArrayList<>();
+        List<RoleMenu> roleMenusByRole = null;
+        //1.查询当前用户的所有角色菜单信息
         for (Role role : roles) {
-            List<RoleMenu> roleMenusByRole = findRoleMenusByRole(role);
-            translate.addAll(roleMenusByRole);
+            roleMenusByRole = menuMapper.getRoleMenusByRole(new RoleMenu(role));
         }
-        for (RoleMenu roleMenu : translate) {
-            if (roleMenu.getMenu() != null) {
-                menus.add(roleMenu.getMenu());
+        //2.将所有1得到的menu放入menuList
+        for (RoleMenu roleMenu : roleMenusByRole) {
+            if (roleMenu != null && StringUtils.isNotBlank(roleMenu.getMenu().getId())){
+                menuData.add(roleMenu.getMenu());
             }
         }
-        //去重
-        removeDuplicate(menus);
-        //挑选父级id=topMenu Id的数据
-        List<Menu> result = new ArrayList<>();
+        //3.因为多个角色可能有多个重复的菜单信息，所以对菜单去重
+        MenuUtils.removeDuplicate(menuData);
+        //4.排序
+        List<Menu> beforeSort = new ArrayList<>();
         String id = getTopMenu().getId();
-        //todo
-        for (Menu menu : menus) {
-            if(menu.getParent() != null && StringUtils.isNotBlank(menu.getParent().getId())){
-                if(id.equals(menu.getParent().getId())){
-                    result.add(menu);
-                }
-            }
+        if (id != null && StringUtils.isNotBlank(id)){
+            MenuUtils.sort(beforeSort,menuData, id);
+        }else {
+            MenuUtils.sort(beforeSort,menuData, "-1");
         }
-        return result;
-    }
-
-    //去重
-    public static List removeDuplicate(List<Menu> list) {
-        for (int i = 0; i < list.size() - 1; i++) {
-            for (int j = list.size() - 1; j > i; j--) {
-                if (list.get(j).getId().equals(list.get(i).getId())) {
-                    list.remove(j);
-                }
-            }
-        }
-        return list;
+        //5.set子集
+        return null;
     }
 }

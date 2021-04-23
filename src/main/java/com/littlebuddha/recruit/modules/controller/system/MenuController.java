@@ -76,20 +76,6 @@ public class MenuController extends BaseController {
         return menuService.findAllList(menu);
     }
 
-    @ResponseBody
-    @PostMapping("/levelOneMenus")
-    public Result levelOneMenus(Menu menu){
-        Result result = null;
-        Operator currentUser = UserUtils.getCurrentUser();
-        List<Menu> levelOneMenus = menuService.findLevelOneMenus(currentUser);
-        if (levelOneMenus != null && levelOneMenus.size() > 0){
-            result = new Result("200",levelOneMenus);
-        }else {
-            result = new Result("350","获取一级菜单失败");
-        }
-        return result;
-    }
-
     /**
      * 返回表单
      *

@@ -4,8 +4,8 @@
     "href": "/recruit/manager/recruit/list"
   },
   "logoInfo": {
-    "title": "LAYUI MINI",
-    "image": "images/logo.png",
+    "title": "招聘后台",
+    "image": "/recruit/pictures/recruit/logo.jpg",
     "href": ""
   },
   "menuInfo": [
