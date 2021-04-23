@@ -60,11 +60,13 @@ public class PortalController extends BaseController {
     }
 
     @ResponseBody
-    @PostMapping("/data")
+    @GetMapping("/data")
     public Portal data(){
         Portal portal = new Portal();
         portal.setHomeInfo(homeInfo);
         portal.setLogoInfo(logoInfo);
+        List<Menu> menuInfo = menuService.findMenuInfo();
+        portal.setMenuInfo(menuInfo);
         return portal;
     }
 }

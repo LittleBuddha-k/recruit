@@ -47,23 +47,23 @@ public class MenuUtils {
     }
 
     /**
-     * set子集
+     * 为菜单数据设置子节点列表
      *
+     * @param menuList
      * @return
      */
-    public static List<Menu> setData(List<Menu> menuList,String topId) {
+    public static List<Menu> setChildrenList(List<Menu> menuList) {
         Map<String, String> menuMap = new HashMap<>();
         //用于存放根节点
         Menu root = null;
         //便利列表
-        for (Menu source : menuList) {
-            if (topId.equals(source.getParent().getId())) {
-                root = source;
+        for (Menu menu : menuList) {
+            if ("0".equals(menu.getParent().getId())) {
+                root = menu;
             }
-            for (Menu menu : menuList) {
-                if (menu.getParent() != null && menu.getParent().getId().equals(source.getId())) {
-                    List<Menu> children = source.getChildren();
-                    children.add(menu);
+            for (Menu menu1 : menuList) {
+                if (menu.getParent().getId().equals(menu1.getId())) {
+                    menu1.getChildren().add(menu);
                 }
             }
         }

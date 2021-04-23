@@ -2,6 +2,7 @@ package com.littlebuddha.recruit.modules.service.system;
 
 import com.littlebuddha.recruit.common.utils.AutoId;
 import com.littlebuddha.recruit.common.utils.Result;
+import com.littlebuddha.recruit.common.utils.UserUtils;
 import com.littlebuddha.recruit.modules.base.service.CrudService;
 import com.littlebuddha.recruit.modules.entity.system.*;
 import com.littlebuddha.recruit.modules.mapper.system.MenuMapper;
@@ -12,6 +13,7 @@ import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -141,5 +143,26 @@ public class OperatorService extends CrudService<Operator, OperatorMapper> {
             }
         }
         return roleMenus;
+    }
+
+
+    public List<Menu> getMenusByOperator() {
+        Operator currentUser = UserUtils.getCurrentUser();
+        Operator rolesByOperator = findRolesByOperator(currentUser);
+        List<Role> roles = rolesByOperator.getRoles();
+        List<Menu> menuData = new ArrayList<>();
+        List<RoleMenu> roleMenusByRole = null;
+        //1.查询当前用户的所有角色菜单信息
+        for (Role role : roles) {
+            roleMenusByRole = menuMapper.getRoleMenusByRole(new RoleMenu(role));
+        }
+        //2.将所有1得到的menu放入menuList
+        for (RoleMenu roleMenu : roleMenusByRole) {
+            if (roleMenu != null && StringUtils.isNotBlank(roleMenu.getMenu().getId())){
+                Menu menu = menuMapper.get(roleMenu.getMenu());
+                menuData.add(menu);
+            }
+        }
+        return menuData;
     }
 }

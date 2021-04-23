@@ -123,32 +123,20 @@ public class MenuService extends CrudService<Menu, MenuMapper> {
      * @return
      */
     public List<Menu> findMenuInfo(){
-        Operator currentUser = UserUtils.getCurrentUser();
-        Operator rolesByOperator = operatorService.findRolesByOperator(currentUser);
-        List<Role> roles = rolesByOperator.getRoles();
-        List<Menu> menuData = new ArrayList<>();
-        List<RoleMenu> roleMenusByRole = null;
-        //1.查询当前用户的所有角色菜单信息
-        for (Role role : roles) {
-            roleMenusByRole = menuMapper.getRoleMenusByRole(new RoleMenu(role));
-        }
-        //2.将所有1得到的menu放入menuList
-        for (RoleMenu roleMenu : roleMenusByRole) {
-            if (roleMenu != null && StringUtils.isNotBlank(roleMenu.getMenu().getId())){
-                menuData.add(roleMenu.getMenu());
-            }
-        }
+        //1.查询当前用户的菜单数据list
+        List<Menu> menuData = operatorService.getMenusByOperator();
         //3.因为多个角色可能有多个重复的菜单信息，所以对菜单去重
         MenuUtils.removeDuplicate(menuData);
         //4.排序
-        List<Menu> beforeSort = new ArrayList<>();
+        List<Menu> afterSort = new ArrayList<>();
         String id = getTopMenu().getId();
         if (id != null && StringUtils.isNotBlank(id)){
-            MenuUtils.sort(beforeSort,menuData, id);
+            MenuUtils.sort(menuData,afterSort, id);
         }else {
-            MenuUtils.sort(beforeSort,menuData, "-1");
+            MenuUtils.sort(menuData,afterSort, "-1");
         }
         //5.set子集
-        return null;
+        MenuUtils.setChildrenList(afterSort);
+        return afterSort;
     }
 }

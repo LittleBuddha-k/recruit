@@ -13,7 +13,7 @@ import java.util.List;
  *返回到首页的数据
  */
 @Component
-public class Portal extends DataEntity<Portal> {
+public class Portal {
 
     private HomeInfo homeInfo;
     private LogoInfo logoInfo;
