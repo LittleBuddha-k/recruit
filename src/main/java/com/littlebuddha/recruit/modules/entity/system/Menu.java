@@ -7,23 +7,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *菜单实体类，一个才对对应具有一种权限
+ * 菜单实体类，一个才对对应具有一种权限
  */
 public class Menu extends DataEntity<Menu> {
 
-    private Menu parent;	// 父级菜单
+    private Menu parent;    // 父级菜单
     private String parentIds; // 所有父级编号
-    private String name; 	// 名称
-    private String href; 	// 链接
-    private String target; 	// 目标（ mainFrame、_blank、_self、_parent、_top）
-    private String icon; 	// 图标
-    private Integer sort; 	// 排序
-    private String isShow; 	// 是否在菜单中显示（1：显示；0：不显示）
+    private String title;    // 名称
+    private String href;    // 链接
+    private String target;    // 目标（ mainFrame、_blank、_self、_parent、_top）
+    private String icon;    // 图标
+    private Integer sort;    // 排序
+    private String isShow;    // 是否在菜单中显示（1：显示；0：不显示）
     private String type; //按钮类型
     private String permission; // 权限标识
     private boolean hasChildren;
 
-    private List<Menu> children;	// 子级菜单列表
+    private List<Menu> child;    // 子级菜单列表
 
     public Menu() {
         super();
@@ -49,23 +49,12 @@ public class Menu extends DataEntity<Menu> {
         this.parentIds = parentIds;
     }
 
-    public List<Menu> getChildren() {
-        if (children == null){
-            children = new ArrayList<>();
-        }
-        return children;
+    public String getTitle() {
+        return title;
     }
 
-    public void setChildren(List<Menu> children) {
-        this.children = children;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getHref() {
@@ -132,18 +121,29 @@ public class Menu extends DataEntity<Menu> {
         this.hasChildren = hasChildren;
     }
 
-    public static void sortList(List<Menu> list, List<Menu> sourcelist, String parentId, boolean cascade){
-        for (int i=0; i<sourcelist.size(); i++){
+    public List<Menu> getChild() {
+        if (child == null) {
+            child = new ArrayList<>();
+        }
+        return child;
+    }
+
+    public void setChild(List<Menu> child) {
+        this.child = child;
+    }
+
+    public static void sortList(List<Menu> list, List<Menu> sourcelist, String parentId, boolean cascade) {
+        for (int i = 0; i < sourcelist.size(); i++) {
             Menu e = sourcelist.get(i);
-            if (e.getParent()!=null && e.getParent().getId()!=null
-                    && e.getParent().getId().equals(parentId)){
+            if (e.getParent() != null && e.getParent().getId() != null
+                    && e.getParent().getId().equals(parentId)) {
                 list.add(e);
-                if (cascade){
+                if (cascade) {
                     // 判断是否还有子节点, 有则继续获取子节点
-                    for (int j=0; j<sourcelist.size(); j++){
+                    for (int j = 0; j < sourcelist.size(); j++) {
                         Menu child = sourcelist.get(j);
-                        if (child.getParent()!=null && child.getParent().getId()!=null
-                                && child.getParent().getId().equals(e.getId())){
+                        if (child.getParent() != null && child.getParent().getId() != null
+                                && child.getParent().getId().equals(e.getId())) {
                             sortList(list, sourcelist, e.getId(), true);
                             break;
                         }

@@ -6,6 +6,7 @@ layui.use(['jquery', 'layer', 'miniAdmin', 'miniTongji'], function () {
 
     var options = {
         iniUrl: "/recruit/plugins/layui/api/init.json",    // 初始化接口
+        //iniUrl: "/recruit/portal/data",
         clearUrl: "/recruit/plugins/layui/api/clear.json", // 缓存清理接口
         urlHashLocation: true,      // 是否打开hash定位
         bgColorDefault: false,      // 主题默认配置

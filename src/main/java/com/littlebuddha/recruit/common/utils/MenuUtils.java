@@ -63,7 +63,7 @@ public class MenuUtils {
             }
             for (Menu menu1 : menuList) {
                 if (menu.getParent().getId().equals(menu1.getId())) {
-                    menu1.getChildren().add(menu);
+                    menu1.getChild().add(menu);
                 }
             }
         }

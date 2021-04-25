@@ -137,6 +137,13 @@ public class MenuService extends CrudService<Menu, MenuMapper> {
         }
         //5.set子集
         MenuUtils.setChildrenList(afterSort);
-        return afterSort;
+        //6.需要的结果-----set完子集后去除列表中非一级菜单
+        List<Menu> result = new ArrayList<>();
+        for (Menu menu : afterSort) {
+            if(id.equals(menu.getParent().getId())){
+                result.add(menu);
+            }
+        }
+        return result;
     }
 }
