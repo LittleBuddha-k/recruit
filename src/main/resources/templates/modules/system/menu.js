@@ -58,7 +58,7 @@ $(document).ready(function () {
                         field: 'parentIds',
                         title: '父级id'
                     }, {
-                        field: 'name',
+                        field: 'title',
                         title: '菜单名字'
                     }, {
                         field: 'href',
