@@ -69,8 +69,20 @@
                 }
             });
         },
+        alert: function alert(msg) {
+            layui.use('layer', function () {
+                var layer = layui.layer;
+                layer.msg(msg);
+            });
+        },
+        confirm: function confirm(msg) {
+            layer.confirm(msg, function (index) {
+                //do something
+                layer.close(index);
+            });
+        },
         open: function open(url, title) {
-            window.open(url, title, 'height=600, width=800, top=30%,left=30%, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
+
         }
     }
 })(jQuery);

@@ -212,5 +212,6 @@ function exportFile() {
 }
 
 function addChildren(parentId) {
-    rc.post("/recruit/system/menu/delete")
+    rc.alert("asdfasdasd");
+    //rc.open("/recruit/system/menu/form/add?parent.id="+parentId,"添加下级菜单")
 }
