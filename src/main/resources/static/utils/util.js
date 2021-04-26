@@ -81,8 +81,20 @@
                 layer.close(index);
             });
         },
-        open: function open(url, title) {
-
+        openSaveDialog: function open(url, title) {
+            layui.use('layer', function(){
+                var layer = layui.layer;
+                layer.open({
+                    type: 2,
+                    //skin: 'layui-layer-demo', //样式类名
+                    title: title,
+                    closeBtn: 0, //不显示关闭按钮
+                    anim: 2,
+                    area: ['80%', '80%'],
+                    shadeClose: true, //开启遮罩关闭
+                    content: url
+                });
+            });
         }
     }
 })(jQuery);

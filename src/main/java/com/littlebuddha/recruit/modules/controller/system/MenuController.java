@@ -92,7 +92,7 @@ public class MenuController extends BaseController {
         }
         //为其设置parent
         if (menu.getParent() != null && StringUtils.isNotBlank(menu.getParent().getId())) {
-            Menu entity = menuService.get(new Menu(menu.getParent().getId()));
+            Menu entity = menuService.get(menu.getParent().getId());
             menu.setParent(entity);
         }
         //前端下拉选项数据

@@ -24,7 +24,7 @@
                         <option th:each="menu:${allList}" th:value="${menu.getId()}" th:text="${menu.getTitle()}"></option>
                     </select>
                 </div>
-                <div class="col-sm-8" th:if="${'view' == mode}">
+                <div class="col-sm-8" th:if="${'view' == mode || 'addChildren' == mode}">
                     <select class="form-control" name="parent.id" id="parent.id">
                         <option th:value="${menu.getParent().getId()}" th:text="${menu.getParent().getTitle()}"></option>
                     </select>

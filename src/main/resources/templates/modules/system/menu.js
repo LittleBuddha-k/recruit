@@ -191,7 +191,7 @@ function showSearchButton() {
     //$("#menuSearchForm").attr();---也可以给标签设置属性值
     let attr = $("#menuSearchForm").data("collapse");
     if(attr){
-        //1.搜索表里有指定的属性值，此时搜索表为展开状态
+        //1.搜索表里有指定的属性值，此时搜索表为展开状态open
         //2.判断属性值有否,需要移除data属性值，并移除”in“类
         $("#menuSearchForm").removeData("collapse");
         $("#menuSearchForm").removeClass("in");
@@ -212,6 +212,6 @@ function exportFile() {
 }
 
 function addChildren(parentId) {
-    rc.alert("asdfasdasd");
-    //rc.open("/recruit/system/menu/form/add?parent.id="+parentId,"添加下级菜单")
+    //rc.alert("asdfasdasd");
+    rc.openSaveDialog("/recruit/system/menu/form/addChildren?parent.id="+parentId,"添加下级菜单")
 }
