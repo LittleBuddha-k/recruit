@@ -86,13 +86,31 @@
                 var layer = layui.layer;
                 layer.open({
                     type: 2,
-                    //skin: 'layui-layer-demo', //样式类名
                     title: title,
-                    closeBtn: 0, //不显示关闭按钮
-                    anim: 2,
-                    area: ['80%', '80%'],
-                    shadeClose: true, //开启遮罩关闭
-                    content: url
+                    content: url,
+                    skin: 'demo-class',
+                    area: ['75%', '70%'],
+                    offset: 'auto',
+                    btn: ['确定', '关闭'],
+                    yes: function(index, layero){
+                        //按钮【按钮一】的回调
+                        alert(index)
+                    }
+                    ,btn2: function(index, layero){
+                        //按钮【按钮二】的回调
+                        alert("按钮【按钮二】的回调")
+                        //return false 开启该代码可禁止点击该按钮关闭
+                    },
+                    //按钮1、2、3的位置
+                    btnAlign: 'c',
+                    //关闭按钮的风格
+                    closeBtn: 2,
+                    shade: [0.8, '#393D49'],
+                    //设置延时关闭时间
+                    //time: 5000,
+                    shift: 4,
+                    //配置最大化最小化按钮
+                    maxmin: true
                 });
             });
         }
