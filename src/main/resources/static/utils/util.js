@@ -95,6 +95,7 @@
                     yes: function(index, layero){
                         //按钮【按钮一】的回调
                         alert(index)
+                        console.log(layero)
                     }
                     ,btn2: function(index, layero){
                         //按钮【按钮二】的回调

@@ -110,6 +110,24 @@
     $("#cancelButton").click(function () {
         window.close();
     });
+    //保存方法
+    function save() {
+        alert("这是menuform的窗口save方法")
+        /*$.ajax({
+            url: "/recruit/system/menu/save",    //请求的url地址
+            dataType: "json",   //返回格式为json
+            async: true,//请求是否异步，默认为异步，这也是ajax重要特性
+            data: $("#menuForm").serialize(),    //参数值
+            type: "POST",   //请求方式
+            success: function (result) {
+                //请求成功时处理
+                alert(result.msg)
+                window.close();
+                //刷新整个父窗口
+                window.opener.refresh();
+            }
+        });*/
+    }
 </script>
 </body>
 </html>
