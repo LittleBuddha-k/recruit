@@ -139,17 +139,18 @@ function refresh() {
 }
 
 function add() {
-    window.open('/recruit/system/menu/form/add', "新建用户信息", 'height=600, width=800, top=30%,left=30%, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
+    rc.openSaveDialog("/recruit/system/menu/form/add","添加一级菜单")
 }
 
 function edit() {
-    let id = getIdSelections();
-    if (id.toString().length > 32) {
+    let id = getIdSelections().toString();
+    let split = id.toString().split(",");
+    if (split[1]) {
         alert("只能选择一条数据")
-    } else if (id.toString().length < 32) {
+    } else if (id.length <= 0) {
         alert("请至少选择一条数据")
-    } else if (id.toString().length = 32) {
-        window.open('/recruit/system/menu/form/edit?id=' + id, "编辑用户信息", 'height=600, width=800, top=30%,left=30%, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
+    } else if (split[0]) {
+        rc.openSaveDialog("/recruit/system/menu/form/view?id="+id,"编辑菜单信息")
     }
 
 }

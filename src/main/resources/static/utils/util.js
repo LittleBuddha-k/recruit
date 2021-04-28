@@ -93,14 +93,13 @@
                     offset: 'auto',
                     btn: ['确定', '关闭'],
                     yes: function(index, layero){
-                        //按钮【按钮一】的回调
-                        alert(index)
-                        console.log(layero)
+                        //点击确定后，将执行子页面的save（）方法，需要在子页面定义save（）
+                        var iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：
+                        iframeWin.save();
                     }
                     ,btn2: function(index, layero){
                         //按钮【按钮二】的回调
-                        alert("按钮【按钮二】的回调")
-                        //return false 开启该代码可禁止点击该按钮关闭
+                        layer.close(index);
                     },
                     //按钮1、2、3的位置
                     btnAlign: 'c',
