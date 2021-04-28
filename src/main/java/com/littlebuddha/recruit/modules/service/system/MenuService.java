@@ -81,12 +81,17 @@ public class MenuService extends CrudService<Menu, MenuMapper> {
             menu.setSort(0);
             save = super.save(menu);
         }
-        //当数据库开始有菜单后--获取最顶端的父级菜单
-        Menu topMenu = getTopMenu();
 
-        menu.setParent(topMenu);
-        String parentIds = menu.getParentIds();
-        menu.setParentIds(menu.getParent().getParentIds() + menu.getParent().getId() + ",");
+        //设置父类信息
+        if (menu.getParent() == null || StringUtils.isBlank(menu.getParent().getId())) {
+            menu.setParent(getTopMenu());
+            String parentIds = menu.getParentIds();
+            menu.setParentIds(menu.getParent().getParentIds() + menu.getParent().getId() + ",");
+        } else {
+            menu.setParent(menuMapper.get(menu.getParent().getId()));
+            String parentIds = menu.getParentIds();
+            menu.setParentIds(menu.getParent().getParentIds() + menu.getParent().getId() + ",");
+        }
 
         //如果新建菜单----父级菜单为师祖级菜单
         if (menu.getId() == null || StringUtils.isBlank(menu.getId())) {
@@ -120,9 +125,10 @@ public class MenuService extends CrudService<Menu, MenuMapper> {
 
     /**
      * 将会返回menu集合-----排序+set子集
+     *
      * @return
      */
-    public List<Menu> findMenuInfo(){
+    public List<Menu> findMenuInfo() {
         //1.查询当前用户的菜单数据list
         List<Menu> menuData = operatorService.getMenusByOperator();
         //3.因为多个角色可能有多个重复的菜单信息，所以对菜单去重
@@ -130,17 +136,17 @@ public class MenuService extends CrudService<Menu, MenuMapper> {
         //4.排序
         List<Menu> afterSort = new ArrayList<>();
         String id = getTopMenu().getId();
-        if (id != null && StringUtils.isNotBlank(id)){
-            MenuUtils.sort(menuData,afterSort, id);
-        }else {
-            MenuUtils.sort(menuData,afterSort, "-1");
+        if (id != null && StringUtils.isNotBlank(id)) {
+            MenuUtils.sort(menuData, afterSort, id);
+        } else {
+            MenuUtils.sort(menuData, afterSort, "-1");
         }
         //5.set子集
         MenuUtils.setChildrenList(afterSort);
         //6.需要的结果-----set完子集后去除列表中非一级菜单
         List<Menu> result = new ArrayList<>();
         for (Menu menu : afterSort) {
-            if(id.equals(menu.getParent().getId())){
+            if (id.equals(menu.getParent().getId())) {
                 result.add(menu);
             }
         }
