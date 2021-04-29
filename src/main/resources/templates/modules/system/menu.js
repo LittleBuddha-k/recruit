@@ -68,22 +68,39 @@ $(document).ready(function () {
                         title: '目标'
                     }, {
                         field: 'icon',
-                        title: '图标'
+                        title: '图标',
+                        formatter: function (value, row, index) {
+                            return '<i class="layui-icon"> &#xe714 </i> ';
+                        }
                     }, {
                         field: 'sort',
                         title: '排序'
                     }, {
                         field: 'isShow',
-                        title: '是否显示'
+                        title: '是否显示',
+                        formatter: function (value, row, index) {
+                            if ('1' == row.isShow) {
+                                return '是';
+                            } else {
+                                return '否';
+                            }
+                        }
                     }, {
                         field: 'type',
                         title: '菜单类型'
                     }, {
                         field: 'permission',
-                        title: '权限标识'
+                        title: '权限标识',
                     }, {
                         field: 'hasChildren',
-                        title: '是否有子类'
+                        title: '是否有子类',
+                        formatter: function (value, row, index) {
+                            if (row.hasChildren) {
+                                return '是';
+                            } else {
+                                return '否';
+                            }
+                        }
                     },
                     {
                         field: 'phone',
@@ -139,7 +156,7 @@ function refresh() {
 }
 
 function add() {
-    rc.openSaveDialog("/recruit/system/menu/form/add","添加一级菜单")
+    rc.openSaveDialog("/recruit/system/menu/form/add", "添加一级菜单")
 }
 
 function edit() {
@@ -150,7 +167,7 @@ function edit() {
     } else if (id.length <= 0) {
         rc.alert("请至少选择一条数据")
     } else if (split[0]) {
-        rc.openSaveDialog("/recruit/system/menu/form/edit?id="+id,"编辑菜单信息")
+        rc.openSaveDialog("/recruit/system/menu/form/edit?id=" + id, "编辑菜单信息")
     }
 
 }
@@ -163,7 +180,7 @@ function view() {
     } else if (id.length <= 0) {
         rc.alert("请至少选择一条数据")
     } else if (split[0]) {
-        rc.openSaveDialog("/recruit/system/menu/form/view?id="+id,"查看菜单信息")
+        rc.openSaveDialog("/recruit/system/menu/form/view?id=" + id, "查看菜单信息")
     }
 }
 
@@ -179,15 +196,15 @@ function del() {
 function showSearchButton() {
     //$("#menuSearchForm").attr();---也可以给标签设置属性值
     let attr = $("#menuSearchForm").data("collapse");
-    if(attr){
+    if (attr) {
         //1.搜索表里有指定的属性值，此时搜索表为展开状态open
         //2.判断属性值有否,需要移除data属性值，并移除”in“类
         $("#menuSearchForm").removeData("collapse");
         $("#menuSearchForm").removeClass("in");
-    }else {
+    } else {
         //1.搜索表里没有指定的属性值，此时搜索表为隐藏状态
         //2.需要修改属性值，并且添加打开类”in“
-        $("#menuSearchForm").data("collapse","in");
+        $("#menuSearchForm").data("collapse", "in");
         $("#menuSearchForm").addClass("in");
     }
 }
@@ -201,5 +218,5 @@ function exportFile() {
 }
 
 function addChildren(parentId) {
-    rc.openSaveDialog("/recruit/system/menu/form/addChildren?parent.id="+parentId,"添加下级菜单")
+    rc.openSaveDialog("/recruit/system/menu/form/addChildren?parent.id=" + parentId, "添加下级菜单")
 }
