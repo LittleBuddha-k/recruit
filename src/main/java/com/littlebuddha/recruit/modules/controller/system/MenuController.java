@@ -88,6 +88,7 @@ public class MenuController extends BaseController {
     public String form(@PathVariable(name = "mode") String mode, Menu menu, Model model) {
         //当查看的菜单为师祖级菜单
         if (menu.getParent() == null || StringUtils.isBlank(menu.getParent().getId())) {
+            System.out.println("设置初始级");
             menu.setParent(menuService.getTopMenu());
         }
         //为其设置parent

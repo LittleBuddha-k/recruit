@@ -66,7 +66,7 @@ $(document).ready(function () {
                         title: '操作',
                         align: 'center',
                         formatter: function (value, row, index) {
-                            return '<button class="btn btn-primary btn-sm" onclick="edit(\'' + row.id + '\')">其他功能</button>';
+                            return '<button class="btn btn-primary btn-sm" onclick="addPermission(\'' + row.id + '\')">分配权限</button>';
                         }
                     }
                 ]
@@ -184,4 +184,8 @@ function importFile() {
 
 function exportFile() {
     alert("导出")
+}
+
+function addPermission(id){
+    rc.openSaveDialog("/recruit/system/role/addPermission","角色权限设置")
 }

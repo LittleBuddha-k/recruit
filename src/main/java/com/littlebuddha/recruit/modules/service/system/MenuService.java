@@ -83,22 +83,21 @@ public class MenuService extends CrudService<Menu, MenuMapper> {
         }
 
         //设置父类信息
-        if (menu.getParent() == null || StringUtils.isBlank(menu.getParent().getId())) {
-            menu.setParent(getTopMenu());
-            String parentIds = menu.getParentIds();
-            menu.setParentIds(menu.getParent().getParentIds() + menu.getParent().getId() + ",");
-        } else {
-            menu.setParent(menuMapper.get(menu.getParent().getId()));
-            String parentIds = menu.getParentIds();
-            menu.setParentIds(menu.getParent().getParentIds() + menu.getParent().getId() + ",");
-        }
+        menu.setParent(menuMapper.get(menu.getParent().getId()));
+        Menu parent = menu.getParent();
+        System.out.println("424152");
+        String parentIds = parent.getParentIds();
+        String id1 = menu.getParent().getId();
+        menu.setParentIds(parentIds + id1 + ",");
 
-        //如果新建菜单----父级菜单为师祖级菜单
+        //设置sort
         if (menu.getId() == null || StringUtils.isBlank(menu.getId())) {
             //需要设置sort
             List<Menu> list = new ArrayList<>();
             List<Menu> sourcelist = menuMapper.findAllList(new Menu());
-            Menu.sortList(list, sourcelist, menu.getParent().getId(), false);
+            String id = menu.getParent().getId();
+            List<Menu> list2 = new ArrayList<>();
+            Menu.sortList(list, sourcelist, id, false);
             if (list.size() > 0) {
                 menu.setSort(list.get(list.size() - 1).getSort() + 30);
             }
