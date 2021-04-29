@@ -18,13 +18,7 @@
             <input type="hidden" name="id" th:value="${menu.getId()}">
             <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
                 <label for="" class="col-sm-4 control-label">上级菜单</label>
-                <div class="col-sm-8" th:if="${'add' == mode || 'edit' == mode}">
-                    <select class="form-control" name="parent.id" id="parent.id">
-                        <option>请选择</option>
-                        <option th:each="menu:${allList}" th:value="${menu.getId()}" th:text="${menu.getTitle()}"></option>
-                    </select>
-                </div>
-                <div class="col-sm-8" th:if="${'view' == mode || 'addChildren' == mode}">
+                <div class="col-sm-8">
                     <select class="form-control" name="parent.id" id="parent.id">
                         <option th:value="${menu.getParent().getId()}" th:text="${menu.getParent().getTitle()}"></option>
                     </select>

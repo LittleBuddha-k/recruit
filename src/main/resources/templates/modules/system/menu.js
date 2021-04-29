@@ -146,9 +146,9 @@ function edit() {
     let id = getIdSelections().toString();
     let split = id.toString().split(",");
     if (split[1]) {
-        alert("只能选择一条数据")
+        rc.alert("只能选择一条数据")
     } else if (id.length <= 0) {
-        alert("请至少选择一条数据")
+        rc.alert("请至少选择一条数据")
     } else if (split[0]) {
         rc.openSaveDialog("/recruit/system/menu/form/edit?id="+id,"编辑菜单信息")
     }
@@ -159,9 +159,9 @@ function view() {
     let id = getIdSelections().toString();
     let split = id.toString().split(",");
     if (split[1]) {
-        alert("只能选择一条数据")
+        rc.alert("只能选择一条数据")
     } else if (id.length <= 0) {
-        alert("请至少选择一条数据")
+        rc.alert("请至少选择一条数据")
     } else if (split[0]) {
         rc.openSaveDialog("/recruit/system/menu/form/view?id="+id,"查看菜单信息")
     }
@@ -170,7 +170,7 @@ function view() {
 function del() {
     let ids = getIdSelections();
     if (ids == null || ids == '') {
-        alert("请至少选择一条数据")
+        rc.alert("请至少选择一条数据")
     } else {
         rc.post("/recruit/system/menu/delete?ids=" + ids)
     }
@@ -197,10 +197,9 @@ function importFile() {
 }
 
 function exportFile() {
-    alert("导出")
+    rc.alert("导出")
 }
 
 function addChildren(parentId) {
-    //rc.alert("asdfasdasd");
     rc.openSaveDialog("/recruit/system/menu/form/addChildren?parent.id="+parentId,"添加下级菜单")
 }

@@ -46,9 +46,8 @@
                 type: "POST",   //请求方式
                 success: function (result) {
                     //请求成功时处理
-                    alert(result.msg);
+                    rc.msg(result.msg)
                     //重新刷新页面
-                    //window.location.reload();
                     refresh();
                 }
             });
@@ -62,7 +61,7 @@
                 type: "GET",   //请求方式
                 success: function (result) {
                     //请求成功时处理
-                    alert(result.msg);
+                    rc.msg(result.msg)
                     //重新刷新页面
                     //window.location.reload();
                     refresh();
