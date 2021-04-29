@@ -76,13 +76,26 @@
             });
         },
         confirm: function confirm(msg) {
-            layer.confirm(msg, function (index) {
-                //do something
-                layer.close(index);
+            layui.use('layer', function () {
+                var layer = layui.layer;
+                layer.confirm(msg, function (index) {
+                    layer.close(index);
+                });
+            });
+        },
+        msg: function msg(msg) {
+            layui.use('layer', function () {
+                var layer = layui.layer;
+                layer.msg(msg, {
+                    icon: 1,
+                    time: 3000 //2秒关闭（如果不配置，默认是3秒）
+                }, function(){
+                    //do something
+                });
             });
         },
         openSaveDialog: function open(url, title) {
-            layui.use('layer', function(){
+            layui.use('layer', function () {
                 var layer = layui.layer;
                 layer.open({
                     type: 2,
@@ -92,12 +105,12 @@
                     area: ['75%', '70%'],
                     offset: 'auto',
                     btn: ['确定', '关闭'],
-                    yes: function(index, layero){
+                    yes: function (index, layero) {
                         //点击确定后，将执行子页面的save（）方法，需要在子页面定义save（）
                         var iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：
                         iframeWin.save();
                     }
-                    ,btn2: function(index, layero){
+                    , btn2: function (index, layero) {
                         //按钮【按钮二】的回调
                         layer.close(index);
                     },

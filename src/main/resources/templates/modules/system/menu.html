@@ -109,11 +109,11 @@
                     <i class="glyphicon glyphicon-remove"></i> 删除
                 </button>
             </shiro:hasRole>
-            <shiro:hasPermission name="admin">
+            <shiro:hasRole name="admin">
                 <button id="btnImport" class="btn btn-info" onclick="importFile()">
                     <i class="fa fa-folder-open-o"></i> 导入
                 </button>
-            </shiro:hasPermission>
+            </shiro:hasRole>
             <shiro:hasPermission name="admin">
                 <button id="export" class="btn btn-warning" onclick="exportFile()">
                     <i class="fa fa-file-excel-o"></i> 导出

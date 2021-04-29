@@ -150,7 +150,7 @@ function edit() {
     } else if (id.length <= 0) {
         alert("请至少选择一条数据")
     } else if (split[0]) {
-        rc.openSaveDialog("/recruit/system/menu/form/view?id="+id,"编辑菜单信息")
+        rc.openSaveDialog("/recruit/system/menu/form/edit?id="+id,"编辑菜单信息")
     }
 
 }
@@ -163,7 +163,7 @@ function view() {
     } else if (id.length <= 0) {
         alert("请至少选择一条数据")
     } else if (split[0]) {
-        window.open('/recruit/system/menu/form/view?id=' + id, "查看用户信息", 'height=600, width=800, top=30%,left=30%, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
+        rc.openSaveDialog("/recruit/system/menu/form/view?id="+id,"查看菜单信息")
     }
 }
 
@@ -172,19 +172,7 @@ function del() {
     if (ids == null || ids == '') {
         alert("请至少选择一条数据")
     } else {
-        $.ajax({
-            url: "/recruit/system/menu/delete?ids=" + ids,    //请求的url地址
-            dataType: "json",   //返回格式为json
-            async: true,//请求是否异步，默认为异步，这也是ajax重要特性
-            data: "",    //参数值
-            type: "POST",   //请求方式
-            success: function (result) {
-                //请求成功时处理
-                alert(result.msg);
-                //重新刷新页面
-                window.location.reload();
-            }
-        });
+        rc.post("/recruit/system/menu/delete?ids=" + ids)
     }
 }
 
@@ -205,7 +193,7 @@ function showSearchButton() {
 }
 
 function importFile() {
-    alert("导入")
+    rc.confirm("测试")
 }
 
 function exportFile() {
