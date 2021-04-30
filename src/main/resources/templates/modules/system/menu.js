@@ -70,7 +70,9 @@ $(document).ready(function () {
                         field: 'icon',
                         title: '图标',
                         formatter: function (value, row, index) {
-                            return row.icon;
+                            let strings = row.icon.toString().split(" ");
+                            let html = '<i class="' + row.icon + '"></i> ';
+                            return html;
                         }
                     }, {
                         field: 'sort',
