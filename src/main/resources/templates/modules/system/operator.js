@@ -186,5 +186,5 @@ function exportFile() {
 }
 
 function addRole(id) {
-    rc.openSaveDialog("/recruit/system/menu/form/addRole?parent.id=" + id, "添加下级菜单")
+    rc.openSaveDialog("/recruit/system/operator/form/addRole?id=" + id, "设置角色")
 }

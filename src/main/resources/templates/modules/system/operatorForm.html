@@ -51,15 +51,13 @@
                            th:value="${operator.getAddress()}" placeholder="地址">
                 </div>
             </div>
-            <shiro:hasRole name="admin">
-                <div class="form-group col-xs-12 col-sm-12	col-md-12 col-lg-12" id="roleSelections">
-                    <label class="checkbox-inline">
-                        <div class="col-sm-12">
-                            <input type="checkbox" value="option1">超级管理员
-                        </div>
-                    </label>
-                </div>
-            </shiro:hasRole>
+            <div class="form-group col-xs-12 col-sm-12	col-md-12 col-lg-12" id="roleSelections" th:if="${'addRole'==mode}">
+                <label class="checkbox-inline">
+                    <div class="col-sm-12">
+                        <input type="checkbox" value="option1">超级管理员
+                    </div>
+                </label>
+            </div>
         </form>
     </div>
 </div>
@@ -89,6 +87,7 @@
             });
         }
     }
+
     //页面一加载需要去请求到role数据，并将数据与html组合放进operatorForm中
     $(document).ready(function () {
         $.ajax({

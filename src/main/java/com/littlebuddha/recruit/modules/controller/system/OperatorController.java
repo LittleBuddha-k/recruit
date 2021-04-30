@@ -43,7 +43,7 @@ public class OperatorController extends BaseController {
      * @return
      */
     //@RequiresPermissions("system/operator/list")
-    @GetMapping(value = {"/","/list"})
+    @GetMapping(value = {"/", "/list"})
     public String list(Operator operator, Model model, HttpSession session) {
         model.addAttribute("operator", operator);
         return "modules/system/operator";
@@ -72,10 +72,7 @@ public class OperatorController extends BaseController {
     @GetMapping("/form/{mode}")
     public String form(@PathVariable(name = "mode") String mode, Operator operator, Model model) {
         model.addAttribute("operator", operator);
-        if ("add".equals(mode) || "edit".equals(mode) || "view".equals(mode)) {
-            return "modules/system/operatorForm";
-        }
-        return "";
+        return "modules/system/operatorForm";
     }
 
     /**
