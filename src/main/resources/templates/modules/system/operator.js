@@ -75,7 +75,7 @@ $(document).ready(function () {
                         title: '操作',
                         align: 'center',
                         formatter: function (value, row, index) {
-                            return '<button class="btn btn-primary btn-sm" onclick="edit(\'' + row.id + '\')">其他功能</button>';
+                            return '<button class="btn btn-primary btn-sm" onclick="addRole(\'' + row.id + '\')">设置角色</button>';
                         }
                     }
                 ]
@@ -124,50 +124,40 @@ function refresh() {
 }
 
 function add() {
-    window.open('/recruit/system/operator/form/add', "新建用户信息", 'height=600, width=800, top=30%,left=30%, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
+    rc.openSaveDialog("/recruit/system/operator/form/add","新建用户信息")
 }
 
 function edit() {
-    let id = getIdSelections();
-    if (id.toString().length > 32) {
-        alert("只能选择一条数据")
-    } else if (id.toString().length < 32) {
-        alert("请至少选择一条数据")
-    } else if (id.toString().length = 32) {
-        window.open('/recruit/system/operator/form/edit?id=' + id, "编辑用户信息", 'height=600, width=800, top=30%,left=30%, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
+    let id = getIdSelections().toString();
+    let split = id.toString().split(",");
+    if (split[1]) {
+        rc.alert("只能选择一条数据")
+    } else if (id.length <= 0) {
+        rc.alert("请至少选择一条数据")
+    } else if (split[0]) {
+        rc.openSaveDialog('/recruit/system/operator/form/edit?id=' + id, "编辑用户信息");
     }
 
 }
 
 function view() {
-    let id = getIdSelections();
-    if (id.toString().length > 32) {
-        alert("只能选择一条数据")
-    } else if (id.toString().length < 32) {
-        alert("请至少选择一条数据")
-    } else if (id.toString().length = 32) {
-        window.open('/recruit/system/operator/form/view?id=' + id, "查看用户信息", 'height=600, width=800, top=30%,left=30%, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
+    let id = getIdSelections().toString();
+    let split = id.toString().split(",");
+    if (split[1]) {
+        rc.alert("只能选择一条数据")
+    } else if (id.length <= 0) {
+        rc.alert("请至少选择一条数据")
+    } else if (split[0]) {
+        rc.openSaveDialog('/recruit/system/operator/form/view?id=' + id, "查看用户信息");
     }
 }
 
 function del() {
     let ids = getIdSelections();
     if (ids == null || ids == '') {
-        alert("请至少选择一条数据")
+        rc.alert("请至少选择一条数据")
     } else {
-        $.ajax({
-            url: "/recruit/system/operator/delete?ids=" + ids,    //请求的url地址
-            dataType: "json",   //返回格式为json
-            async: true,//请求是否异步，默认为异步，这也是ajax重要特性
-            data: "",    //参数值
-            type: "POST",   //请求方式
-            success: function (result) {
-                //请求成功时处理
-                alert(result.msg);
-                //重新刷新页面
-                window.location.reload();
-            }
-        });
+        rc.post("/recruit/system/operator/delete?ids=" + ids)
     }
 }
 
@@ -193,4 +183,8 @@ function importFile() {
 
 function exportFile() {
     alert("导出")
+}
+
+function addRole(id) {
+    rc.openSaveDialog("/recruit/system/menu/form/addRole?parent.id=" + parentId, "添加下级菜单")
 }

@@ -55,7 +55,7 @@ $(document).ready(function () {
                     {
                         checkbox: true
                     }, {
-                        field: 'parentIds',
+                        field: 'parent.id',
                         title: '父级id'
                     }, {
                         field: 'title',
@@ -70,7 +70,7 @@ $(document).ready(function () {
                         field: 'icon',
                         title: '图标',
                         formatter: function (value, row, index) {
-                            return '<i class="layui-icon"> &#xe714 </i> ';
+                            return row.icon;
                         }
                     }, {
                         field: 'sort',
