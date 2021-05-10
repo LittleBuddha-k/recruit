@@ -7,18 +7,14 @@ $(document).ready(function () {
         //2.初始化Button的点击事件
         var oButtonInit = new ButtonInit();
         oButtonInit.Init();
-
-        //3.在表格右上角工具按钮处加入自定义按钮
-        let html = $("#toolButton").html();
-        $(".columns.columns-right.btn-group.pull-right").append(html);
     });
 
     var TableInit = function () {
         var oTableInit = new Object();
         //初始化Table
         oTableInit.Init = function () {
-            $('#roleTable').bootstrapTable({
-                url: '/recruit/system/role/data',         //请求后台的URL（*）
+            $('#menuTable').bootstrapTable({
+                url: '/recruit/system/menu/data',         //请求后台的URL（*）
                 method: 'post',                      //请求方式（*）
                 //类型json
                 dataType: "json",
@@ -30,7 +26,7 @@ $(document).ready(function () {
                 sortable: false,                     //是否启用排序
                 sortOrder: "asc",                   //排序方式
                 queryParams: function (params) {
-                    var searchParam = $("#roleSearchForm").serializeJson();
+                    var searchParam = $("#menuSearchForm").serializeJson();
                     searchParam.pageNo = params.limit === undefined ? "1" : params.offset / params.limit + 1;
                     searchParam.pageSize = params.limit === undefined ? -1 : params.limit;
                     searchParam.orderBy = params.sort === undefined ? "" : params.sort + " " + params.order;
@@ -55,18 +51,53 @@ $(document).ready(function () {
                     {
                         checkbox: true
                     }, {
-                        field: 'name',
-                        title: '角色名称'
+                        field: 'parent.id',
+                        title: '父级id'
                     }, {
-                        field: 'englishName',
-                        title: '英文名称'
-                    },
-                    {
-                        field: 'phone',
-                        title: '操作',
-                        align: 'center',
+                        field: 'title',
+                        title: '菜单名字'
+                    }, {
+                        field: 'href',
+                        title: '链接'
+                    }, {
+                        field: 'target',
+                        title: '目标'
+                    }, {
+                        field: 'icon',
+                        title: '图标',
                         formatter: function (value, row, index) {
-                            return '<button class="btn btn-primary btn-sm" onclick="addPermission(\'' + row.id + '\')">分配权限</button>';
+                            let strings = row.icon.toString().split(" ");
+                            let html = '<i class="' + row.icon + '"></i> ';
+                            return html;
+                        }
+                    }, {
+                        field: 'sort',
+                        title: '排序'
+                    }, {
+                        field: 'isShow',
+                        title: '是否显示',
+                        formatter: function (value, row, index) {
+                            if ('1' == row.isShow) {
+                                return '是';
+                            } else {
+                                return '否';
+                            }
+                        }
+                    }, {
+                        field: 'type',
+                        title: '菜单类型'
+                    }, {
+                        field: 'permission',
+                        title: '权限标识',
+                    }, {
+                        field: 'hasChildren',
+                        title: '是否有子类',
+                        formatter: function (value, row, index) {
+                            if (row.hasChildren) {
+                                return '是';
+                            } else {
+                                return '否';
+                            }
                         }
                     }
                 ]
@@ -90,102 +121,31 @@ $(document).ready(function () {
     //查询按钮
     $("#search").click(function () {
         //只需刷新bootstraptable，bootstraptable就会去/data接口下带着form参数请求数据
-        $('#roleTable').bootstrapTable('refresh');
+        $('#menuTable').bootstrapTable('refresh');
     })
 
     //重置按钮
     $("#reset").click(function () {
         //先将查询form的值全部置空
-        $("#roleSearchForm  input").val("");
+        $("#menuSearchForm  input").val("");
         //只需刷新bootstraptable，bootstraptable就会去/data接口下带着form参数请求数据
-        $('#roleTable').bootstrapTable('refresh');
+        $('#menuTable').bootstrapTable('refresh');
     })
 })
 
 //获取点击的行的数据id
 function getIdSelections() {
-    return $.map($("#roleTable").bootstrapTable('getSelections'), function (row) {
+    return $.map($("#menuTable").bootstrapTable('getSelections'), function (row) {
         return row.id
     });
 }
 
 //刷新列表
 function refresh() {
-    $('#roleTable').bootstrapTable('refresh');
+    $('#menuTable').bootstrapTable('refresh');
 }
 
-function add() {
-    window.open('/recruit/system/role/form/add', "新建用户信息", 'height=600, width=800, top=30%,left=30%, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
-}
-
-function edit() {
-    let id = getIdSelections();
-    if (id.toString().length > 32) {
-        alert("只能选择一条数据")
-    } else if (id.toString().length < 32) {
-        alert("请至少选择一条数据")
-    } else if (id.toString().length = 32) {
-        window.open('/recruit/system/role/form/edit?id=' + id, "编辑用户信息", 'height=600, width=800, top=30%,left=30%, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
-    }
-
-}
-
-function view() {
-    let id = getIdSelections();
-    if (id.toString().length > 32) {
-        alert("只能选择一条数据")
-    } else if (id.toString().length < 32) {
-        alert("请至少选择一条数据")
-    } else if (id.toString().length = 32) {
-        window.open('/recruit/system/role/form/view?id=' + id, "查看用户信息", 'height=600, width=800, top=30%,left=30%, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
-    }
-}
-
-function del() {
-    let ids = getIdSelections();
-    if (ids == null || ids == '') {
-        alert("请至少选择一条数据")
-    } else {
-        $.ajax({
-            url: "/recruit/system/role/delete?ids=" + ids,    //请求的url地址
-            dataType: "json",   //返回格式为json
-            async: true,//请求是否异步，默认为异步，这也是ajax重要特性
-            data: "",    //参数值
-            type: "POST",   //请求方式
-            success: function (result) {
-                //请求成功时处理
-                alert(result.msg);
-                //重新刷新页面
-                window.location.reload();
-            }
-        });
-    }
-}
-
-function showSearchButton() {
-    //$("#operatorSearchForm").attr();---也可以给标签设置属性值
-    let attr = $("#roleSearchForm").data("collapse");
-    if(attr){
-        //1.搜索表里有指定的属性值，此时搜索表为展开状态
-        //2.判断属性值有否,需要移除data属性值，并移除”in“类
-        $("#roleSearchForm").removeData("collapse");
-        $("#roleSearchForm").removeClass("in");
-    }else {
-        //1.搜索表里没有指定的属性值，此时搜索表为隐藏状态
-        //2.需要修改属性值，并且添加打开类”in“
-        $("#roleSearchForm").data("collapse","in");
-        $("#roleSearchForm").addClass("in");
-    }
-}
-
-function importFile() {
-    alert("导入")
-}
-
-function exportFile() {
-    alert("导出")
-}
-
-function addPermission(id){
-    rc.openTreeSaveDialog("/recruit/system/role/permissionPage?id="+id,"角色权限设置")
+//树形数据选用后的提交
+function save(ids) {
+    rc.post("/recruit/system/role/addPermission?ids="+ids);
 }

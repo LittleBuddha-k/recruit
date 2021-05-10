@@ -4,10 +4,14 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import com.littlebuddha.recruit.common.utils.AutoId;
 import com.littlebuddha.recruit.modules.base.service.CrudService;
+import com.littlebuddha.recruit.modules.entity.system.Menu;
 import com.littlebuddha.recruit.modules.entity.system.Operator;
 import com.littlebuddha.recruit.modules.entity.system.Role;
+import com.littlebuddha.recruit.modules.entity.system.RoleMenu;
+import com.littlebuddha.recruit.modules.mapper.system.MenuMapper;
 import com.littlebuddha.recruit.modules.mapper.system.OperatorMapper;
 import com.littlebuddha.recruit.modules.mapper.system.RoleMapper;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +20,9 @@ import java.util.List;
 
 @Service
 public class RoleService extends CrudService<Role, RoleMapper> {
+
+    @Autowired
+    private MenuMapper menuMapper;
 
     @Override
     public int save(Role entity) {
@@ -56,5 +63,15 @@ public class RoleService extends CrudService<Role, RoleMapper> {
     public int recovery(Role entity) {
         int recovery = super.recovery(entity);
         return recovery;
+    }
+
+    public int addPermission(String ids) {
+        String[] split = ids.split(",");
+        for (String id : split) {
+            if (id != null && StringUtils.isNotBlank(id)){
+                Menu menu = menuMapper.get(new Menu(id));
+            }
+        }
+        return 0;
     }
 }

@@ -7,7 +7,10 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import com.littlebuddha.recruit.common.utils.Result;
 import com.littlebuddha.recruit.modules.base.controller.BaseController;
+import com.littlebuddha.recruit.modules.entity.system.Menu;
 import com.littlebuddha.recruit.modules.entity.system.Role;
+import com.littlebuddha.recruit.modules.entity.system.RoleMenu;
+import com.littlebuddha.recruit.modules.service.system.MenuService;
 import com.littlebuddha.recruit.modules.service.system.RoleService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +57,36 @@ public class RoleController extends BaseController {
     public String list(Role role, Model model, HttpSession session) {
         model.addAttribute("role", role);
         return "modules/system/role";
+    }
+
+    /**
+     * 返回权限选择菜单树形目录
+     * @param
+     * @return
+     */
+    @GetMapping("/permissionPage")
+    public String permissionPage(String id,Menu menu, Model model){
+        Role role = roleService.get(new Role(id));
+        model.addAttribute("menu",menu);
+        model.addAttribute("role",role);
+        RoleMenu roleMenu = new RoleMenu(role, menu);
+        model.addAttribute("roleMenu",roleMenu);
+        return "modules/system/permissionPage";
+    }
+
+    @ResponseBody
+    @PostMapping("/addPermission")
+    public Result addPermission(String ids){
+        Result result = null;
+        if (StringUtils.isNotBlank(ids)){
+            int row = roleService.addPermission(ids);
+            if (row > 0){
+                result = new Result("200","权限设置成功");
+            }else {
+                result = new Result("450","未知错误，权限设置失败！！！");
+            }
+        }
+        return result;
     }
 
     /**
