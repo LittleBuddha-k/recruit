@@ -10,7 +10,6 @@ import com.littlebuddha.recruit.modules.base.controller.BaseController;
 import com.littlebuddha.recruit.modules.entity.system.Menu;
 import com.littlebuddha.recruit.modules.entity.system.Role;
 import com.littlebuddha.recruit.modules.entity.system.RoleMenu;
-import com.littlebuddha.recruit.modules.service.system.MenuService;
 import com.littlebuddha.recruit.modules.service.system.RoleService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +52,7 @@ public class RoleController extends BaseController {
      * @return
      */
     //@RequiresPermissions("system/operator/list")
-    @GetMapping(value = {"/","/list"})
+    @GetMapping(value = {"/", "/list"})
     public String list(Role role, Model model, HttpSession session) {
         model.addAttribute("role", role);
         return "modules/system/role";
@@ -61,30 +60,29 @@ public class RoleController extends BaseController {
 
     /**
      * 返回权限选择菜单树形目录
+     *
      * @param
      * @return
      */
     @GetMapping("/permissionPage")
-    public String permissionPage(String id,Menu menu, Model model){
+    public String permissionPage(String id, Menu menu, Model model) {
         Role role = roleService.get(new Role(id));
-        model.addAttribute("menu",menu);
-        model.addAttribute("role",role);
+        model.addAttribute("menu", menu);
+        model.addAttribute("role", role);
         RoleMenu roleMenu = new RoleMenu(role, menu);
-        model.addAttribute("roleMenu",roleMenu);
+        model.addAttribute("roleMenu", roleMenu);
         return "modules/system/permissionPage";
     }
 
     @ResponseBody
     @PostMapping("/addPermission")
-    public Result addPermission(String ids){
+    public Result addPermission(Role role) {
         Result result = null;
-        if (StringUtils.isNotBlank(ids)){
-            int row = roleService.addPermission(ids);
-            if (row > 0){
-                result = new Result("200","权限设置成功");
-            }else {
-                result = new Result("450","未知错误，权限设置失败！！！");
-            }
+        int row = roleService.addPermission(role);
+        if (row > 0) {
+            result = new Result("200", "权限设置成功");
+        } else {
+            result = new Result("450", "未知错误，权限设置失败！！！");
         }
         return result;
     }
@@ -103,7 +101,7 @@ public class RoleController extends BaseController {
 
     @ResponseBody
     @PostMapping("/allData")
-    public List<Role> allData(Role role){
+    public List<Role> allData(Role role) {
         return roleService.findAllList(role);
     }
 
@@ -171,26 +169,26 @@ public class RoleController extends BaseController {
     }
 
     @GetMapping("/recoveryList")
-    public String recoveryList(Role role,Model model){
-        model.addAttribute("role",role);
+    public String recoveryList(Role role, Model model) {
+        model.addAttribute("role", role);
         return "modules/recovery/roleRecovery";
     }
 
     @ResponseBody
     @PostMapping("/recoveryData")
-    public Map recoveryData(Role role,Model model){
-        model.addAttribute("role",role);
+    public Map recoveryData(Role role, Model model) {
+        model.addAttribute("role", role);
         PageInfo<Role> page = roleService.findRecoveryPage(new Page<Role>(), role);
         return getBootstrapData(page);
     }
 
     @ResponseBody
     @PostMapping("/recovery")
-    public Result recovery(Role role){
+    public Result recovery(Role role) {
         int recovery = roleService.recovery(role);
-        if(recovery > 0){
+        if (recovery > 0) {
             return new Result("200", "数据已恢复");
-        }else {
+        } else {
             return new Result("322", "未知错误，数据恢复失败");
         }
     }

@@ -147,5 +147,6 @@ function refresh() {
 
 //树形数据选用后的提交
 function save(ids) {
-    rc.post("/recruit/system/role/addPermission?ids="+ids);
+    $("#menuIds").val(ids);
+    rc.post("/recruit/system/role/addPermission");
 }
