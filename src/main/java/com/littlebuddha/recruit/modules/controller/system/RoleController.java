@@ -10,6 +10,7 @@ import com.littlebuddha.recruit.modules.base.controller.BaseController;
 import com.littlebuddha.recruit.modules.entity.system.Menu;
 import com.littlebuddha.recruit.modules.entity.system.Role;
 import com.littlebuddha.recruit.modules.entity.system.RoleMenu;
+import com.littlebuddha.recruit.modules.entity.system.utils.RoleMenuTDO;
 import com.littlebuddha.recruit.modules.service.system.RoleService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,9 +77,9 @@ public class RoleController extends BaseController {
 
     @ResponseBody
     @PostMapping("/addPermission")
-    public Result addPermission(Role role) {
+    public Result addPermission(RoleMenuTDO roleMenuTDO) {
         Result result = null;
-        int row = roleService.addPermission(role);
+        int row = roleService.addPermission(roleMenuTDO);
         if (row > 0) {
             result = new Result("200", "权限设置成功");
         } else {

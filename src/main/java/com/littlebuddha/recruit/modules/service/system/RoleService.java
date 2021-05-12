@@ -5,8 +5,11 @@ import com.github.pagehelper.PageInfo;
 import com.littlebuddha.recruit.modules.base.service.CrudService;
 import com.littlebuddha.recruit.modules.entity.system.Menu;
 import com.littlebuddha.recruit.modules.entity.system.Role;
+import com.littlebuddha.recruit.modules.entity.system.RoleMenu;
+import com.littlebuddha.recruit.modules.entity.system.utils.RoleMenuTDO;
 import com.littlebuddha.recruit.modules.mapper.system.MenuMapper;
 import com.littlebuddha.recruit.modules.mapper.system.RoleMapper;
+import com.littlebuddha.recruit.modules.mapper.system.RoleMenuMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +21,9 @@ public class RoleService extends CrudService<Role, RoleMapper> {
 
     @Autowired
     private MenuMapper menuMapper;
+
+    @Autowired
+    private RoleMenuMapper roleMenuMapper;
 
     @Override
     public int save(Role entity) {
@@ -60,16 +66,23 @@ public class RoleService extends CrudService<Role, RoleMapper> {
         return recovery;
     }
 
-    public int addPermission(Role role) {
-        if (role != null && StringUtils.isNotBlank(role.getMenuIds())) {
-            String menuIds = role.getMenuIds();
+    public int addPermission(RoleMenuTDO roleMenuTDO) {
+        Menu menu = null;
+        Role role = null;
+        RoleMenu roleMenu = null;
+        int result = 0;
+        if (roleMenuTDO != null && StringUtils.isNotBlank(roleMenuTDO.getMenuIds())) {
+            String menuIds = roleMenuTDO.getMenuIds();
             String[] split = menuIds.split(",");
             for (String menuId : split) {
                 if (menuId != null && StringUtils.isNotBlank(menuId)) {
-                    Menu menu = menuMapper.get(new Menu(menuId));
+                    menu = menuMapper.get(new Menu(menuId));
+                    role = roleMenuTDO.getRole();
+                    roleMenu = new RoleMenu(role, menu);
+                    result = roleMenuMapper.insert(roleMenu);
                 }
             }
         }
-        return 0;
+        return result;
     }
 }

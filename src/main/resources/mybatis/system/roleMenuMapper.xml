@@ -3,78 +3,60 @@
 <mapper namespace="com.littlebuddha.recruit.modules.mapper.system.RoleMenuMapper">
     <sql id="roleColumns">
         id AS "id",
-        create_by AS "createBy.id",
-        create_date AS "createDate",
-        update_by AS "updateBy.id",
-        update_date AS "updateDate",
-        remarks AS "remarks",
-        del_flag AS "delFlag"
+        role_id AS "role.id",
+        menu_id AS "menu.id"
     </sql>
 
     <sql id="roleJoins">
     </sql>
 
-    <select id="get" resultType="com.littlebuddha.recruit.modules.entity.system.Role">
+    <select id="get" resultType="com.littlebuddha.recruit.modules.entity.system.RoleMenu">
         SELECT
         <include refid="roleColumns"/>
-        FROM recruit_system_role
+        FROM recruit_role_menu
         WHERE id=#{id}
     </select>
 
-    <select id="findList" resultType="com.littlebuddha.recruit.modules.entity.system.Role">
+    <select id="findList" resultType="com.littlebuddha.recruit.modules.entity.system.RoleMenu">
         SELECT
         <include refid="roleColumns"/>
-        FROM recruit_system_role a
+        FROM recruit_role_menu a
         <where>
-            a.del_flag = #{DEL_FLAG_NORMAL}
-            <!-- 判断条件参数是否为空 -->
-            <if test="name != null and name != ''">
-                and a.name = #{name}
-            </if>
-            <if test="englishName != null and englishName != ''">
-                and a.english_name = #{englishName}
-            </if>
+
         </where>
         <choose>
-            <when test="orderBy !=null and orderBy != ''">
-                ORDER BY ${orderBy}
+            <when test="">
+
             </when>
             <otherwise>
-                ORDER BY a.create_date DESC
+
             </otherwise>
         </choose>
     </select>
 
-    <select id="findRecoveryList" resultType="com.littlebuddha.recruit.modules.entity.system.Role">
+    <select id="findRecoveryList" resultType="com.littlebuddha.recruit.modules.entity.system.RoleMenu">
         SELECT
         <include refid="roleColumns"/>
-        FROM recruit_system_role a
+        FROM recruit_role_menu a
         <where>
-            a.del_flag = #{DEL_FLAG_DELETE}
-            <!-- 判断条件参数是否为空 -->
-            <if test="name != null and name != ''">
-                and a.name = #{name}
-            </if>
-            <if test="englishName != null and englishName != ''">
-                and a.english_name = #{englishName}
-            </if>
+
         </where>
         <choose>
-            <when test="orderBy !=null and orderBy != ''">
-                ORDER BY ${orderBy}
+            <when test="">
+
             </when>
             <otherwise>
-                ORDER BY a.create_date DESC
+
             </otherwise>
         </choose>
     </select>
 
-    <select id="findAllList" resultType="com.littlebuddha.recruit.modules.entity.system.Role">
+    <select id="findAllList" resultType="com.littlebuddha.recruit.modules.entity.system.RoleMenu">
         SELECT
         <include refid="roleColumns"/>
-        FROM recruit_system_role a
+        FROM recruit_role_menu a
         <choose>
-            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+            <when test="">
 
             </when>
             <otherwise>
@@ -84,48 +66,21 @@
     </select>
 
     <insert id="insert">
-        INSERT INTO recruit_system_role(
+        INSERT INTO recruit_role_menu(
             id,
-            create_by,
-            create_date,
-            update_by,
-            update_date,
-            remarks,
-            del_flag
+            role_id,
+            menu_id
         )VALUES (
             #{id},
-            #{createBy.id},
-            #{createDate},
-            #{updateBy.id},
-            #{updateDate},
-            #{remarks},
-            #{delFlag}
+            #{role.id},
+            #{menu.id}
         )
     </insert>
 
     <update id="update">
-        UPDATE recruit_system_role SET
-            create_by = #{createBy.id},
-            create_date = #{createDate},
-            update_by = #{updateBy.id},
-            update_date = #{updateDate},
-            remarks = #{remarks},
-            del_flag = #{delFlag}
+        UPDATE recruit_role_menu SET
+            role_id = #{role.id},
+            menu_id = #{menu.id},
         WHERE id=#{id}
     </update>
-
-    <update id="deleteByLogic">
-        UPDATE recruit_system_role SET del_flag = 1
-        WHERE id=#{id}
-    </update>
-
-    <update id="recovery">
-        UPDATE recruit_system_role SET del_flag = 0
-        WHERE id=#{id}
-    </update>
-
-    <delete id="deleteByPhysics">
-        DELETE FROM recruit_system_role
-        WHERE id=#{id}
-    </delete>
 </mapper>
