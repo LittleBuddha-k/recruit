@@ -13,56 +13,22 @@
     <select id="get" resultType="com.littlebuddha.recruit.modules.entity.system.RoleMenu">
         SELECT
         <include refid="roleColumns"/>
-        FROM recruit_role_menu
-        WHERE id=#{id}
+        FROM recruit_role_menu a
+        WHERE a.id=#{id}
     </select>
 
-    <select id="findList" resultType="com.littlebuddha.recruit.modules.entity.system.RoleMenu">
+    <select id="getByRoleMenu" resultType="com.littlebuddha.recruit.modules.entity.system.RoleMenu">
         SELECT
         <include refid="roleColumns"/>
         FROM recruit_role_menu a
         <where>
-
+            <if test="role != null and role.id != null and role.id != ''">
+                a.role_id=#{role.id}
+            </if>
+            <if test="menu != null and menu.id != null and menu.id != ''">
+                AND a.menu_id=#{menu.id}
+            </if>
         </where>
-        <choose>
-            <when test="">
-
-            </when>
-            <otherwise>
-
-            </otherwise>
-        </choose>
-    </select>
-
-    <select id="findRecoveryList" resultType="com.littlebuddha.recruit.modules.entity.system.RoleMenu">
-        SELECT
-        <include refid="roleColumns"/>
-        FROM recruit_role_menu a
-        <where>
-
-        </where>
-        <choose>
-            <when test="">
-
-            </when>
-            <otherwise>
-
-            </otherwise>
-        </choose>
-    </select>
-
-    <select id="findAllList" resultType="com.littlebuddha.recruit.modules.entity.system.RoleMenu">
-        SELECT
-        <include refid="roleColumns"/>
-        FROM recruit_role_menu a
-        <choose>
-            <when test="">
-
-            </when>
-            <otherwise>
-
-            </otherwise>
-        </choose>
     </select>
 
     <insert id="insert">

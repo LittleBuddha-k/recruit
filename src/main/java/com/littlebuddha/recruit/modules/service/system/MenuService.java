@@ -11,6 +11,7 @@ import com.littlebuddha.recruit.modules.entity.system.Role;
 import com.littlebuddha.recruit.modules.entity.system.RoleMenu;
 import com.littlebuddha.recruit.modules.mapper.system.MenuMapper;
 import com.littlebuddha.recruit.modules.mapper.system.RoleMapper;
+import com.littlebuddha.recruit.modules.mapper.system.RoleMenuMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,6 +34,9 @@ public class MenuService extends CrudService<Menu, MenuMapper> {
 
     @Autowired
     private RoleMapper roleMapper;
+
+    @Autowired
+    private RoleMenuMapper roleMenuMapper;
 
     @Override
     public Menu get(Menu menu) {
@@ -108,12 +112,20 @@ public class MenuService extends CrudService<Menu, MenuMapper> {
 
     @Override
     public int deleteByPhysics(Menu menu) {
-        return super.deleteByPhysics(menu);
+        //删除菜单
+        int i = super.deleteByPhysics(menu);
+        //查找与菜单相关的 角色--菜单相关数据一并删除
+        int i1 = roleMenuMapper.deleteByPhysics(new RoleMenu(menu));
+        return i;
     }
 
     @Override
     public int deleteByLogic(Menu menu) {
-        return super.deleteByLogic(menu);
+        //删除菜单
+        int i = super.deleteByLogic(menu);
+        //查找与菜单相关的 角色--菜单相关数据一并删除
+        int i1 = roleMenuMapper.deleteByLogic(new RoleMenu(menu));
+        return i;
     }
 
     @Override

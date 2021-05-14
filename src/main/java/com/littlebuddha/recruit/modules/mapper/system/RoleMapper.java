@@ -20,10 +20,4 @@ public interface RoleMapper extends BaseMapper<Role> {
      * @return
      */
     List<Role> getRolesByOperator(Operator operator);
-
-    /**
-     * 根据role和menu id查询是否已对role-menu权限的设置
-     * @return
-     */
-    public RoleMenu getMenuPermissionByRole(RoleMenu roleMenu);
 }

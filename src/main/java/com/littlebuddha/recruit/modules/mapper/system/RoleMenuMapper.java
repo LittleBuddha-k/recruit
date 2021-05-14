@@ -15,4 +15,11 @@ import java.util.List;
 @Mapper
 public interface RoleMenuMapper extends BaseMapper<RoleMenu> {
 
+    /**
+     * 查询是否已经存在这个权限设置
+     * @param roleMenu
+     * @return
+     */
+    public RoleMenu getByRoleMenu(RoleMenu roleMenu);
+
 }

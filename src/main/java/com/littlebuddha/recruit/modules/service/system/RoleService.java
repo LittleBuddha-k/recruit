@@ -25,6 +25,9 @@ public class RoleService extends CrudService<Role, RoleMapper> {
     @Autowired
     private RoleMenuMapper roleMenuMapper;
 
+    @Autowired
+    private RoleMenuService roleMenuService;
+
     @Override
     public int save(Role entity) {
         return super.save(entity);
@@ -79,7 +82,10 @@ public class RoleService extends CrudService<Role, RoleMapper> {
                     menu = menuMapper.get(new Menu(menuId));
                     role = roleMenuTDO.getRole();
                     roleMenu = new RoleMenu(role, menu);
-                    result = roleMenuMapper.insert(roleMenu);
+                    RoleMenu byRoleMenu = roleMenuMapper.getByRoleMenu(roleMenu);
+                    if (byRoleMenu == null) {
+                        result = roleMenuService.save(roleMenu);
+                    }
                 }
             }
         }
