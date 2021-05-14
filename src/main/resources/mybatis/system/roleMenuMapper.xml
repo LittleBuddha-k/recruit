@@ -49,4 +49,16 @@
             menu_id = #{menu.id},
         WHERE id=#{id}
     </update>
+
+    <delete id="deleteByPhysics">
+        DELETE FROM recruit_role_menu a
+        <where>
+            <if test="role != null and role.id != null and role.id != ''">
+                a.role_id=#{role.id}
+            </if>
+            <if test="menu != null and menu.id != null and menu.id != ''">
+                AND a.menu_id=#{menu.id}
+            </if>
+        </where>
+    </delete>
 </mapper>
