@@ -40,54 +40,6 @@ public abstract class CrudService<E extends DataEntity,M extends BaseMapper<E>> 
     }
 
     /**
-     * 物理删除业务层
-     * @param entity
-     * @return
-     */
-    public int deleteByPhysics(E entity){
-        int row = mapper.deleteByPhysics(entity);
-        return row;
-    }
-
-    /**
-     * 逻辑删除业务层
-     * @param entity
-     * @return
-     */
-    public int deleteByLogic(E entity){
-        int row = mapper.deleteByLogic(entity);
-        return row;
-    }
-
-    /**
-     * 物理删除全部业务层
-     * @param entities
-     * @return
-     */
-    public int deleteAllByPhysics(Collection<E> entities){
-        int result = 0;
-        for (E entity : entities) {
-            int row = mapper.deleteByPhysics(entity);
-            result = result + row;
-        }
-        return result;
-    }
-
-    /**
-     * 逻辑删除全部业务层
-     * @param entities
-     * @return
-     */
-    public int deleteAllByLogic(Collection<E> entities){
-        int result = 0;
-        for (E entity : entities) {
-            int row = mapper.deleteByLogic(entity);
-            result = result + row;
-        }
-        return result;
-    }
-
-    /**
      * 获取单条数据
      * @param id
      * @return
@@ -137,6 +89,54 @@ public abstract class CrudService<E extends DataEntity,M extends BaseMapper<E>> 
         List<E> list = mapper.findList(entity);
         PageInfo<E> pageInfo = new PageInfo<E>(list);
         return pageInfo;
+    }
+
+    /**
+     * 物理删除业务层
+     * @param entity
+     * @return
+     */
+    public int deleteByPhysics(E entity){
+        int row = mapper.deleteByPhysics(entity);
+        return row;
+    }
+
+    /**
+     * 逻辑删除业务层
+     * @param entity
+     * @return
+     */
+    public int deleteByLogic(E entity){
+        int row = mapper.deleteByLogic(entity);
+        return row;
+    }
+
+    /**
+     * 物理删除全部业务层
+     * @param entities
+     * @return
+     */
+    public int deleteAllByPhysics(Collection<E> entities){
+        int result = 0;
+        for (E entity : entities) {
+            int row = mapper.deleteByPhysics(entity);
+            result = result + row;
+        }
+        return result;
+    }
+
+    /**
+     * 逻辑删除全部业务层
+     * @param entities
+     * @return
+     */
+    public int deleteAllByLogic(Collection<E> entities){
+        int result = 0;
+        for (E entity : entities) {
+            int row = mapper.deleteByLogic(entity);
+            result = result + row;
+        }
+        return result;
     }
 
     /**
