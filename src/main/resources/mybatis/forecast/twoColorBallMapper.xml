@@ -44,17 +44,11 @@
         <where>
             a.del_flag = #{DEL_FLAG_NORMAL}
             <!-- 判断条件参数是否为空 -->
-            <if test="username != null and username != ''">
-                and a.username = #{username}
+            <if test="issueNumber != null and issueNumber != ''">
+                and a.issue_Number = #{issueNumber}
             </if>
-            <if test="sex != null and sex != ''">
-                and a.sex = #{sex}
-            </if>
-            <if test="age != null and age != ''">
-                and a.age = #{age}
-            </if>
-            <if test="address != null and address != ''">
-                and a.address = #{address}
+            <if test="drawDate != null and drawDate != ''">
+                and a.draw_date = #{drawDate}
             </if>
         </where>
         <choose>
@@ -74,17 +68,11 @@
         <where>
             a.del_flag = #{DEL_FLAG_DELETE}
             <!-- 判断条件参数是否为空 -->
-            <if test="username != null and username != ''">
-                and a.username = #{username}
+            <if test="issueNumber != null and issueNumber != ''">
+                and a.issue_Number = #{issueNumber}
             </if>
-            <if test="sex != null and sex != ''">
-                and a.sex = #{sex}
-            </if>
-            <if test="age != null and age != ''">
-                and a.age = #{age}
-            </if>
-            <if test="address != null and address != ''">
-                and a.address = #{address}
+            <if test="drawDate != null and drawDate != ''">
+                and a.draw_date = #{drawDate}
             </if>
         </where>
         <choose>

@@ -46,7 +46,7 @@ public class TwoColorBallController extends BaseController {
     @GetMapping(value = {"/", "/list"})
     public String list(TwoColorBall twoColorBall, Model model, HttpSession session) {
         model.addAttribute("twoColorBall", twoColorBall);
-        return "modules/system/twoColorBall";
+        return "modules/forecast/twoColorBall";
     }
 
     /**
@@ -72,7 +72,7 @@ public class TwoColorBallController extends BaseController {
     @GetMapping("/form/{mode}")
     public String form(@PathVariable(name = "mode") String mode, TwoColorBall twoColorBall, Model model) {
         model.addAttribute("twoColorBall", twoColorBall);
-        return "modules/system/twoColorBallForm";
+        return "modules/forecast/twoColorBallForm";
     }
 
     /**
@@ -86,7 +86,7 @@ public class TwoColorBallController extends BaseController {
     @GetMapping("/setting")
     public String setting(TwoColorBall twoColorBall, Model model) {
         model.addAttribute("twoColorBall", twoColorBall);
-        return "modules/system/twoColorBallSetting";
+        return "modules/forecast/twoColorBallSetting";
     }
 
     /**
