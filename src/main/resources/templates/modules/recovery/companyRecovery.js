@@ -201,7 +201,7 @@ function del() {
         alert("请至少选择一条数据")
     } else {
         $.ajax({
-            url: "/recruit/manager/company/delete?ids=" + ids,    //请求的url地址
+            url: "/recruit/manager/company/deleteByPhysics?ids=" + ids,    //请求的url地址
             dataType: "json",   //返回格式为json
             async: true,//请求是否异步，默认为异步，这也是ajax重要特性
             data: "",    //参数值

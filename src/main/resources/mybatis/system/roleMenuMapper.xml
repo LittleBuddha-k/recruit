@@ -51,13 +51,13 @@
     </update>
 
     <delete id="deleteByPhysics">
-        DELETE FROM recruit_role_menu a
+        DELETE FROM recruit_role_menu
         <where>
             <if test="role != null and role.id != null and role.id != ''">
-                a.role_id=#{role.id}
+                role_id=#{role.id}
             </if>
             <if test="menu != null and menu.id != null and menu.id != ''">
-                AND a.menu_id=#{menu.id}
+                AND menu_id=#{menu.id}
             </if>
         </where>
     </delete>
