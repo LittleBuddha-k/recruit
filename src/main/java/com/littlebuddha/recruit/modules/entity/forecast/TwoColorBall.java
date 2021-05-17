@@ -1,6 +1,7 @@
 package com.littlebuddha.recruit.modules.entity.forecast;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.littlebuddha.recruit.modules.base.entity.DataEntity;
 
 import java.util.ArrayList;
@@ -27,7 +28,8 @@ public class TwoColorBall extends DataEntity<TwoColorBall> {
     private Integer numberOfSecondAward;
     private Double bonusOfSecondAward;
     private Double totalBets;
-    private Date drawDate;
+
+    private String drawDate;
 
     public String getIssueNumber() {
         return issueNumber;
@@ -149,11 +151,11 @@ public class TwoColorBall extends DataEntity<TwoColorBall> {
         this.totalBets = totalBets;
     }
 
-    public Date getDrawDate() {
+    public String getDrawDate() {
         return drawDate;
     }
 
-    public void setDrawDate(Date drawDate) {
+    public void setDrawDate(String drawDate) {
         this.drawDate = drawDate;
     }
 }

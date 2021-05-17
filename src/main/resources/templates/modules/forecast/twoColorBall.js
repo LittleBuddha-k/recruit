@@ -105,7 +105,7 @@ $(document).ready(function () {
                         formatter: function (value, row, index) {
                             return rc.dateFormat(row.drawDate);
                         }
-                    },
+                    }/*,
                     {
                         field: 'phone',
                         title: '操作',
@@ -113,7 +113,7 @@ $(document).ready(function () {
                         formatter: function (value, row, index) {
                             return '<button class="btn btn-primary btn-sm" onclick="addChildren(\'' + row.id + '\')">添加下级菜单</button>';
                         }
-                    }
+                    }*/
                 ]
             });
         };
@@ -184,7 +184,7 @@ function view() {
     } else if (id.length <= 0) {
         rc.alert("请至少选择一条数据")
     } else if (split[0]) {
-        rc.openSaveDialog("/recruit/forecast/twoColorBall/form/view?id=" + id, "查看菜单信息")
+        rc.openViewDialog("/recruit/forecast/twoColorBall/form/view?id=" + id, "查看菜单信息")
     }
 }
 
@@ -214,7 +214,7 @@ function showSearchButton() {
 }
 
 function importFile() {
-    rc.confirm("测试")
+    rc.openImportDialog()
 }
 
 function exportFile() {

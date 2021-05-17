@@ -24,7 +24,6 @@
     //转换时间格式
     rc = {
         dateFormat: function resolvingDate(date) {
-            //date是传入的时间
             var d = new Date(date);
 
             var month = (d.getMonth() + 1) < 10 ? '0' + (d.getMonth() + 1) : (d.getMonth() + 1);
@@ -88,7 +87,7 @@
                 layer.msg(msg, {
                     icon: 1,
                     time: 3000 //2秒关闭（如果不配置，默认是3秒）
-                }, function(){
+                }, function () {
                     //do something
                 });
             });
@@ -112,6 +111,32 @@
                     , btn2: function (index, layero) {
                         //按钮【按钮二】的回调
                         layer.close(index);
+                    },
+                    //按钮1、2、3的位置
+                    btnAlign: 'c',
+                    //关闭按钮的风格
+                    closeBtn: 2,
+                    shade: [0.8, '#393D49'],
+                    //设置延时关闭时间
+                    //time: 5000,
+                    shift: 4,
+                    //配置最大化最小化按钮
+                    maxmin: true
+                });
+            });
+        },
+        openViewDialog: function open(url, title) {
+            layui.use('layer', function () {
+                var layer = layui.layer;
+                layer.open({
+                    type: 2,
+                    title: title,
+                    content: url,
+                    skin: 'demo-class',
+                    area: ['75%', '70%'],
+                    offset: 'auto',
+                    btn: ['关闭'],
+                    cancel: function (index) {
                     },
                     //按钮1、2、3的位置
                     btnAlign: 'c',
@@ -160,6 +185,45 @@
                     maxmin: true
                 });
             });
-        }
+        },
+        openImportDialog: function open(templateUrl, title) {
+            layui.use('layer', function () {
+                var layer = layui.layer;
+                layer.open({
+                    type: 2,
+                    title: title,
+                    content: "/recruit/portal/importTemplate",//下载页面
+                    skin: 'demo-class',
+                    area: ['75%', '70%'],
+                    offset: 'auto',
+                    btn: ['下载模板', '确定', '关闭'],
+                    yes: function (index, layero) {
+                        //按钮【按钮一】的回调
+                    }
+                    , btn2: function (index, layero) {
+                        //按钮【按钮二】的回调
+                        //return false 开启该代码可禁止点击该按钮关闭
+                    }
+                    , btn3: function (index, layero) {
+                        //按钮【按钮三】的回调
+                        //return false 开启该代码可禁止点击该按钮关闭
+                    }
+                    , cancel: function () {
+                        //右上角关闭回调
+                        //return false 开启该代码可禁止点击该按钮关闭
+                    },
+                    //按钮1、2、3的位置
+                    btnAlign: 'c',
+                    //关闭按钮的风格
+                    closeBtn: 2,
+                    shade: [0.8, '#393D49'],
+                    //设置延时关闭时间
+                    //time: 5000,
+                    shift: 4,
+                    //配置最大化最小化按钮
+                    maxmin: true
+                });
+            });
+        },
     }
 })(jQuery);

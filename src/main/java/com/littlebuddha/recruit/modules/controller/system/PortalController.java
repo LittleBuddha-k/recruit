@@ -69,4 +69,10 @@ public class PortalController extends BaseController {
         portal.setMenuInfo(menuInfo);
         return portal;
     }
+
+    @GetMapping("/importTemplate")
+    public String importTemplate(){
+
+        return "modules/common/import";
+    }
 }
