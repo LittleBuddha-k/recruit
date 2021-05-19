@@ -214,11 +214,11 @@ function showSearchButton() {
 }
 
 function importFile() {
-    rc.openImportDialog("/recruit/twoColorBall/importTemplate","/recruit/twoColorBall/importFile")
+    rc.openImportDialog("/recruit/forecast/twoColorBall/importTemplate","/recruit/twoColorBall/importFile")
 }
 
 function exportFile() {
-    rc.alert("导出")
+    rc.downloadFile("/recruit/forecast/twoColorBall/exportFile?"+$("#twoColorBallSearchForm").serialize());
 }
 
 function addChildren(parentId) {
