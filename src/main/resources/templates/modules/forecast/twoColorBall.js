@@ -214,7 +214,7 @@ function showSearchButton() {
 }
 
 function importFile() {
-    rc.openImportDialog()
+    rc.openImportDialog("/recruit/twoColorBall/importTemplate","/recruit/twoColorBall/importFile")
 }
 
 function exportFile() {

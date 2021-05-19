@@ -186,7 +186,7 @@
                 });
             });
         },
-        openImportDialog: function open(templateUrl, title) {
+        openImportDialog: function open(templateUrl, uploadUrl, title) {
             layui.use('layer', function () {
                 var layer = layui.layer;
                 layer.open({
@@ -199,10 +199,23 @@
                     btn: ['下载模板', '确定', '关闭'],
                     yes: function (index, layero) {
                         //按钮【按钮一】的回调
+                        rc.downloadFile(templateUrl);
                     }
                     , btn2: function (index, layero) {
                         //按钮【按钮二】的回调
                         //return false 开启该代码可禁止点击该按钮关闭
+                        var iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：
+                        //调用子页面的方法
+                        iframeWin.importExcel(uploadUrl, function (result) {
+                                if (data.success) {
+                                    rc.alert(data.msg);
+                                    refresh();
+                                } else {
+                                    rc.alert(data.msg);
+                                }
+                                rc.close(index);
+                            }
+                        )
                     }
                     , btn3: function (index, layero) {
                         //按钮【按钮三】的回调
@@ -224,6 +237,64 @@
                     maxmin: true
                 });
             });
+        },
+        //ajax上传文件
+        uploadFile: function (fileObj, url, callback) {
+            var data = new FormData(fileObj);
+            // data.append("CustomField", "This is some extra data, testing");//如果要添加参数
+            $.ajax({
+                type: "POST",
+                enctype: 'multipart/form-data',
+                url: url,
+                data: data,
+                processData: false, //prevent jQuery from automatically transforming the data into a query string
+                contentType: false,
+                cache: false,
+                timeout: 600000,
+                success: function (result) {
+                    callback(result);
+                },
+                error: function (xhr, textStatus) {
+                    if (xhr.status == 0) {
+                        jp.info("连接失败，请检查网络!")
+                    } else if (xhr.status == 404) {
+                        var errDetail = "<font color='red'>404,请求地址不存在！</font>";
+                        top.layer.alert(errDetail, {
+                            icon: 2,
+                            area: ['auto', 'auto'],
+                            title: "请求出错"
+                        })
+                    } else if (xhr.status && xhr.responseText) {
+                        var errDetail = "<font color='red'>" + xhr.responseText.replace(/[\r\n]/g, "<br>").replace(/[\r]/g, "<br>").replace(/[\n]/g, "<br>") + "</font>";
+                        top.layer.alert(errDetail, {
+                            icon: 2,
+                            area: ['80%', '70%'],
+                            title: xhr.status + "错误"
+                        })
+                    } else {
+                        var errDetail = xhr.responseText == "<font color='red'>未知错误!</font>";
+                        top.layer.alert(errDetail, {
+                            icon: 2,
+                            area: ['auto', 'auto'],
+                            title: "真悲剧，后台抛出异常了"
+                        })
+                    }
+
+                }
+            })
+        },
+        downloadFile: function (url, name) {
+            var $a = $("<a></a>").attr("href", url).attr("download", name);
+            $a[0].click();
+        },
+
+        close:function(index){
+            if(index){
+                top.layer.close(index);
+            }else{
+                top.layer.closeAll();
+            }
+
         },
     }
 })(jQuery);

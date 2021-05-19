@@ -20,7 +20,7 @@
     <!--引入工具js-->
     <script type="text/javascript" src="/recruit/utils/util.js"></script>
     <!--引入本html的js文件-->
-    <script type="text/javascript" src="/recruit/modules/system/operator.js"></script>
+    <script type="text/javascript" src="/recruit/modules/common/import.js"></script>
     <!--layui-->
     <link rel="stylesheet" href="/recruit/plugins/layui/lib/layui-v2.5.5/css/layui.css" media="all">
     <script src="/recruit/plugins/layui/lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
@@ -31,7 +31,13 @@
 <div class="container col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <div class="row col-xs-12 col-sm-12	col-md-12 col-lg-12">
         <!--查询-->
-
+        <form style="margin: 10% 45%" id="fileForm">
+            <div class="form-group">
+                <label for="upload">选择文件</label>
+                <input type="file" id="upload">
+                <p class="help-block">请选择多大的文件</p>
+            </div>
+        </form>
     </div>
 </div>
 </body>

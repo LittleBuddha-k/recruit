@@ -78,7 +78,7 @@ public class TwoColorBallController extends BaseController {
     /**
      * 个人设置
      *
-     * @param mode
+     * @param
      * @param twoColorBall
      * @param model
      * @return
@@ -104,6 +104,27 @@ public class TwoColorBallController extends BaseController {
         } else {
             return new Result("310", "未知错误！保存失败");
         }
+    }
+
+    @ResponseBody
+    @PostMapping("/importTemplate")
+    public Result importTemplate(){
+
+        return null;
+    }
+
+    @ResponseBody
+    @PostMapping("/importFile")
+    public Result importFile(){
+
+        return null;
+    }
+
+    @ResponseBody
+    @PostMapping
+    public Result exportFile(){
+
+        return null;
     }
 
     @ResponseBody
