@@ -198,7 +198,7 @@ public class ExcelExport {
             }else{
                 cell.setCellValue(headerList.get(i));
             }
-            sheet.autoSizeColumn(i);
+            //sheet.autoSizeColumn(i);
         }
         for (int i = 0; i < headerList.size(); i++) {
             int colWidth = sheet.getColumnWidth(i)*2;

@@ -56,7 +56,7 @@
                 ORDER BY ${orderBy}
             </when>
             <otherwise>
-                ORDER BY a.create_date DESC
+                ORDER BY a.draw_date DESC
             </otherwise>
         </choose>
     </select>
@@ -80,7 +80,7 @@
                 ORDER BY ${orderBy}
             </when>
             <otherwise>
-                ORDER BY a.create_date DESC
+                ORDER BY a.draw_date DESC
             </otherwise>
         </choose>
     </select>

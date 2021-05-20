@@ -27,7 +27,7 @@ public class TwoColorBall extends DataEntity<TwoColorBall> {
 
     private String drawDate;
 
-    @ExcelField(title = "期号",type = 0,align=2,sort=1)
+    @ExcelField(title = "期号",align=2,sort=1)
     public String getIssueNumber() {
         return issueNumber;
     }
@@ -36,7 +36,7 @@ public class TwoColorBall extends DataEntity<TwoColorBall> {
         this.issueNumber = issueNumber;
     }
 
-    @ExcelField(title = "一号红球",type = 0,align=2,sort=2)
+    @ExcelField(title = "一号红球",align=2,sort=2)
     public Integer getRedOne() {
         return redOne;
     }
@@ -45,7 +45,7 @@ public class TwoColorBall extends DataEntity<TwoColorBall> {
         this.redOne = redOne;
     }
 
-    @ExcelField(title = "二号红球",type = 0,align=2,sort=3)
+    @ExcelField(title = "二号红球",align=2,sort=3)
     public Integer getRedTwo() {
         return redTwo;
     }
@@ -54,7 +54,7 @@ public class TwoColorBall extends DataEntity<TwoColorBall> {
         this.redTwo = redTwo;
     }
 
-    @ExcelField(title = "三号红球",type = 0,align=2,sort=4)
+    @ExcelField(title = "三号红球",align=2,sort=4)
     public Integer getRedThree() {
         return redThree;
     }
@@ -63,7 +63,7 @@ public class TwoColorBall extends DataEntity<TwoColorBall> {
         this.redThree = redThree;
     }
 
-    @ExcelField(title = "四号红球",type = 0,align=2,sort=5)
+    @ExcelField(title = "四号红球",align=2,sort=5)
     public Integer getRedFour() {
         return redFour;
     }
@@ -72,7 +72,7 @@ public class TwoColorBall extends DataEntity<TwoColorBall> {
         this.redFour = redFour;
     }
 
-    @ExcelField(title = "五号红球",type = 0,align=2,sort=6)
+    @ExcelField(title = "五号红球",align=2,sort=6)
     public Integer getRedFive() {
         return redFive;
     }
@@ -81,7 +81,7 @@ public class TwoColorBall extends DataEntity<TwoColorBall> {
         this.redFive = redFive;
     }
 
-    @ExcelField(title = "六号红球",type = 0,align=2,sort=7)
+    @ExcelField(title = "六号红球",align=2,sort=7)
     public Integer getRedSix() {
         return redSix;
     }
@@ -90,7 +90,7 @@ public class TwoColorBall extends DataEntity<TwoColorBall> {
         this.redSix = redSix;
     }
 
-    @ExcelField(title = "蓝球",type = 0,align=2,sort=8)
+    @ExcelField(title = "蓝球",align=2,sort=8)
     public Integer getBlue() {
         return blue;
     }
@@ -99,7 +99,7 @@ public class TwoColorBall extends DataEntity<TwoColorBall> {
         this.blue = blue;
     }
 
-    @ExcelField(title = "欢乐星期天",type = 0,align=2,sort=9)
+    @ExcelField(title = "欢乐星期天",align=2,sort=9)
     public String getHappySunday() {
         return happySunday;
     }
@@ -108,7 +108,7 @@ public class TwoColorBall extends DataEntity<TwoColorBall> {
         this.happySunday = happySunday;
     }
 
-    @ExcelField(title = "奖池奖金",type = 0,align=2,sort=10)
+    @ExcelField(title = "奖池奖金",align=2,sort=10)
     public Double getBonus() {
         return bonus;
     }
@@ -117,7 +117,7 @@ public class TwoColorBall extends DataEntity<TwoColorBall> {
         this.bonus = bonus;
     }
 
-    @ExcelField(title = "一等奖数量",type = 0,align=2,sort=11)
+    @ExcelField(title = "一等奖数量",align=2,sort=11)
     public Integer getNumberOfFirstPrize() {
         return numberOfFirstPrize;
     }
@@ -126,7 +126,7 @@ public class TwoColorBall extends DataEntity<TwoColorBall> {
         this.numberOfFirstPrize = numberOfFirstPrize;
     }
 
-    @ExcelField(title = "一等奖奖金",type = 0,align=2,sort=12)
+    @ExcelField(title = "一等奖奖金",align=2,sort=12)
     public Double getBonusOfFirstPrize() {
         return bonusOfFirstPrize;
     }
@@ -135,7 +135,7 @@ public class TwoColorBall extends DataEntity<TwoColorBall> {
         this.bonusOfFirstPrize = bonusOfFirstPrize;
     }
 
-    @ExcelField(title = "二等奖数量",type = 0,align=2,sort=13)
+    @ExcelField(title = "二等奖数量",align=2,sort=13)
     public Integer getNumberOfSecondAward() {
         return numberOfSecondAward;
     }
@@ -144,7 +144,7 @@ public class TwoColorBall extends DataEntity<TwoColorBall> {
         this.numberOfSecondAward = numberOfSecondAward;
     }
 
-    @ExcelField(title = "二等奖奖金",type = 0,align=2,sort=14)
+    @ExcelField(title = "二等奖奖金",align=2,sort=14)
     public Double getBonusOfSecondAward() {
         return bonusOfSecondAward;
     }
@@ -153,7 +153,7 @@ public class TwoColorBall extends DataEntity<TwoColorBall> {
         this.bonusOfSecondAward = bonusOfSecondAward;
     }
 
-    @ExcelField(title = "总投注金额",type = 0,align=2,sort=15)
+    @ExcelField(title = "总投注金额",align=2,sort=15)
     public Double getTotalBets() {
         return totalBets;
     }
@@ -162,7 +162,7 @@ public class TwoColorBall extends DataEntity<TwoColorBall> {
         this.totalBets = totalBets;
     }
 
-    @ExcelField(title = "开奖日期",type = 0,align=2,sort=16)
+    @ExcelField(title = "开奖日期",align=2,sort=16)
     public String getDrawDate() {
         return drawDate;
     }
