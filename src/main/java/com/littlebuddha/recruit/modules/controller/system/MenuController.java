@@ -65,9 +65,15 @@ public class MenuController extends BaseController {
      */
     @ResponseBody
     @GetMapping("/data")
-    public List<Menu> data(Menu menu) {
+    public Result data(Menu menu) {
+        Result result = null;
         List<Menu> allList = menuService.findAllList(menu);
-        return allList;
+        if(allList != null && allList.size() > 0){
+            result = new Result("200","数据成功",allList,allList.size());
+        }else {
+            result = new Result("466","无数据");
+        }
+        return result;
     }
 
     @ResponseBody

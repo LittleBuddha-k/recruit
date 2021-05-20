@@ -9,6 +9,9 @@ public class Result<T> {
     private String msg;
     private T data;
 
+    //只是迎合layui树形表格所加字段
+    private Integer count;
+
     public Result() {
     }
 
@@ -20,6 +23,13 @@ public class Result<T> {
     public Result(String code, T data) {
         this.code = code;
         this.data = data;
+    }
+
+    public Result(String code, String msg, T data, Integer count) {
+        this.code = code;
+        this.msg = msg;
+        this.data = data;
+        this.count = count;
     }
 
     public String getCode() {
@@ -44,5 +54,13 @@ public class Result<T> {
 
     public void setData(T data) {
         this.data = data;
+    }
+
+    public Integer getCount() {
+        return count;
+    }
+
+    public void setCount(Integer count) {
+        this.count = count;
     }
 }
