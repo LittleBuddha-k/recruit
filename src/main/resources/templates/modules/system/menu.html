@@ -30,64 +30,6 @@
 <!--表格显示区域-->
 <div class="container col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <div class="row col-xs-12 col-sm-12	col-md-12 col-lg-12">
-        <!--查询-->
-        <form class="form-horizontal collapse" col-xs-12 col-sm-12 col-md-12 col-lg-12 id="menuSearchForm">
-            <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
-                <label for="title" class="col-sm-4 control-label">菜单名</label>
-                <div class="col-sm-8">
-                    <input type="title" class="form-control" id="title" name="title"
-                           th:value="${menu.getTitle()}" placeholder="菜单名">
-                </div>
-            </div>
-            <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
-                <label for="href" class="col-sm-4 control-label">链接</label>
-                <div class="col-sm-8">
-                    <input type="href" class="form-control" id="href" name="href" th:value="${menu.getHref()}"
-                           placeholder="链接">
-                </div>
-            </div>
-            <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
-                <label for="target" class="col-sm-4 control-label">目标</label>
-                <div class="col-sm-8">
-                    <input type="target" class="form-control" id="target" name="target" th:value="${menu.getTarget()}"
-                           placeholder="目标">
-                </div>
-            </div>
-            <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
-                <label for="icon" class="col-sm-4 control-label">图标</label>
-                <div class="col-sm-8">
-                    <input type="icon" class="form-control" id="icon" name="icon"
-                           th:value="${menu.getIcon()}" placeholder="图标">
-                </div>
-            </div>
-            <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
-                <label for="isShow" class="col-sm-4 control-label">是否显示</label>
-                <div class="col-sm-8">
-                    <input type="isShow" class="form-control" id="isShow" name="isShow"
-                           th:value="${menu.getIsShow()}" placeholder="是否显示">
-                </div>
-            </div>
-            <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
-                <label for="type" class="col-sm-4 control-label">类型</label>
-                <div class="col-sm-8">
-                    <input type="type" class="form-control" id="type" name="type"
-                           th:value="${menu.getType()}" placeholder="类型">
-                </div>
-            </div>
-            <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
-                <label for="permission" class="col-sm-4 control-label">权限标识</label>
-                <div class="col-sm-8">
-                    <input type="permission" class="form-control" id="permission" name="permission"
-                           th:value="${menu.getPermission()}" placeholder="权限标识">
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-3">
-                    <button type="button" class="btn btn-default" th:id="search">查询</button>
-                    <button type="button" class="btn btn-default" th:id="reset">重置</button>
-                </div>
-            </div>
-        </form>
         <!--左上角工具栏-->
         <div id="toolbar">
             <shiro:hasRole name="admin">
@@ -110,11 +52,11 @@
                     <i class="glyphicon glyphicon-remove"></i> 删除
                 </button>
             </shiro:hasRole>
-            <shiro:hasRole name="admin">
+            <shiro:hasPermission name="admin">
                 <button id="btnImport" class="btn btn-info" onclick="importFile()">
                     <i class="fa fa-folder-open-o"></i> 导入
                 </button>
-            </shiro:hasRole>
+            </shiro:hasPermission>
             <shiro:hasPermission name="admin">
                 <button id="export" class="btn btn-warning" onclick="exportFile()">
                     <i class="fa fa-file-excel-o"></i> 导出
@@ -128,7 +70,7 @@
             </button>
         </div>
         <!--表格区域-->
-        <table id="menuTable" style="white-space:nowrap"></table>
+        <table class="layui-table" id="menuTable" style="white-space:nowrap"></table>
     </div>
 </div>
 </body>

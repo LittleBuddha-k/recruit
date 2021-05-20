@@ -64,10 +64,10 @@ public class MenuController extends BaseController {
      * @return
      */
     @ResponseBody
-    @PostMapping("/data")
-    public Map data(Menu menu) {
-        PageInfo<Menu> page = menuService.findPage(new Page<Menu>(), menu);
-        return getBootstrapData(page);
+    @GetMapping("/data")
+    public List<Menu> data(Menu menu) {
+        List<Menu> allList = menuService.findAllList(menu);
+        return allList;
     }
 
     @ResponseBody
