@@ -6,6 +6,7 @@ package com.littlebuddha.recruit.modules.controller.system;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import com.littlebuddha.recruit.common.utils.Result;
+import com.littlebuddha.recruit.common.utils.TreeResult;
 import com.littlebuddha.recruit.common.utils.UserUtils;
 import com.littlebuddha.recruit.modules.base.controller.BaseController;
 import com.littlebuddha.recruit.modules.entity.system.Menu;
@@ -65,13 +66,13 @@ public class MenuController extends BaseController {
      */
     @ResponseBody
     @GetMapping("/data")
-    public Result data(Menu menu) {
-        Result result = null;
+    public TreeResult data(Menu menu) {
+        TreeResult result = null;
         List<Menu> allList = menuService.findAllList(menu);
         if(allList != null && allList.size() > 0){
-            result = new Result("200","数据成功",allList,allList.size());
+            result = new TreeResult(0,"数据成功",allList,allList.size());
         }else {
-            result = new Result("466","无数据");
+            result = new TreeResult(466,"无数据");
         }
         return result;
     }

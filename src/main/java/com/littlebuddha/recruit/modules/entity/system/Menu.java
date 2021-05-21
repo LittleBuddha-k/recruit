@@ -2,6 +2,8 @@ package com.littlebuddha.recruit.modules.entity.system;
 
 
 import com.littlebuddha.recruit.modules.base.entity.DataEntity;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.util.StringUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +14,7 @@ import java.util.List;
 public class Menu extends DataEntity<Menu> {
 
     private Menu parent;    // 父级菜单
+    private String parentId; //父级ID
     private String parentIds; // 所有父级编号
     private String title;    // 名称
     private String href;    // 链接
@@ -39,6 +42,17 @@ public class Menu extends DataEntity<Menu> {
 
     public void setParent(Menu parent) {
         this.parent = parent;
+    }
+
+    public String getParentId() {
+        if(parent != null && StringUtils.isNotBlank(parent.getId())){
+            parentId = parent.getId();
+        }
+        return parentId;
+    }
+
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
     }
 
     public String getParentIds() {

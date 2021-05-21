@@ -9,32 +9,83 @@ $(document).ready(function () {
         treetable.render({
             treeColIndex: 1,
             treeSpid: -1,
-            treeIdName: 'authorityId',
+            treeIdName: 'id',
             treePidName: 'parentId',
             elem: '#menuTable',
-            url: '/recruit/plugins/layui/api/menus.json',
+            url: '/recruit/system/menu/data',
+            treeDefaultClose: true,	//是否默认折叠
+            treeLinkage: false,		//父级展开时是否自动展开所有子级
+            //toolbar: '#toolbarDemo',
             page: false,
             cols: [
                 [
-                {type: 'numbers'},
-                {field: 'authorityName', minWidth: 200, title: '权限名称'},
-                {field: 'authority', title: '权限标识'},
-                {field: 'menuUrl', title: '菜单url'},
-                {field: 'orderNumber', width: 80, align: 'center', title: '排序号'},
-                {
-                    field: 'isMenu', width: 80, align: 'center', templet: function (d) {
-                        if (d.isMenu == 1) {
-                            return '<span class="layui-badge layui-bg-gray">按钮</span>';
+                    {type: 'numbers'},
+                    {
+                        field: 'title',
+                        align: 'left',
+                        title: '菜单名称'
+                    },
+                    {
+                        field: 'href',
+                        align: 'left',
+                        title: '菜单url'
+                    },
+                    {
+                        field: 'icon',
+                        align: 'left',
+                        title: '菜单图标',
+                        templet: function (d) {
+                            let strings = d.icon.toString().split(" ");
+                            let html = '<i class="' + d.icon + '"></i> ';
+                            return html;
                         }
-                        if (d.parentId == -1) {
-                            return '<span class="layui-badge layui-bg-blue">目录</span>';
-                        } else {
-                            return '<span class="layui-badge-rim">菜单</span>';
+                    },
+                    {
+                        field: 'sort',
+                        align: 'left',
+                        title: '排序'
+                    },
+                    {
+                        field: 'isShow',
+                        align: 'left',
+                        title: '是否展示',
+                        templet: function (d) {
+                            if (1 == d.isShow) {
+                                return '是';
+                            } else {
+                                return '否';
+                            }
                         }
-                    }, title: '类型'
-                }/*,
-                {templet: '#auth-state', width: 120, align: 'center', title: '操作'}*/
-            ]
+                    },
+                    {
+                        field: 'type',
+                        align: 'left',
+                        title: '类型'
+                    },
+                    {
+                        field: 'permission',
+                        align: 'left',
+                        title: '权限标识'
+                    },
+                    {
+                        field: 'hasChildren',
+                        align: 'left',
+                        title: '是否有子菜单',
+                        templet: function (d) {
+                            if (d.hasChildren) {
+                                return '是';
+                            } else {
+                                return '否';
+                            }
+                        }
+                    },
+                    {
+                        field: 'permission',
+                        align: 'left',
+                        title: '权限标识',
+                        templet: '#auth-state', width: 120, align: 'center', title: '操作'
+                    },
+                ]
             ],
             done: function () {
                 layer.closeAll('loading');
@@ -50,12 +101,12 @@ $(document).ready(function () {
         });
 
         //监听工具条
-        table.on('tool(munu-table)', function (obj) {
+        table.on('tool(menuTable)', function (obj) {
             var data = obj.data;
             var layEvent = obj.event;
 
-            if (layEvent === 'del') {
-                layer.msg('删除' + data.id);
+            if (layEvent === 'addChildren') {
+                layer.msg('addChildren' + data.id);
             } else if (layEvent === 'edit') {
                 layer.msg('修改' + data.id);
             }
@@ -99,4 +150,14 @@ function del() {
     } else {
         rc.post("/recruit/system/menu/delete?ids=" + ids)
     }
+}
+
+function addChildren() {
+    let ids = getIdSelections();
+    if (ids == null || ids == '') {
+        rc.alert("请至少选择一条数据")
+    } else {
+
+    }
+    rc.openSaveDialog("/recruit/system/menu/form/addChildren?parent.id=" + parentId, "添加下级菜单")
 }

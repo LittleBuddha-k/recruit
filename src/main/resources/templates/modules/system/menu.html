@@ -37,21 +37,21 @@
                     <i class="glyphicon glyphicon-plus"></i> 新建
                 </button>
             </shiro:hasRole>
-            <shiro:hasRole name="admin">
+            <shiro:hasPermission name="admin">
                 <button id="edit" class="btn btn-success" onclick="edit()">
                     <i class="glyphicon glyphicon-edit"></i> 编辑
                 </button>
-            </shiro:hasRole>
-            <shiro:hasRole name="admin">
+            </shiro:hasPermission>
+            <shiro:hasPermission name="admin">
                 <button id="view" class="btn btn-default" onclick="view()">
                     <i class="fa fa-search-plus"></i> 查看
                 </button>
-            </shiro:hasRole>
-            <shiro:hasRole name="admin">
+            </shiro:hasPermission>
+            <shiro:hasPermission name="admin">
                 <button id="remove" class="btn btn-danger" onclick="del()">
                     <i class="glyphicon glyphicon-remove"></i> 删除
                 </button>
-            </shiro:hasRole>
+            </shiro:hasPermission>
             <shiro:hasPermission name="admin">
                 <button id="btnImport" class="btn btn-info" onclick="importFile()">
                     <i class="fa fa-folder-open-o"></i> 导入
@@ -63,14 +63,14 @@
                 </button>
             </shiro:hasPermission>
         </div>
-        <!--搜索下拉搜寻表单按钮--隐藏状态-->
-        <div id="toolButton" class="collapse">
-            <button type="button" id="searchButton" class="btn btn-default" onclick="showSearchButton()">
-                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-            </button>
-        </div>
         <!--表格区域-->
-        <table class="layui-table" id="menuTable" style="white-space:nowrap"></table>
+        <table class="layui-table" id="menuTable" lay-filter="menuTable" style="white-space:nowrap"></table>
+
+        <!-- 操作列 -->
+        <script type="text/html" id="auth-state">
+            <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="addChildren" onclick="addChildren()">添加下级菜单</a>
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+        </script>
     </div>
 </div>
 </body>
