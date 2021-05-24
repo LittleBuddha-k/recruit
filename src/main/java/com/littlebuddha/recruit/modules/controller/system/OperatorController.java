@@ -128,6 +128,8 @@ public class OperatorController extends BaseController {
         return "modules/system/addRolePage";
     }
 
+    @ResponseBody
+    @PostMapping("/addRole")
     public Result addRole(Operator operator){
         int row = operatorService.addRole(operator);
         return getCommonResult(row);

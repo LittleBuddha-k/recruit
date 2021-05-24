@@ -75,7 +75,7 @@ $(document).ready(function () {
                         title: '操作',
                         align: 'center',
                         formatter: function (value, row, index) {
-                            return '<button class="btn btn-primary btn-sm" onclick="addRole(\'' + row.id + '\')">设置角色</button>';
+                            return '<button class="btn btn-primary btn-sm" onclick="addRolePage(\'' + row.id + '\')">设置角色</button>';
                         }
                     }
                 ]
@@ -185,6 +185,6 @@ function exportFile() {
     alert("导出")
 }
 
-function addRole(id) {
-    rc.openSelectionDialog("/recruit/system/operator/addRole?id=" + id, "设置角色")
+function addRolePage(id) {
+    rc.openSelectionDialog("/recruit/system/operator/addRolePage?id=" + id, "设置角色")
 }

@@ -137,5 +137,5 @@ function showSearchButton() {
 
 function save(ids,index) {
     $("#rolesId").val(ids);
-    rc.post("/recruit/system/operator/save",$("#hiddenForm").serializeJson())
+    rc.post("/recruit/system/operator/addRole",$("#hiddenForm").serializeJson())
 }
