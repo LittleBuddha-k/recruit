@@ -29,14 +29,13 @@ public class CustomerRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        System.out.println("进入授权");
         OperatorService operatorService = (OperatorService) ApplicationContextUtils.getBean("operatorService");
         //根据完整的用户信息查询用户角色以及用户权限
         Operator operator = (Operator) principalCollection.getPrimaryPrincipal();
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
-        Operator rolesByOperator = operatorService.findRolesByOperator(operator);
-        if (!CollectionUtils.isEmpty(rolesByOperator.getRoles())) {
-            List<Role> roles = rolesByOperator.getRoles();
+        List<Role> rolesByOperator = operatorService.findRolesByOperator(operator);
+        if (!CollectionUtils.isEmpty(rolesByOperator)) {
+            List<Role> roles = rolesByOperator;
             roles.forEach(role -> {
                 simpleAuthorizationInfo.addRole(role.getEnglishName());
             });

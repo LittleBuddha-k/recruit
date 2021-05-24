@@ -1,6 +1,7 @@
 package com.littlebuddha.recruit.modules.base.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.littlebuddha.recruit.common.utils.Result;
 
 import java.util.HashMap;
 import java.util.List;
@@ -37,5 +38,20 @@ public abstract class BaseController {
         map.put("rows", list);
         map.put("total", pageInfo.getTotal());
         return map;
+    }
+
+    /**
+     * 根据sql操作的返回值，返回result
+     * @param row
+     * @return
+     */
+    public Result getCommonResult(int row){
+        Result result = new Result();
+        if (row > 0){
+            result = new Result<>("200", "操作成功");
+        }else {
+            result = new Result<>("333", "未知错误，数据操作失败");
+        }
+        return result;
     }
 }

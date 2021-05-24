@@ -7,15 +7,19 @@ $(document).ready(function () {
         //2.初始化Button的点击事件
         var oButtonInit = new ButtonInit();
         oButtonInit.Init();
+
+        //3.在表格右上角工具按钮处加入自定义按钮
+        let html = $("#toolButton").html();
+        $(".columns.columns-right.btn-group.pull-right").append(html);
     });
 
     var TableInit = function () {
         var oTableInit = new Object();
         //初始化Table
         oTableInit.Init = function () {
-            $('#menuTable').bootstrapTable({
-                url: '/recruit/system/menu/data',         //请求后台的URL（*）
-                method: 'GET',                      //请求方式（*）
+            $('#roleTable').bootstrapTable({
+                url: '/recruit/system/role/data',         //请求后台的URL（*）
+                method: 'get',                      //请求方式（*）
                 //类型json
                 dataType: "json",
                 contentType: "application/x-www-form-urlencoded",
@@ -26,7 +30,7 @@ $(document).ready(function () {
                 sortable: false,                     //是否启用排序
                 sortOrder: "asc",                   //排序方式
                 queryParams: function (params) {
-                    var searchParam = $("#menuSearchForm").serializeJson();
+                    var searchParam = $("#roleSearchForm").serializeJson();
                     searchParam.pageNo = params.limit === undefined ? "1" : params.offset / params.limit + 1;
                     searchParam.pageSize = params.limit === undefined ? -1 : params.limit;
                     searchParam.orderBy = params.sort === undefined ? "" : params.sort + " " + params.order;
@@ -49,56 +53,26 @@ $(document).ready(function () {
                 detailView: false,                   //是否显示父子表
                 columns: [
                     {
-                        checkbox: true
-                    }, {
-                        field: 'parent.id',
-                        title: '父级id'
-                    }, {
-                        field: 'title',
-                        title: '菜单名字'
-                    }, {
-                        field: 'href',
-                        title: '链接'
-                    }, {
-                        field: 'target',
-                        title: '目标'
-                    }, {
-                        field: 'icon',
-                        title: '图标',
-                        formatter: function (value, row, index) {
-                            let strings = row.icon.toString().split(" ");
-                            let html = '<i class="' + row.icon + '"></i> ';
-                            return html;
-                        }
-                    }, {
-                        field: 'sort',
-                        title: '排序'
-                    }, {
-                        field: 'isShow',
-                        title: '是否显示',
-                        formatter: function (value, row, index) {
-                            if ('1' == row.isShow) {
-                                return '是';
-                            } else {
-                                return '否';
+                        field: '',
+                        checkbox: true,
+                        formatter: function stateFormatter(value, row, index) {
+                            let val = $("#rolesId").val();
+                            let strings = val.toString().split(",");
+                            for (var i = 0; i < strings.length; i++) {
+                                if (row.id == strings[i]) {
+                                    return {
+                                        disabled: false,//设置是否可用
+                                        checked: true//设置选中
+                                    };
+                                }
                             }
                         }
                     }, {
-                        field: 'type',
-                        title: '菜单类型'
+                        field: 'name',
+                        title: '角色名称',
                     }, {
-                        field: 'permission',
-                        title: '权限标识',
-                    }, {
-                        field: 'hasChildren',
-                        title: '是否有子类',
-                        formatter: function (value, row, index) {
-                            if (row.hasChildren) {
-                                return '是';
-                            } else {
-                                return '否';
-                            }
-                        }
+                        field: 'englishName',
+                        title: '英文名称'
                     }
                 ]
             });
@@ -121,32 +95,47 @@ $(document).ready(function () {
     //查询按钮
     $("#search").click(function () {
         //只需刷新bootstraptable，bootstraptable就会去/data接口下带着form参数请求数据
-        $('#menuTable').bootstrapTable('refresh');
+        $('#roleTable').bootstrapTable('refresh');
     })
 
     //重置按钮
     $("#reset").click(function () {
         //先将查询form的值全部置空
-        $("#menuSearchForm  input").val("");
+        $("#roleSearchForm  input").val("");
         //只需刷新bootstraptable，bootstraptable就会去/data接口下带着form参数请求数据
-        $('#menuTable').bootstrapTable('refresh');
+        $('#roleTable').bootstrapTable('refresh');
     })
 })
 
 //获取点击的行的数据id
 function getIdSelections() {
-    return $.map($("#menuTable").bootstrapTable('getSelections'), function (row) {
+    return $.map($("#roleTable").bootstrapTable('getSelections'), function (row) {
         return row.id
     });
 }
 
 //刷新列表
 function refresh() {
-    $('#menuTable').bootstrapTable('refresh');
+    $('#roleTable').bootstrapTable('refresh');
 }
 
-//树形数据选用后的提交
-function save(ids) {
-    $("#menuIds").val(ids);
-    rc.post("/recruit/system/role/addPermission",$("#inputForm").serializeJson());
+function showSearchButton() {
+    //$("#operatorSearchForm").attr();---也可以给标签设置属性值
+    let attr = $("#roleSearchForm").data("collapse");
+    if (attr) {
+        //1.搜索表里有指定的属性值，此时搜索表为展开状态
+        //2.判断属性值有否,需要移除data属性值，并移除”in“类
+        $("#roleSearchForm").removeData("collapse");
+        $("#roleSearchForm").removeClass("in");
+    } else {
+        //1.搜索表里没有指定的属性值，此时搜索表为隐藏状态
+        //2.需要修改属性值，并且添加打开类”in“
+        $("#roleSearchForm").data("collapse", "in");
+        $("#roleSearchForm").addClass("in");
+    }
+}
+
+function save(ids,index) {
+    $("#rolesId").val(ids);
+    rc.post("/recruit/system/operator/save",$("#hiddenForm").serializeJson())
 }

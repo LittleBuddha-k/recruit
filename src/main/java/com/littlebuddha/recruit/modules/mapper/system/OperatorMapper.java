@@ -11,8 +11,6 @@ public interface OperatorMapper extends BaseMapper<Operator> {
 
     Operator getOperatorByName(Operator operator);
 
-    Operator getRolesByOperator(Operator operator);
-
     /**
      * 对operator---role表的操作
      *

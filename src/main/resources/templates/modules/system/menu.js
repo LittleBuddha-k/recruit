@@ -99,6 +99,13 @@ $(document).ready(function () {
         $('#btn-fold').click(function () {
             treetable.foldAll('#munu-table');
         });
+    });
+})
+
+function getIdSelections() {
+    let ids;
+    layui.use(['table', 'treetable'], function () {
+        var table = layui.table;
 
         //监听工具条
         table.on('tool(menuTable)', function (obj) {
@@ -107,12 +114,14 @@ $(document).ready(function () {
 
             if (layEvent === 'addChildren') {
                 layer.msg('addChildren' + data.id);
+                ids = data.id;
             } else if (layEvent === 'edit') {
                 layer.msg('修改' + data.id);
             }
         });
-    });
-})
+    })
+    alert(ids)
+}
 
 function add() {
     rc.openSaveDialog("/recruit/system/menu/form/add", "添加一级菜单")
@@ -154,10 +163,5 @@ function del() {
 
 function addChildren() {
     let ids = getIdSelections();
-    if (ids == null || ids == '') {
-        rc.alert("请至少选择一条数据")
-    } else {
-
-    }
-    rc.openSaveDialog("/recruit/system/menu/form/addChildren?parent.id=" + parentId, "添加下级菜单")
+    //rc.openSaveDialog("/recruit/system/menu/form/addChildren?parent.id=" + ids, "添加下级菜单")
 }

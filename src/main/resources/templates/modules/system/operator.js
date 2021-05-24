@@ -186,5 +186,5 @@ function exportFile() {
 }
 
 function addRole(id) {
-    rc.openSaveDialog("/recruit/system/operator/form/addRole?id=" + id, "设置角色")
+    rc.openSelectionDialog("/recruit/system/operator/addRole?id=" + id, "设置角色")
 }

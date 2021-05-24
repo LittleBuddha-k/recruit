@@ -22,7 +22,11 @@ public class Operator extends DataEntity<Operator> {
 
     private List<Role> roles;            //角色信息
 
+    private Role role;          //角色外键
+
     private Company company;//当前用户所属公司
+
+    private String rolesId; //工具使用变量，重新修改角色属性时使用
 
     public Operator() {
     }
@@ -109,5 +113,21 @@ public class Operator extends DataEntity<Operator> {
 
     public void setCompany(Company company) {
         this.company = company;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public String getRolesId() {
+        return rolesId;
+    }
+
+    public void setRolesId(String rolesId) {
+        this.rolesId = rolesId;
     }
 }

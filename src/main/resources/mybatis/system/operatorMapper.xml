@@ -57,27 +57,6 @@
         </where>
     </select>
 
-    <resultMap id="operatorRolesMap" type="com.littlebuddha.recruit.modules.entity.system.Operator">
-        <id column="aid" property="id"/>
-        <result column="ausername" property="username"/>
-        <collection property="roles" javaType="list" ofType="com.littlebuddha.recruit.modules.entity.system.Role">
-            <id column="cid" property="id"/>
-            <result column="cEnglishName" property="englishName"/>
-        </collection>
-    </resultMap>
-
-    <select id="getRolesByOperator" parameterType="com.littlebuddha.recruit.modules.entity.system.Operator" resultMap="operatorRolesMap">
-        SELECT a.id 'aid',a.username 'ausername',c.id 'cid',c.english_name 'cEnglishName' FROM recruit_system_operator a
-        <include refid="operatorJoins"/>
-        <where>
-            a.del_flag = #{DEL_FLAG_NORMAL}
-            <!-- 判断条件参数是否为空 -->
-            <if test="id != null and id != ''">
-                and a.id = #{id}
-            </if>
-        </where>
-    </select>
-
     <select id="getRoleMenusByRole" parameterType="com.littlebuddha.recruit.modules.entity.system.RoleMenu" resultType="com.littlebuddha.recruit.modules.entity.system.RoleMenu">
         SELECT
             a.id AS "id",

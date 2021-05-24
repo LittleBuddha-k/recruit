@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.littlebuddha.recruit.common.utils.Result;
 import com.littlebuddha.recruit.modules.base.controller.BaseController;
 import com.littlebuddha.recruit.modules.entity.system.Operator;
+import com.littlebuddha.recruit.modules.entity.system.Role;
 import com.littlebuddha.recruit.modules.service.system.OperatorService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -71,6 +74,8 @@ public class OperatorController extends BaseController {
      */
     @GetMapping("/form/{mode}")
     public String form(@PathVariable(name = "mode") String mode, Operator operator, Model model) {
+        List<Role> rolesByOperator = operatorService.findRolesByOperator(operator);
+        model.addAttribute("roles", rolesByOperator);
         model.addAttribute("operator", operator);
         return "modules/system/operatorForm";
     }
@@ -78,7 +83,7 @@ public class OperatorController extends BaseController {
     /**
      * 个人设置
      *
-     * @param mode
+     * @param
      * @param operator
      * @param model
      * @return
@@ -104,6 +109,28 @@ public class OperatorController extends BaseController {
         } else {
             return new Result("310", "未知错误！保存失败");
         }
+    }
+
+    @GetMapping("/addRolePage")
+    public String addRolePage(Operator operator,Model model){
+        List<Role> rolesByOperator = new ArrayList<>();
+        if (operator != null && StringUtils.isNotBlank(operator.getId())){
+            rolesByOperator = operatorService.findRolesByOperator(operator);
+            String rolesId = "";
+            for (Role role : rolesByOperator) {
+                if (role != null && StringUtils.isNotBlank(role.getId())){
+                    rolesId = role.getId() + "," + rolesId;
+                }
+            }
+            model.addAttribute("rolesId",rolesId);
+        }
+        model.addAttribute("operator",operator);
+        return "modules/system/addRolePage";
+    }
+
+    public Result addRole(Operator operator){
+        int row = operatorService.addRole(operator);
+        return getCommonResult(row);
     }
 
     @ResponseBody

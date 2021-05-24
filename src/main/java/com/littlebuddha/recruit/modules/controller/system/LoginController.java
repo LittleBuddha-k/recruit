@@ -45,11 +45,15 @@ public class LoginController extends BaseController {
      */
     @ResponseBody
     @PostMapping("/login")
-    public Result login(String username, String password){
+    public Result login(String username, String password,String rememberMe){
         Result result = null;
         Subject subject = SecurityUtils.getSubject();
+        UsernamePasswordToken authenticationToken = new UsernamePasswordToken(username, password);
+        if("true".equals(rememberMe)){
+            authenticationToken.setRememberMe(true);
+        }
         try{
-            subject.login(new UsernamePasswordToken(username,password));
+            subject.login(authenticationToken);
             result = new Result("200","登录成功");
             return result;
         }catch (UnknownAccountException unknownAccountException){

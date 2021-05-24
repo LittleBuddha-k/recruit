@@ -94,14 +94,14 @@ public class RoleController extends BaseController {
      * @return
      */
     @ResponseBody
-    @PostMapping("/data")
+    @GetMapping("/data")
     public Map data(Role role) {
         PageInfo<Role> page = roleService.findPage(new Page<Role>(), role);
         return getBootstrapData(page);
     }
 
     @ResponseBody
-    @PostMapping("/allData")
+    @GetMapping("/allData")
     public List<Role> allData(Role role) {
         return roleService.findAllList(role);
     }

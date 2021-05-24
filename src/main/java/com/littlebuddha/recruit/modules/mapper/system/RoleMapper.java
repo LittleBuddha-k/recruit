@@ -19,5 +19,5 @@ public interface RoleMapper extends BaseMapper<Role> {
      * 通过用户名查询角色列表
      * @return
      */
-    List<Role> getRolesByOperator(Operator operator);
+    List<Role> getRolesByOperator(Role role);
 }

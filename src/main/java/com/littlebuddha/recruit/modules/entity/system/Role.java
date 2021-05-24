@@ -23,6 +23,10 @@ public class Role extends DataEntity<Role> {
         super(id);
     }
 
+    public Role(Operator operator) {
+        this.operator = operator;
+    }
+
     public String getName() {
         return name;
     }

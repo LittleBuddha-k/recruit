@@ -7,6 +7,7 @@ import com.littlebuddha.recruit.modules.base.service.CrudService;
 import com.littlebuddha.recruit.modules.entity.system.*;
 import com.littlebuddha.recruit.modules.mapper.system.MenuMapper;
 import com.littlebuddha.recruit.modules.mapper.system.OperatorMapper;
+import com.littlebuddha.recruit.modules.mapper.system.OperatorRoleMapper;
 import com.littlebuddha.recruit.modules.mapper.system.RoleMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.crypto.hash.Md5Hash;
@@ -28,12 +29,14 @@ public class OperatorService extends CrudService<Operator, OperatorMapper> {
     @Autowired
     private MenuMapper menuMapper;
 
+    @Autowired
+    private OperatorRoleMapper operatorRoleMapper;
+
     @Override
     public int save(Operator operator) {
         int operatorRow;
         //这一步保存的是operator数据
         if (operator.getIsNewData()) {
-            System.out.println("执行新增操作");
             operator.preInsert();
             //获取盐值
             String splicing = AutoId.getSplicing(16);
@@ -53,7 +56,6 @@ public class OperatorService extends CrudService<Operator, OperatorMapper> {
                 }
             }
         } else {
-            System.out.println("执行更新操作");
             operator.preUpdate();
             operatorRow = operatorMapper.update(operator);
 
@@ -100,8 +102,8 @@ public class OperatorService extends CrudService<Operator, OperatorMapper> {
         return operatorMapper.getOperatorByName(operator);
     }
 
-    public Operator findRolesByOperator(Operator operator) {
-        Operator rolesByOperator = operatorMapper.getRolesByOperator(operator);
+    public List<Role> findRolesByOperator(Operator operator) {
+        List<Role> rolesByOperator = roleMapper.getRolesByOperator(new Role(operator));
         return rolesByOperator;
     }
 
@@ -148,13 +150,15 @@ public class OperatorService extends CrudService<Operator, OperatorMapper> {
 
     public List<Menu> getMenusByOperator() {
         Operator currentUser = UserUtils.getCurrentUser();
-        Operator rolesByOperator = findRolesByOperator(currentUser);
-        List<Role> roles = rolesByOperator.getRoles();
+        List<Role> roles = findRolesByOperator(currentUser);
         List<Menu> menuData = new ArrayList<>();
-        List<RoleMenu> roleMenusByRole = null;
+        List<RoleMenu> roleMenusByRole = new ArrayList<>();
         //1.查询当前用户的所有角色菜单信息
         for (Role role : roles) {
-            roleMenusByRole = menuMapper.getRoleMenusByRole(new RoleMenu(role));
+            List<RoleMenu> roleMenus = menuMapper.getRoleMenusByRole(new RoleMenu(role));
+            if(roleMenus != null && roleMenus.size()>0){
+                roleMenusByRole.addAll(roleMenus);
+            }
         }
         //2.将所有1得到的menu放入menuList
         for (RoleMenu roleMenu : roleMenusByRole) {
@@ -164,5 +168,28 @@ public class OperatorService extends CrudService<Operator, OperatorMapper> {
             }
         }
         return menuData;
+    }
+
+    /**
+     * 仅用于在用户已存在，给用户设置角色的情形下
+     * @param operator
+     * @return
+     */
+    public int addRole(Operator operator) {
+        int row = 0;
+        if (operator != null && operator.getRolesId() != null && StringUtils.isNotBlank(operator.getRolesId())){
+            String[] rolesId = operator.getRolesId().split(",");
+            for (String roleId : rolesId) {
+                Role role = roleMapper.get(new Role(roleId));
+                OperatorRole operatorRole = new OperatorRole(operator, role);
+                OperatorRole operatorRole1 = operatorRoleMapper.getByOperatorAndRole(operatorRole);
+                if (operatorRole1 == null){
+                    row = operatorRoleMapper.insert(operatorRole);
+                }else {
+                    row = operatorRoleMapper.deleteByPhysics(operatorRole);
+                }
+            }
+        }
+        return row;
     }
 }

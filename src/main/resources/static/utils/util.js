@@ -238,6 +238,41 @@
                 });
             });
         },
+        openSelectionDialog: function open(url, title) {
+            layui.use('layer', function () {
+                var layer = layui.layer;
+                layer.open({
+                    type: 2,
+                    title: title,
+                    content: url,
+                    skin: 'demo-class',
+                    area: ['75%', '70%'],
+                    offset: 'auto',
+                    btn: ['确定', '关闭'],
+                    yes: function (index, layero) {
+                        //点击确定后，将执行子页面的save（）方法，需要在子页面定义save（）
+                        var iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：
+                        let ids = iframeWin.getIdSelections();
+                        iframeWin.save(ids,index);
+                        layer.close(index);
+                    }
+                    , btn2: function (index, layero) {
+                        //按钮【按钮二】的回调
+                        layer.close(index);
+                    },
+                    //按钮1、2、3的位置
+                    btnAlign: 'c',
+                    //关闭按钮的风格
+                    closeBtn: 2,
+                    shade: [0.8, '#393D49'],
+                    //设置延时关闭时间
+                    //time: 5000,
+                    shift: 4,
+                    //配置最大化最小化按钮
+                    maxmin: true
+                });
+            });
+        },
         //ajax上传文件
         uploadFile: function (fileObj, url, callback) {
             var data = new FormData(fileObj);
