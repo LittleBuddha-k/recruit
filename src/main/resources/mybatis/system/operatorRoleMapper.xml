@@ -18,21 +18,21 @@
 
     <select id="get" resultType="com.littlebuddha.recruit.modules.entity.system.OperatorRole">
         SELECT
-        <include refid="roleColumns"/>
+        <include refid="operatorRoleColumns"/>
         FROM recruit_operator_role
         WHERE id=#{id}
     </select>
 
     <select id="getByOperatorAndRole" resultType="com.littlebuddha.recruit.modules.entity.system.OperatorRole">
         SELECT
-        <include refid="roleColumns"/>
+        <include refid="operatorRoleColumns"/>
         FROM recruit_operator_role
         WHERE id=#{id}
     </select>
 
     <select id="findList" resultType="com.littlebuddha.recruit.modules.entity.system.OperatorRole">
         SELECT
-        <include refid="roleColumns"/>
+        <include refid="operatorRoleColumns"/>
         FROM recruit_operator_role a
         <where>
             a.del_flag = #{DEL_FLAG_NORMAL}
@@ -56,7 +56,7 @@
 
     <select id="findAllList" resultType="com.littlebuddha.recruit.modules.entity.system.OperatorRole">
         SELECT
-        <include refid="roleColumns"/>
+        <include refid="operatorRoleColumns"/>
         FROM recruit_operator_role a
         <choose>
             <when test="page !=null and page.orderBy != null and page.orderBy != ''">

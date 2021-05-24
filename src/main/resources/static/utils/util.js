@@ -106,7 +106,7 @@
                     yes: function (index, layero) {
                         //点击确定后，将执行子页面的save（）方法，需要在子页面定义save（）
                         var iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：
-                        iframeWin.save();
+                        iframeWin.save(index);
                     }
                     , btn2: function (index, layero) {
                         //按钮【按钮二】的回调
@@ -291,7 +291,7 @@
                 },
                 error: function (xhr, textStatus) {
                     if (xhr.status == 0) {
-                        jp.info("连接失败，请检查网络!")
+                        rc.info("连接失败，请检查网络!")
                     } else if (xhr.status == 404) {
                         var errDetail = "<font color='red'>404,请求地址不存在！</font>";
                         top.layer.alert(errDetail, {
@@ -331,5 +331,16 @@
             }
 
         },
+
+        /**
+         * 返回当前活跃的tab页面关联的iframe的Windows对象，方便layer弹窗调用父页面的方法。
+         */
+        getParent: function () {
+            return rc.getActiveTab()[0].contentWindow;
+        },
+
+        getActiveTab:function(){
+            return $(".J_iframe:visible");
+        }
     }
 })(jQuery);
