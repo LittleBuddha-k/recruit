@@ -86,6 +86,9 @@ public class MenuService extends CrudService<Menu, MenuMapper> {
             save = super.save(menu);
         }
 
+        // 获取修改前的parentIds，用于更新子节点的parentIds
+        String oldParentIds = menu.getParentIds();
+
         //设置父类信息
         menu.setParent(menuMapper.get(menu.getParent().getId()));
         Menu parent = menu.getParent();
@@ -106,6 +109,16 @@ public class MenuService extends CrudService<Menu, MenuMapper> {
                 menu.setSort(list.get(list.size() - 1).getSort() + 30);
             }
         }
+
+        // 更新子节点 parentIds
+        Menu updateChildren = new Menu();
+        updateChildren.setParentIds("%,"+menu.getId()+",%");
+        List<Menu> list = menuMapper.findByParentIdsLike(updateChildren);
+        for (Menu entity : list){
+            entity.setParentIds(entity.getParentIds().replace(oldParentIds, menu.getParentIds()));
+            menuMapper.updateParentIds(entity);
+        }
+
         save = super.save(menu);
         return save;
     }

@@ -13,6 +13,10 @@ public class OperatorRole extends DataEntity<OperatorRole> {
     public OperatorRole() {
     }
 
+    public OperatorRole(Operator operator) {
+        this.operator = operator;
+    }
+
     public OperatorRole(Operator operator, Role role) {
         this.operator = operator;
         this.role = role;

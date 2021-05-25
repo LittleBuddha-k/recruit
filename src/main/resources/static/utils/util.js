@@ -51,6 +51,20 @@
                 }
             });
         },
+        treeTablePost: function post(url, data) {
+            $.ajax({
+                url: url,    //请求的url地址
+                dataType: "json",   //返回格式为json
+                async: true,//请求是否异步，默认为异步，这也是ajax重要特性
+                data: data,    //参数值
+                type: "POST",   //请求方式
+                success: function (result) {
+                    //请求成功时处理
+                    rc.msg(result.msg)
+                    //重新刷新页面
+                }
+            });
+        },
         get: function get(url, data) {
             $.ajax({
                 url: url,    //请求的url地址
@@ -165,8 +179,7 @@
                     yes: function (index, layero) {
                         //点击确定后，将执行子页面的save（）方法，需要在子页面定义save（）
                         var iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：
-                        let ids = iframeWin.getIdSelections();//得到所选ids
-                        iframeWin.save(ids);//调用子页面的save（）方法
+                        iframeWin.save();//调用子页面的save（）方法
                         layer.close(index);
                     }
                     , btn2: function (index, layero) {

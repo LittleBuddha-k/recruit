@@ -19,7 +19,7 @@ $(document).ready(function () {
         oTableInit.Init = function () {
             $('#roleTable').bootstrapTable({
                 url: '/recruit/system/role/data',         //请求后台的URL（*）
-                method: 'post',                      //请求方式（*）
+                method: 'GET',                      //请求方式（*）
                 //类型json
                 dataType: "json",
                 contentType: "application/x-www-form-urlencoded",
@@ -115,50 +115,39 @@ function refresh() {
 }
 
 function add() {
-    window.open('/recruit/system/role/form/add', "新建用户信息", 'height=600, width=800, top=30%,left=30%, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
+    rc.openSaveDialog('/recruit/system/role/form/add', "新建角色信息")
 }
 
 function edit() {
-    let id = getIdSelections();
-    if (id.toString().length > 32) {
-        alert("只能选择一条数据")
-    } else if (id.toString().length < 32) {
-        alert("请至少选择一条数据")
-    } else if (id.toString().length = 32) {
-        window.open('/recruit/system/role/form/edit?id=' + id, "编辑用户信息", 'height=600, width=800, top=30%,left=30%, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
+    let id = getIdSelections().toString();
+    let split = id.toString().split(",");
+    if (split[1]) {
+        rc.alert("只能选择一条数据")
+    } else if (id.length <= 0) {
+        rc.alert("请至少选择一条数据")
+    } else if (split[0]) {
+        rc.openSaveDialog('/recruit/system/role/form/edit?id=' + id, "编辑角色信息");
     }
-
 }
 
 function view() {
-    let id = getIdSelections();
-    if (id.toString().length > 32) {
-        alert("只能选择一条数据")
-    } else if (id.toString().length < 32) {
-        alert("请至少选择一条数据")
-    } else if (id.toString().length = 32) {
-        window.open('/recruit/system/role/form/view?id=' + id, "查看用户信息", 'height=600, width=800, top=30%,left=30%, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
+    let id = getIdSelections().toString();
+    let split = id.toString().split(",");
+    if (split[1]) {
+        rc.alert("只能选择一条数据")
+    } else if (id.length <= 0) {
+        rc.alert("请至少选择一条数据")
+    } else if (split[0]) {
+        rc.openSaveDialog('/recruit/system/role/form/view?id=' + id, "查看角色信息");
     }
 }
 
 function del() {
     let ids = getIdSelections();
     if (ids == null || ids == '') {
-        alert("请至少选择一条数据")
+        rc.alert("请至少选择一条数据")
     } else {
-        $.ajax({
-            url: "/recruit/system/role/delete?ids=" + ids,    //请求的url地址
-            dataType: "json",   //返回格式为json
-            async: true,//请求是否异步，默认为异步，这也是ajax重要特性
-            data: "",    //参数值
-            type: "POST",   //请求方式
-            success: function (result) {
-                //请求成功时处理
-                alert(result.msg);
-                //重新刷新页面
-                window.location.reload();
-            }
-        });
+        rc.post("/recruit/system/role/deleteByPhysics?ids=" + ids)
     }
 }
 

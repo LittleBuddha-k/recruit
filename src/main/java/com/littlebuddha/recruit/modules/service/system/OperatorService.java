@@ -1,7 +1,6 @@
 package com.littlebuddha.recruit.modules.service.system;
 
 import com.littlebuddha.recruit.common.utils.AutoId;
-import com.littlebuddha.recruit.common.utils.Result;
 import com.littlebuddha.recruit.common.utils.UserUtils;
 import com.littlebuddha.recruit.modules.base.service.CrudService;
 import com.littlebuddha.recruit.modules.entity.system.*;
@@ -52,7 +51,7 @@ public class OperatorService extends CrudService<Operator, OperatorMapper> {
                 for (Role role : roles) {
                     util = new OperatorRole(operator, role);
                     util.preInsert();
-                    int i = operatorMapper.insertOperatorRole(util);
+                    int i = operatorRoleMapper.insert(util);
                 }
             }
         } else {
@@ -69,10 +68,10 @@ public class OperatorService extends CrudService<Operator, OperatorMapper> {
                         OperatorRole operatorRole = operatorMapper.getOperatorRole(util);
                         if (operatorRole == null) {
                             util.preInsert();
-                            int i = operatorMapper.insertOperatorRole(util);
+                            int i = operatorRoleMapper.insert(util);
                         } else {
                             util.preUpdate();
-                            int i = operatorMapper.updateOperatorRole(util);
+                            int i = operatorRoleMapper.update(util);
                         }
                     }
                 }
@@ -115,16 +114,15 @@ public class OperatorService extends CrudService<Operator, OperatorMapper> {
     @Override
     public int deleteByPhysics(Operator entity) {
         int i = super.deleteByPhysics(entity);
-        String operatorId = entity.getId();
-        OperatorRole operatorRole = new OperatorRole();
-        operatorRole.setOperator(entity);
-        operatorMapper.deleteOperatorRole(operatorRole);
+        int row = operatorRoleMapper.deleteByPhysics(new OperatorRole(entity));
         return i;
     }
 
     @Override
     public int deleteByLogic(Operator entity) {
-        return super.deleteByLogic(entity);
+        int i = super.deleteByLogic(entity);
+        int row = operatorRoleMapper.deleteByLogic(new OperatorRole(entity));
+        return i;
     }
 
     @Override
@@ -156,13 +154,13 @@ public class OperatorService extends CrudService<Operator, OperatorMapper> {
         //1.查询当前用户的所有角色菜单信息
         for (Role role : roles) {
             List<RoleMenu> roleMenus = menuMapper.getRoleMenusByRole(new RoleMenu(role));
-            if(roleMenus != null && roleMenus.size()>0){
+            if (roleMenus != null && roleMenus.size() > 0) {
                 roleMenusByRole.addAll(roleMenus);
             }
         }
         //2.将所有1得到的menu放入menuList
         for (RoleMenu roleMenu : roleMenusByRole) {
-            if (roleMenu != null && StringUtils.isNotBlank(roleMenu.getMenu().getId())){
+            if (roleMenu != null && StringUtils.isNotBlank(roleMenu.getMenu().getId())) {
                 Menu menu = menuMapper.get(roleMenu.getMenu());
                 menuData.add(menu);
             }
@@ -172,22 +170,28 @@ public class OperatorService extends CrudService<Operator, OperatorMapper> {
 
     /**
      * 仅用于在用户已存在，给用户设置角色的情形下
+     *
      * @param operator
      * @return
      */
     public int addRole(Operator operator) {
         int row = 0;
-        if (operator != null && operator.getRolesId() != null && StringUtils.isNotBlank(operator.getRolesId())){
+        if (operator != null && operator.getRolesId() != null && StringUtils.isNotBlank(operator.getRolesId())) {
             String[] rolesId = operator.getRolesId().split(",");
+            //直接在每次保存前删除所有角色用户关联信息，然后再根据传参重新赋值
+            if (StringUtils.isNotBlank(operator.getId())){
+                operatorRoleMapper.deleteOutByOperator(operator.getId());
+            }
             for (String roleId : rolesId) {
                 Role role = roleMapper.get(new Role(roleId));
                 OperatorRole operatorRole = new OperatorRole(operator, role);
-                OperatorRole operatorRole1 = operatorRoleMapper.getByOperatorAndRole(operatorRole);
-                if (operatorRole1 == null){
-                    row = operatorRoleMapper.insert(operatorRole);
-                }else {
-                    row = operatorRoleMapper.deleteByPhysics(operatorRole);
-                }
+                operatorRole.preInsert();
+                row = operatorRoleMapper.insert(operatorRole);
+            }
+        }else if (operator != null && StringUtils.isBlank(operator.getRolesId())){
+            //当取消所有角色时执行
+            if (StringUtils.isNotBlank(operator.getId())){
+                operatorRoleMapper.deleteOutByOperator(operator.getId());
             }
         }
         return row;

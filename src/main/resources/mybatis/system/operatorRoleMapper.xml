@@ -5,11 +5,6 @@
         id AS "id",
         operator_id AS "operator.id",
         role_id AS "role.id",
-        create_by AS "createBy.id",
-        create_date AS "createDate",
-        update_by AS "updateBy.id",
-        update_date AS "updateDate",
-        remarks AS "remarks",
         del_flag AS "delFlag"
     </sql>
 
@@ -26,8 +21,16 @@
     <select id="getByOperatorAndRole" resultType="com.littlebuddha.recruit.modules.entity.system.OperatorRole">
         SELECT
         <include refid="operatorRoleColumns"/>
-        FROM recruit_operator_role
-        WHERE id=#{id}
+        FROM recruit_operator_role a
+        <!-- 判断条件参数是否为空 -->
+        <where>
+            <if test="operator != null and operator.id != null and operator.id != ''">
+                a.operator_id = #{operator.id}
+            </if>
+            <if test="role != null and role.id != null and role.id != ''">
+                and a.role_id = #{role.id}
+            </if>
+        </where>
     </select>
 
     <select id="findList" resultType="com.littlebuddha.recruit.modules.entity.system.OperatorRole">
@@ -37,10 +40,10 @@
         <where>
             a.del_flag = #{DEL_FLAG_NORMAL}
             <!-- 判断条件参数是否为空 -->
-            <if test="operator != null and operator.id ！= null and operator.id != ''">
+            <if test="operator != null and operator.id != null and operator.id != ''">
                 and a.operator_id = #{operator.id}
             </if>
-            <if test="operator != null and operator.id ！= null and operator.id != ''">
+            <if test="operator != null and operator.id != null and operator.id != ''">
                 and a.role_id = #{role_id}
             </if>
         </where>
@@ -73,21 +76,11 @@
             id,
             operator_id,
             role_id,
-            create_by,
-            create_date,
-            update_by,
-            update_date,
-            remarks,
             del_flag
         )VALUES (
             #{id},
             #{operator.id},
             #{role.id},
-            #{createBy.id},
-            #{createDate},
-            #{updateBy.id},
-            #{updateDate},
-            #{remarks},
             #{delFlag}
         )
     </insert>
@@ -96,11 +89,6 @@
         UPDATE recruit_operator_role SET
             operator_id = #{operator.id},
             role_id = #{role.id},
-            create_by = #{createBy.id},
-            create_date = #{createDate},
-            update_by = #{updateBy.id},
-            update_date = #{updateDate},
-            remarks = #{remarks},
             del_flag = #{delFlag}
         WHERE id=#{id}
     </update>
@@ -117,6 +105,24 @@
 
     <delete id="deleteByPhysics">
         DELETE FROM recruit_operator_role
-        WHERE id=#{id}
+        WHERE id = #{id}
+    </delete>
+
+    <delete id="deleteOutByOperatorRole">
+        DELETE FROM recruit_operator_role
+        <where>
+            <if test="operatorId != null and operatorId= ''">
+                operator_id = #{operatorId}
+            </if>
+            <if test="roleIds != null and roleIds != ''">
+                and role_id NOT IN (#{roleIds})
+            </if>
+        </where>
+    </delete>
+
+    <!--删除一切用户角色-->
+    <delete id="deleteOutByOperator">
+        DELETE FROM recruit_operator_role
+        WHERE operator_id = #{operatorId}
     </delete>
 </mapper>

@@ -1,8 +1,11 @@
 package com.littlebuddha.recruit.modules.base.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.pagehelper.Page;
+import com.littlebuddha.recruit.common.utils.UserUtils;
 import com.littlebuddha.recruit.modules.entity.system.Operator;
 
+import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 
 /**
@@ -46,7 +49,12 @@ public abstract class BaseEntity<E> implements Serializable {
         this.id = id;
     }
 
+    @JsonIgnore
+    @XmlTransient
     public Operator getCurrentUser() {
+        if(currentUser == null){
+            currentUser = UserUtils.getCurrentUser();
+        }
         return currentUser;
     }
 

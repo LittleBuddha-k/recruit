@@ -14,7 +14,7 @@ $(document).ready(function () {
         //初始化Table
         oTableInit.Init = function () {
             $('#menuTable').bootstrapTable({
-                url: '/recruit/system/menu/data',         //请求后台的URL（*）
+                url: '/recruit/system/menu/allData',         //请求后台的URL（*）
                 method: 'GET',                      //请求方式（*）
                 //类型json
                 dataType: "json",

@@ -41,6 +41,16 @@
         WHERE a.role_id=#{role.id}
     </select>
 
+    <select id="findByParentIdsLike" resultType="com.littlebuddha.recruit.modules.entity.system.Menu">
+		SELECT
+			a.id AS "id",
+			a.parent_id AS "parent.id",
+			a.parent_ids AS "parentIds"
+		FROM recruit_system_menu a
+		WHERE a.del_flag = #{DEL_FLAG_NORMAL} AND a.parent_ids LIKE #{parentIds}
+		ORDER BY a.sort
+	</select>
+
     <select id="findList" resultType="com.littlebuddha.recruit.modules.entity.system.Menu">
         SELECT
         <include refid="menuColumns"/>
@@ -54,10 +64,10 @@
         </where>
         <choose>
             <when test="orderBy !=null and orderBy != ''">
-                ORDER BY ${orderBy}
+                ORDER BY a.sort
             </when>
             <otherwise>
-                ORDER BY a.create_date DESC
+                ORDER BY a.sort DESC
             </otherwise>
         </choose>
     </select>
@@ -75,10 +85,10 @@
         </where>
         <choose>
             <when test="orderBy !=null and orderBy != ''">
-                ORDER BY ${orderBy}
+                ORDER BY a.sort
             </when>
             <otherwise>
-                ORDER BY a.create_date DESC
+                ORDER BY a.sort DESC
             </otherwise>
         </choose>
     </select>
@@ -89,10 +99,10 @@
         FROM recruit_system_menu a
         <choose>
             <when test="page !=null and page.orderBy != null and page.orderBy != ''">
-
+                ORDER BY a.sort
             </when>
             <otherwise>
-
+                ORDER BY a.sort
             </otherwise>
         </choose>
     </select>
@@ -170,6 +180,13 @@
         UPDATE recruit_system_menu SET del_flag = 0
         WHERE id=#{id}
     </update>
+
+    <update id="updateParentIds">
+		UPDATE recruit_system_menu SET
+			parent_id = #{parent.id},
+			parent_ids = #{parentIds}
+		WHERE id = #{id}
+	</update>
 
     <delete id="deleteByPhysics">
         DELETE FROM recruit_system_menu

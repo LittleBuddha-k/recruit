@@ -1,111 +1,148 @@
 $(document).ready(function () {
+    /*表格初始化*/
+    init();
+})
+
+/*刷新表格、重新加载初始化*/
+function refresh() {
+    init();
+}
+
+//重新加载刷新
+function init() {
     layui.use(['table', 'treetable'], function () {
         var $ = layui.jquery;
         var table = layui.table;
         var treetable = layui.treetable;
 
         // 渲染表格
-        layer.load(2);
-        treetable.render({
-            treeColIndex: 1,
-            treeSpid: -1,
-            treeIdName: 'id',
-            treePidName: 'parentId',
-            elem: '#menuTable',
-            url: '/recruit/system/menu/data',
-            treeDefaultClose: true,	//是否默认折叠
-            treeLinkage: false,		//父级展开时是否自动展开所有子级
-            //toolbar: '#toolbarDemo',
-            page: false,
-            cols: [
-                [
-                    {type: 'numbers'},
-                    {
-                        field: 'title',
-                        align: 'left',
-                        title: '菜单名称'
-                    },
-                    {
-                        field: 'href',
-                        align: 'left',
-                        title: '菜单url'
-                    },
-                    {
-                        field: 'icon',
-                        align: 'left',
-                        title: '菜单图标',
-                        templet: function (d) {
-                            let strings = d.icon.toString().split(" ");
-                            let html = '<i class="' + d.icon + '"></i> ';
-                            return html;
-                        }
-                    },
-                    {
-                        field: 'sort',
-                        align: 'left',
-                        title: '排序'
-                    },
-                    {
-                        field: 'isShow',
-                        align: 'left',
-                        title: '是否展示',
-                        templet: function (d) {
-                            if (1 == d.isShow) {
-                                return '是';
-                            } else {
-                                return '否';
+        var renderTable = function () {
+            layer.load(2);
+            treetable.render({
+                treeColIndex: 1,
+                treeSpid: -1,
+                treeIdName: 'id',
+                treePidName: 'parentId',
+                elem: '#menuTable',
+                url: '/recruit/system/menu/data',
+                treeDefaultClose: true,	//是否默认折叠
+                treeLinkage: false,		//父级展开时是否自动展开所有子级
+                toolbar: '#toolbarDemo',
+                page: false,
+                cols: [
+                    [
+                        {type: 'checkbox'},
+                        {
+                            field: 'title',
+                            align: 'left',
+                            title: '菜单名称'
+                        },
+                        {
+                            field: 'href',
+                            align: 'left',
+                            title: '菜单url'
+                        },
+                        {
+                            field: 'icon',
+                            align: 'left',
+                            title: '菜单图标',
+                            templet: function (d) {
+                                let strings = d.icon.toString().split(" ");
+                                let html = '<i class="' + d.icon + '"></i> ';
+                                return html;
                             }
-                        }
-                    },
-                    {
-                        field: 'type',
-                        align: 'left',
-                        title: '类型'
-                    },
-                    {
-                        field: 'permission',
-                        align: 'left',
-                        title: '权限标识'
-                    },
-                    {
-                        field: 'hasChildren',
-                        align: 'left',
-                        title: '是否有子菜单',
-                        templet: function (d) {
-                            if (d.hasChildren) {
-                                return '是';
-                            } else {
-                                return '否';
+                        },
+                        {
+                            field: 'sort',
+                            align: 'left',
+                            title: '排序'
+                        },
+                        {
+                            field: 'isShow',
+                            align: 'left',
+                            title: '是否展示',
+                            templet: function (d) {
+                                if (1 == d.isShow) {
+                                    return '是';
+                                } else {
+                                    return '否';
+                                }
                             }
-                        }
-                    },
-                    {
-                        field: 'permission',
-                        align: 'left',
-                        title: '权限标识',
-                        templet: '#auth-state', width: 120, align: 'center', title: '操作'
-                    },
-                ]
-            ],
-            done: function () {
-                layer.closeAll('loading');
-            }
-        });
+                        },
+                        {
+                            field: 'type',
+                            align: 'left',
+                            title: '类型'
+                        },
+                        {
+                            field: 'permission',
+                            align: 'left',
+                            title: '权限标识'
+                        },
+                        {
+                            field: 'hasChildren',
+                            align: 'left',
+                            title: '是否有子菜单',
+                            templet: function (d) {
+                                if (d.hasChildren) {
+                                    return '是';
+                                } else {
+                                    return '否';
+                                }
+                            }
+                        },
+                        {
+                            field: 'permission',
+                            align: 'left',
+                            title: '权限标识',
+                            width: '180px',
+                            templet: '#auth-state', width: 200, align: 'left', title: '操作'
+                        },
+                    ]
+                ],
+                done: function () {
+                    layer.closeAll('loading');
+                }
+            });
+        }
+
+        //加载
+        renderTable();
 
         $('#btn-expand').click(function () {
-            treetable.expandAll('#munu-table');
+            treetable.expandAll('#menuTable');
         });
 
         $('#btn-fold').click(function () {
-            treetable.foldAll('#munu-table');
+            treetable.foldAll('#menuTable');
         });
-    });
-})
 
-function getIdSelections() {
-    let ids;
-    layui.use(['table', 'treetable'], function () {
-        var table = layui.table;
+        /*监听左上角工具栏*/
+        table.on('toolbar(menuTable)', function (obj) {
+            var checkStatus = table.checkStatus('menuTable');
+            var data = checkStatus.data;
+            if (obj.event === 'add') {
+                rc.openSaveDialog("/recruit/system/menu/form/add", "添加一级菜单");
+            } else if (obj.event === 'edit') {
+                if (data.length <= 0) {
+                    rc.confirm("请至少选择一条数据")
+                } else if (data.length >= 2) {
+                    rc.confirm("只能选择一条数据")
+                } else {
+                    var id = data[0].id;
+                    rc.openSaveDialog("/recruit/system/menu/form/edit?id=" + id, "编辑菜单信息")
+                }
+            } else if (obj.event === "delete") {
+                var ids = "";
+                for (var i = 0; i < data.length; i++) {
+                    ids = ids + "," + data[i].id;
+                }
+                rc.treeTablePost("/recruit/system/menu/deleteByPhysics?ids=" + ids)
+                renderTable();
+            } else if (obj.event === "refresh") {
+                renderTable();
+            }
+        })
 
         //监听工具条
         table.on('tool(menuTable)', function (obj) {
@@ -113,55 +150,13 @@ function getIdSelections() {
             var layEvent = obj.event;
 
             if (layEvent === 'addChildren') {
-                layer.msg('addChildren' + data.id);
-                ids = data.id;
-            } else if (layEvent === 'edit') {
-                layer.msg('修改' + data.id);
+                let parentId = data.id;
+                rc.openTreeSaveDialog("/recruit/system/menu/form/addChildren?parent.id=" + parentId, "添加下级菜单")
+            } else if (layEvent === 'del') {
+                let id = data.id;
+                rc.treeTablePost("/recruit/system/menu/deleteByPhysics?ids=" + id);
+                renderTable();
             }
         });
-    })
-    alert(ids)
-}
-
-function add() {
-    rc.openSaveDialog("/recruit/system/menu/form/add", "添加一级菜单")
-}
-
-function edit() {
-    let id = getIdSelections().toString();
-    let split = id.toString().split(",");
-    if (split[1]) {
-        rc.alert("只能选择一条数据")
-    } else if (id.length <= 0) {
-        rc.alert("请至少选择一条数据")
-    } else if (split[0]) {
-        rc.openSaveDialog("/recruit/system/menu/form/edit?id=" + id, "编辑菜单信息")
-    }
-
-}
-
-function view() {
-    let id = getIdSelections().toString();
-    let split = id.toString().split(",");
-    if (split[1]) {
-        rc.alert("只能选择一条数据")
-    } else if (id.length <= 0) {
-        rc.alert("请至少选择一条数据")
-    } else if (split[0]) {
-        rc.openSaveDialog("/recruit/system/menu/form/view?id=" + id, "查看菜单信息")
-    }
-}
-
-function del() {
-    let ids = getIdSelections();
-    if (ids == null || ids == '') {
-        rc.alert("请至少选择一条数据")
-    } else {
-        rc.post("/recruit/system/menu/delete?ids=" + ids)
-    }
-}
-
-function addChildren() {
-    let ids = getIdSelections();
-    //rc.openSaveDialog("/recruit/system/menu/form/addChildren?parent.id=" + ids, "添加下级菜单")
+    });
 }

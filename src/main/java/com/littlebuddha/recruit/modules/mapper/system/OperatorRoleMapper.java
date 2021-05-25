@@ -2,8 +2,10 @@ package com.littlebuddha.recruit.modules.mapper.system;
 
 
 import com.littlebuddha.recruit.modules.base.mapper.BaseMapper;
+import com.littlebuddha.recruit.modules.entity.system.Operator;
 import com.littlebuddha.recruit.modules.entity.system.OperatorRole;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  *
@@ -17,4 +19,16 @@ public interface OperatorRoleMapper extends BaseMapper<OperatorRole> {
      * @return
      */
     OperatorRole getByOperatorAndRole(OperatorRole operatorRole);
+
+    /**
+     * 干掉传参以外的数据
+     * @param
+     */
+    void deleteOutByOperatorRole(@Param(value = "operatorId")String operatorId,@Param(value = "roleIds")String roleIds);
+
+    /**
+     * 删除用户所有角色绑定
+     * @param operatorId
+     */
+    void deleteOutByOperator(String operatorId);
 }

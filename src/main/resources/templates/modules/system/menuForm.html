@@ -91,8 +91,9 @@
                 //请求成功时处理
                 //假设这是iframe页
                 var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
-                parent.layer.close(index); //再执行关闭//刷新整个父窗口
-                window.opener.refresh();
+                //刷新整个父窗口
+                parent.refresh();
+                parent.layer.close(index); //再执行关闭
             }
         });
     }

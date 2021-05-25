@@ -19,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -78,9 +79,10 @@ public class MenuController extends BaseController {
     }
 
     @ResponseBody
-    @PostMapping("/allData")
-    public List<Menu> allData(Menu menu) {
-        return menuService.findAllList(menu);
+    @GetMapping("/allData")
+    public Map<String, Object> allData(Menu menu) {
+        PageInfo<Menu> page = menuService.findPage(new Page<Menu>(), menu);
+        return getBootstrapData(page);
     }
 
     /**
@@ -147,11 +149,15 @@ public class MenuController extends BaseController {
     public Result deleteByPhysics(String ids) {
         String[] split = ids.split(",");
         for (String s : split) {
-            Menu menu = menuService.get(s);
-            if (menu == null) {
-                return new Result("311", "数据不存在,或已被删除，请刷新试试！");
+            if (s == "" || StringUtils.isBlank(s)) {
+
+            }else {
+                Menu menu = menuService.get(s);
+                if (menu == null){
+                    return new Result("366", "数据不存在或者数据已被清除");
+                }
+                int i = menuService.deleteByPhysics(menu);
             }
-            int i = menuService.deleteByPhysics(menu);
         }
         return new Result("200", "数据清除成功");
     }

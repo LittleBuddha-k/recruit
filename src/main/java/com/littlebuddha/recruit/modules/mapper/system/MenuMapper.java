@@ -16,4 +16,8 @@ import java.util.List;
 public interface MenuMapper extends BaseMapper<Menu> {
 
     List<RoleMenu> getRoleMenusByRole(RoleMenu roleMenu);
+
+    List<Menu> findByParentIdsLike(Menu updateChildren);
+
+    void updateParentIds(Menu entity);
 }

@@ -157,7 +157,7 @@ function del() {
     if (ids == null || ids == '') {
         rc.alert("请至少选择一条数据")
     } else {
-        rc.post("/recruit/system/operator/delete?ids=" + ids)
+        rc.post("/recruit/system/operator/deleteByPhysics?ids=" + ids)
     }
 }
 
