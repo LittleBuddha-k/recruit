@@ -34,7 +34,9 @@ public class RoleService extends CrudService<Role, RoleMapper> {
 
     @Override
     public int deleteByPhysics(Role entity) {
-        return super.deleteByPhysics(entity);
+        int row = super.deleteByPhysics(entity);
+        roleMenuMapper.deleteByPhysics(new RoleMenu(entity));
+        return row;
     }
 
     @Override
