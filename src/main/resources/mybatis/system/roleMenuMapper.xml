@@ -61,4 +61,10 @@
             </if>
         </where>
     </delete>
+
+    <!--删除一切用户角色-->
+    <delete id="deleteOutByRole">
+        DELETE FROM recruit_role_menu
+        WHERE role_id = #{roleId}
+    </delete>
 </mapper>

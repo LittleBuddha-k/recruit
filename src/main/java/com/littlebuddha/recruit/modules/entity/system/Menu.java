@@ -28,12 +28,18 @@ public class Menu extends DataEntity<Menu> {
 
     private List<Menu> child;    // 子级菜单列表
 
+    private Role role;//作为外键使用
+
     public Menu() {
         super();
     }
 
     public Menu(String id) {
         super(id);
+    }
+
+    public Menu(Role role) {
+        this.role = role;
     }
 
     public Menu getParent() {
@@ -144,6 +150,14 @@ public class Menu extends DataEntity<Menu> {
 
     public void setChild(List<Menu> child) {
         this.child = child;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public static void sortList(List<Menu> list, List<Menu> sourcelist, String parentId, boolean cascade) {

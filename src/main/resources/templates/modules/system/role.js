@@ -176,5 +176,5 @@ function exportFile() {
 }
 
 function addPermission(id){
-    rc.openTreeSaveDialog("/recruit/system/role/permissionPage?id="+id,"角色权限设置")
+    rc.openSelectionDialog("/recruit/system/role/permissionPage?id="+id,"角色权限设置")
 }

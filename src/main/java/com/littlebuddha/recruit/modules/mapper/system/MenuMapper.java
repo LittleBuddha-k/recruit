@@ -20,4 +20,6 @@ public interface MenuMapper extends BaseMapper<Menu> {
     List<Menu> findByParentIdsLike(Menu updateChildren);
 
     void updateParentIds(Menu entity);
+
+    List<Menu> getMenusByRole(Menu menu);
 }

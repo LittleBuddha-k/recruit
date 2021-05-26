@@ -49,7 +49,20 @@ $(document).ready(function () {
                 detailView: false,                   //是否显示父子表
                 columns: [
                     {
-                        checkbox: true
+                        title: '',
+                        checkbox: true,
+                        formatter: function stateFormatter(value, row, index) {
+                            let val = $("#menusId").val();
+                            let strings = val.toString().split(",");
+                            for (var i = 0; i < strings.length; i++) {
+                                if (row.id == strings[i]) {
+                                    return {
+                                        disabled: false,//设置是否可用
+                                        checked: true//设置选中
+                                    };
+                                }
+                            }
+                        }
                     }, {
                         field: 'parent.id',
                         title: '父级id'
@@ -117,20 +130,6 @@ $(document).ready(function () {
 
         return oInit;
     };
-
-    //查询按钮
-    $("#search").click(function () {
-        //只需刷新bootstraptable，bootstraptable就会去/data接口下带着form参数请求数据
-        $('#menuTable').bootstrapTable('refresh');
-    })
-
-    //重置按钮
-    $("#reset").click(function () {
-        //先将查询form的值全部置空
-        $("#menuSearchForm  input").val("");
-        //只需刷新bootstraptable，bootstraptable就会去/data接口下带着form参数请求数据
-        $('#menuTable').bootstrapTable('refresh');
-    })
 })
 
 //获取点击的行的数据id
@@ -147,6 +146,6 @@ function refresh() {
 
 //树形数据选用后的提交
 function save(ids) {
-    $("#menuIds").val(ids);
-    rc.post("/recruit/system/role/addPermission",$("#inputForm").serializeJson());
+    $("#menusId").val(ids);
+    rc.post("/recruit/system/role/addPermission",$("#hiddenForm").serializeJson());
 }

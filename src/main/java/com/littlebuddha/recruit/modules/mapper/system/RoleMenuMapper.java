@@ -2,6 +2,7 @@ package com.littlebuddha.recruit.modules.mapper.system;
 
 
 import com.littlebuddha.recruit.modules.base.mapper.BaseMapper;
+import com.littlebuddha.recruit.modules.entity.system.Menu;
 import com.littlebuddha.recruit.modules.entity.system.Operator;
 import com.littlebuddha.recruit.modules.entity.system.Role;
 import com.littlebuddha.recruit.modules.entity.system.RoleMenu;
@@ -22,4 +23,7 @@ public interface RoleMenuMapper extends BaseMapper<RoleMenu> {
      */
     public RoleMenu getByRoleMenu(RoleMenu roleMenu);
 
+    List<Menu> getRoleMenu(RoleMenu roleMenu);
+
+    void deleteOutByRole(String roleId);
 }

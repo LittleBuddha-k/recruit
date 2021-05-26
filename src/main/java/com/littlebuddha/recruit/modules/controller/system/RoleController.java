@@ -9,8 +9,6 @@ import com.littlebuddha.recruit.common.utils.Result;
 import com.littlebuddha.recruit.modules.base.controller.BaseController;
 import com.littlebuddha.recruit.modules.entity.system.Menu;
 import com.littlebuddha.recruit.modules.entity.system.Role;
-import com.littlebuddha.recruit.modules.entity.system.RoleMenu;
-import com.littlebuddha.recruit.modules.entity.system.utils.RoleMenuTDO;
 import com.littlebuddha.recruit.modules.service.system.RoleService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -57,35 +56,6 @@ public class RoleController extends BaseController {
     public String list(Role role, Model model, HttpSession session) {
         model.addAttribute("role", role);
         return "modules/system/role";
-    }
-
-    /**
-     * 返回权限选择菜单树形目录
-     *
-     * @param
-     * @return
-     */
-    @GetMapping("/permissionPage")
-    public String permissionPage(String id, Menu menu, Model model) {
-        Role role = roleService.get(new Role(id));
-        model.addAttribute("menu", menu);
-        model.addAttribute("role", role);
-        RoleMenu roleMenu = new RoleMenu(role, menu);
-        model.addAttribute("roleMenu", roleMenu);
-        return "modules/system/permissionPage";
-    }
-
-    @ResponseBody
-    @PostMapping("/addPermission")
-    public Result addPermission(RoleMenuTDO roleMenuTDO) {
-        Result result = null;
-        int row = roleService.addPermission(roleMenuTDO);
-        if (row > 0) {
-            result = new Result("200", "权限设置成功");
-        } else {
-            result = new Result("450", "未知错误，权限设置失败！！！");
-        }
-        return result;
     }
 
     /**
@@ -138,6 +108,30 @@ public class RoleController extends BaseController {
         } else {
             return new Result("310", "未知错误！保存失败");
         }
+    }
+
+    @GetMapping("/permissionPage")
+    public String permissionPage(Role role, Model model) {
+        List<Menu> menusByRole = new ArrayList<>();
+        if (role != null && StringUtils.isNotBlank(role.getId())) {
+            menusByRole = roleService.findMenusByRole(role);
+            String menusId = "";
+            for (Menu menu : menusByRole) {
+                if (menu != null && StringUtils.isNotBlank(menu.getId())) {
+                    menusId = menu.getId() + "," + menusId;
+                }
+            }
+            model.addAttribute("menusId", menusId);
+        }
+        model.addAttribute("role", role);
+        return "modules/system/permissionPage";
+    }
+
+    @ResponseBody
+    @PostMapping("/addPermission")
+    public Result addPermission(Role role) {
+        int row = roleService.addPermission(role);
+        return getCommonResult(row);
     }
 
     @ResponseBody

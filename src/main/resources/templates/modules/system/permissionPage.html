@@ -31,7 +31,7 @@
 <div class="container col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <div class="row col-xs-12 col-sm-12	col-md-12 col-lg-12">
         <!--查询-->
-        <form class="form-horizontal col-xs-12 col-sm-12 col-md-12 col-lg-12" id="menuSearchForm">
+        <!--<form class="form-horizontal col-xs-12 col-sm-12 col-md-12 col-lg-12" id="menuSearchForm">
             <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
                 <label for="title" class="col-sm-4 control-label">菜单名</label>
                 <div class="col-sm-8">
@@ -59,15 +59,15 @@
                     <button type="button" class="btn btn-default" th:id="reset">重置</button>
                 </div>
             </div>
-        </form>
+        </form>-->
         <!--表格区域-->
         <table id="menuTable" style="white-space:nowrap"></table>
         <!--提交的包含role信息和menu信息-->
-        <form class="form-horizontal col-xs-12 col-sm-12 col-md-12 col-lg-12" id="inputForm">
-            <input type="hidden" th:name="role.id" th:value="${role.getId()}">
-            <input type="hidden" th:name="role.name" th:value="${role.getName()}">
-            <input type="hidden" th:name="role.englishName" th:value="${role.getEnglishName()}">
-            <input type="hidden" th:name="menuIds" id="menuIds">
+        <form class="form-horizontal col-xs-12 col-sm-12 col-md-12 col-lg-12" id="hiddenForm">
+            <input type="hidden" th:name="id" th:value="${role.getId()}">
+            <input type="hidden" th:name="name" th:value="${role.getName()}">
+            <input type="hidden" th:name="englishName" th:value="${role.getEnglishName()}">
+            <input type="hidden" th:name="menusId" th:value="${menusId}" id="menusId">
         </form>
     </div>
 </div>

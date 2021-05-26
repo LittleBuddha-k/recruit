@@ -6,7 +6,6 @@ import com.littlebuddha.recruit.modules.base.service.CrudService;
 import com.littlebuddha.recruit.modules.entity.system.Menu;
 import com.littlebuddha.recruit.modules.entity.system.Role;
 import com.littlebuddha.recruit.modules.entity.system.RoleMenu;
-import com.littlebuddha.recruit.modules.entity.system.utils.RoleMenuTDO;
 import com.littlebuddha.recruit.modules.mapper.system.MenuMapper;
 import com.littlebuddha.recruit.modules.mapper.system.RoleMapper;
 import com.littlebuddha.recruit.modules.mapper.system.RoleMenuMapper;
@@ -69,26 +68,39 @@ public class RoleService extends CrudService<Role, RoleMapper> {
         return recovery;
     }
 
-    public int addPermission(RoleMenuTDO roleMenuTDO) {
-        Menu menu = null;
-        Role role = null;
-        RoleMenu roleMenu = null;
-        int result = 0;
-        if (roleMenuTDO != null && StringUtils.isNotBlank(roleMenuTDO.getMenuIds())) {
-            String menuIds = roleMenuTDO.getMenuIds();
-            String[] split = menuIds.split(",");
-            for (String menuId : split) {
-                if (menuId != null && StringUtils.isNotBlank(menuId)) {
-                    menu = menuMapper.get(new Menu(menuId));
-                    role = roleMenuTDO.getRole();
-                    roleMenu = new RoleMenu(role, menu);
-                    RoleMenu byRoleMenu = roleMenuMapper.getByRoleMenu(roleMenu);
-                    if (byRoleMenu == null) {
-                        result = roleMenuService.save(roleMenu);
-                    }
-                }
+    public int addPermission(Role role) {
+        int row = 0;
+        //1.判定传参中的menusId
+        if (role != null && role.getMenusId() != null && StringUtils.isNotBlank(role.getMenusId())) {
+            String[] menusId = role.getMenusId().split(",");
+            //直接在每次保存前删除所有角色用户关联信息，然后再根据传参重新赋值
+            if (StringUtils.isNotBlank(role.getId())) {
+                roleMenuMapper.deleteOutByRole(role.getId());
+            }
+            //循环得到每个关联关系，做插入处理
+            for (String menuId : menusId) {
+                Menu menu = menuMapper.get(new Menu(menuId));
+                RoleMenu roleMenu = new RoleMenu(role, menu);
+                roleMenu.preInsert();
+                row = roleMenuMapper.insert(roleMenu);
+            }
+        } else if (role != null && StringUtils.isBlank(role.getMenusId())) {
+            //当角色设定id传参存在，menusId没有值，代表取消所有菜单
+            if (StringUtils.isNotBlank(role.getId())) {
+                roleMenuMapper.deleteOutByRole(role.getId());
             }
         }
-        return result;
+        return row;
+    }
+
+    /**
+     * 根据角色查询相关菜单做回显
+     *
+     * @param role
+     * @return
+     */
+    public List<Menu> findMenusByRole(Role role) {
+        List<Menu> menus = menuMapper.getMenusByRole(new Menu(role));
+        return menus;
     }
 }

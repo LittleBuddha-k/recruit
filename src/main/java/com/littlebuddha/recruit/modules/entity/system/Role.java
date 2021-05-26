@@ -16,6 +16,8 @@ public class Role extends DataEntity<Role> {
 
     private Operator operator;
 
+    private String menusId; //仅用于修改菜单时使用
+
     public Role() {
     }
 
@@ -57,5 +59,13 @@ public class Role extends DataEntity<Role> {
 
     public void setOperator(Operator operator) {
         this.operator = operator;
+    }
+
+    public String getMenusId() {
+        return menusId;
+    }
+
+    public void setMenusId(String menusId) {
+        this.menusId = menusId;
     }
 }
