@@ -7,12 +7,10 @@ layui.use(['form', 'table'], function () {
         elem: '#operatorTable',
         url: '/recruit/system/operator/data',
         method: 'GET',
-        page: true, //开启分页
         request: {
             pageName: 'pageNo', // page
             limitName: 'pageSize' // limit
         },//重命名参数名称
-        limit: 20,
         toolbar: '#toolBar',
         defaultToolbar: [
             'filter',
@@ -61,7 +59,15 @@ layui.use(['form', 'table'], function () {
         limits: [10, 15, 20, 25, 50, 100],
         limit: 15,
         page: true,
-        skin: 'line'
+        skin: 'line',
+        where: {
+            username: $("#username").val(),
+            sex: $("#sex").val(),
+            age: $("#age").val(),
+            address: $("#address").val(),
+            phone: $("#phone").val()
+        }, //如果无需传递额外参数，可不加该参数
+        sort: false
     });
 
     // 监听搜索操作
