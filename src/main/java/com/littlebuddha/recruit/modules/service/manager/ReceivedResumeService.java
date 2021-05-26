@@ -17,6 +17,8 @@ import com.littlebuddha.recruit.modules.mapper.manager.ResumeMapper;
 import com.littlebuddha.recruit.modules.mapper.system.OperatorMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -27,6 +29,7 @@ import java.util.List;
  * 申请职位信息业务层
  */
 @Service
+@Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class ReceivedResumeService extends CrudService<ReceivedResume, ReceivedResumeMapper> {
 
     @Autowired

@@ -9,11 +9,14 @@ import com.littlebuddha.recruit.modules.mapper.manager.CompanyMapper;
 import com.littlebuddha.recruit.modules.mapper.manager.RecruitMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class RecruitService extends CrudService<Recruit, RecruitMapper> {
 
     @Autowired

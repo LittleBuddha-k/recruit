@@ -6,6 +6,8 @@ import com.littlebuddha.recruit.modules.base.service.CrudService;
 import com.littlebuddha.recruit.modules.entity.forecast.TwoColorBall;
 import com.littlebuddha.recruit.modules.entity.system.Menu;
 import com.littlebuddha.recruit.modules.mapper.forecast.TwoColorBallMapper;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +16,7 @@ import java.util.List;
  * 菜单业务层
  */
 @Service
+@Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class TwoColorBallService extends CrudService<TwoColorBall, TwoColorBallMapper> {
 
     @Override

@@ -7,11 +7,14 @@ import com.littlebuddha.recruit.modules.entity.system.Role;
 import com.littlebuddha.recruit.modules.entity.system.utils.Icon;
 import com.littlebuddha.recruit.modules.mapper.system.IconMapper;
 import com.littlebuddha.recruit.modules.mapper.system.RoleMapper;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class IconService extends CrudService<Icon, IconMapper> {
 
     @Override

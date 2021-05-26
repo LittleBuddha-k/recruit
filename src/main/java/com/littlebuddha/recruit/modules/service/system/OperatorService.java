@@ -11,12 +11,16 @@ import com.littlebuddha.recruit.modules.mapper.system.RoleMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class OperatorService extends CrudService<Operator, OperatorMapper> {
 
     @Autowired
@@ -32,6 +36,7 @@ public class OperatorService extends CrudService<Operator, OperatorMapper> {
     private OperatorRoleMapper operatorRoleMapper;
 
     @Override
+    @Transactional
     public int save(Operator operator) {
         int operatorRow;
         //这一步保存的是operator数据
@@ -80,6 +85,7 @@ public class OperatorService extends CrudService<Operator, OperatorMapper> {
         return operatorRow;
     }
 
+    @Transactional
     public int register(Operator operator) {
         int save;
         Operator operatorByName = findOperatorByName(operator);
@@ -112,6 +118,7 @@ public class OperatorService extends CrudService<Operator, OperatorMapper> {
     }
 
     @Override
+    @Transactional
     public int deleteByPhysics(Operator entity) {
         int i = super.deleteByPhysics(entity);
         int row = operatorRoleMapper.deleteByPhysics(new OperatorRole(entity));
@@ -119,6 +126,7 @@ public class OperatorService extends CrudService<Operator, OperatorMapper> {
     }
 
     @Override
+    @Transactional
     public int deleteByLogic(Operator entity) {
         int i = super.deleteByLogic(entity);
         int row = operatorRoleMapper.deleteByLogic(new OperatorRole(entity));
@@ -126,6 +134,7 @@ public class OperatorService extends CrudService<Operator, OperatorMapper> {
     }
 
     @Override
+    @Transactional
     public int recovery(Operator entity) {
         int recovery = super.recovery(entity);
         return recovery;

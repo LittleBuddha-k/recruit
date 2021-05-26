@@ -3,6 +3,7 @@ package com.littlebuddha.recruit.modules.controller.system;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import com.littlebuddha.recruit.common.utils.Result;
+import com.littlebuddha.recruit.common.utils.TreeResult;
 import com.littlebuddha.recruit.modules.base.controller.BaseController;
 import com.littlebuddha.recruit.modules.entity.system.Operator;
 import com.littlebuddha.recruit.modules.entity.system.Role;
@@ -58,10 +59,10 @@ public class OperatorController extends BaseController {
      * @return
      */
     @ResponseBody
-    @PostMapping("/data")
-    public Map data(Operator operator) {
+    @GetMapping("/data")
+    public TreeResult data(Operator operator) {
         PageInfo<Operator> page = operatorService.findPage(new Page<Operator>(), operator);
-        return getBootstrapData(page);
+        return getLayUiData(page);
     }
 
     /**

@@ -5,11 +5,14 @@ import com.github.pagehelper.PageInfo;
 import com.littlebuddha.recruit.modules.base.service.CrudService;
 import com.littlebuddha.recruit.modules.entity.manager.Company;
 import com.littlebuddha.recruit.modules.mapper.manager.CompanyMapper;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class CompanyService extends CrudService<Company, CompanyMapper> {
 
     @Override

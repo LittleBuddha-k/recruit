@@ -11,11 +11,15 @@ import com.littlebuddha.recruit.modules.mapper.system.RoleMapper;
 import com.littlebuddha.recruit.modules.mapper.system.RoleMenuMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class RoleService extends CrudService<Role, RoleMapper> {
 
     @Autowired
@@ -26,18 +30,6 @@ public class RoleService extends CrudService<Role, RoleMapper> {
 
     @Autowired
     private RoleMenuService roleMenuService;
-
-    @Override
-    public int save(Role entity) {
-        return super.save(entity);
-    }
-
-    @Override
-    public int deleteByPhysics(Role entity) {
-        int row = super.deleteByPhysics(entity);
-        roleMenuMapper.deleteByPhysics(new RoleMenu(entity));
-        return row;
-    }
 
     @Override
     public Role get(Role entity) {
@@ -60,16 +52,32 @@ public class RoleService extends CrudService<Role, RoleMapper> {
     }
 
     @Override
+    public int save(Role entity) {
+        return super.save(entity);
+    }
+
+    @Override
+    @Transactional
+    public int deleteByPhysics(Role entity) {
+        int row = super.deleteByPhysics(entity);
+        roleMenuMapper.deleteByPhysics(new RoleMenu(entity));
+        return row;
+    }
+
+    @Override
+    @Transactional
     public int deleteByLogic(Role entity) {
         return super.deleteByLogic(entity);
     }
 
     @Override
+    @Transactional
     public int recovery(Role entity) {
         int recovery = super.recovery(entity);
         return recovery;
     }
 
+    @Transactional
     public int addPermission(Role role) {
         int row = 0;
         //1.判定传参中的menusId

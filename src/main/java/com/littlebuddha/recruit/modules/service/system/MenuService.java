@@ -14,7 +14,10 @@ import com.littlebuddha.recruit.modules.mapper.system.RoleMapper;
 import com.littlebuddha.recruit.modules.mapper.system.RoleMenuMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -24,6 +27,7 @@ import java.util.List;
  * 菜单业务层
  */
 @Service
+@Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class MenuService extends CrudService<Menu, MenuMapper> {
 
     @Autowired
@@ -73,6 +77,7 @@ public class MenuService extends CrudService<Menu, MenuMapper> {
     }
 
     @Override
+    @Transactional
     public int save(Menu menu) {
         int save = 0;
         List<Menu> allList = menuMapper.findAllList(new Menu());
@@ -124,6 +129,7 @@ public class MenuService extends CrudService<Menu, MenuMapper> {
     }
 
     @Override
+    @Transactional
     public int deleteByPhysics(Menu menu) {
         //删除菜单
         int i = super.deleteByPhysics(menu);
@@ -133,6 +139,7 @@ public class MenuService extends CrudService<Menu, MenuMapper> {
     }
 
     @Override
+    @Transactional
     public int deleteByLogic(Menu menu) {
         //删除菜单
         int i = super.deleteByLogic(menu);
@@ -142,6 +149,7 @@ public class MenuService extends CrudService<Menu, MenuMapper> {
     }
 
     @Override
+    @Transactional
     public int recovery(Menu menu) {
         int recovery = super.recovery(menu);
         return recovery;

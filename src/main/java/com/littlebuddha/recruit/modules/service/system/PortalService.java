@@ -9,6 +9,8 @@ import com.littlebuddha.recruit.modules.service.system.MenuService;
 import com.littlebuddha.recruit.modules.service.system.OperatorService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -17,5 +19,6 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class PortalService {
 }

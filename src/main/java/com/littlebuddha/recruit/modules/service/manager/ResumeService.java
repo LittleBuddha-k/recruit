@@ -8,11 +8,14 @@ import com.littlebuddha.recruit.modules.entity.manager.Resume;
 import com.littlebuddha.recruit.modules.entity.system.Operator;
 import com.littlebuddha.recruit.modules.mapper.manager.ResumeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class ResumeService extends CrudService<Resume, ResumeMapper> {
 
     @Autowired

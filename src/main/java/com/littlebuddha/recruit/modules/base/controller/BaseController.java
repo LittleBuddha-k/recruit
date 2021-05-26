@@ -2,6 +2,7 @@ package com.littlebuddha.recruit.modules.base.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.littlebuddha.recruit.common.utils.Result;
+import com.littlebuddha.recruit.common.utils.TreeResult;
 
 import java.util.HashMap;
 import java.util.List;
@@ -51,6 +52,17 @@ public abstract class BaseController {
             result = new Result<>("200", "操作成功");
         }else {
             result = new Result<>("333", "未知错误，数据操作失败");
+        }
+        return result;
+    }
+
+    public TreeResult getLayUiData(PageInfo pageInfo){
+        TreeResult result = null;
+        List list = pageInfo.getList();
+        if (list == null || list.size() <= 0){
+            result = new TreeResult(0,"无数据");
+        }else if(list != null || list.size() > 0){
+            result = new TreeResult(0,"无数据",list,list.size());
         }
         return result;
     }

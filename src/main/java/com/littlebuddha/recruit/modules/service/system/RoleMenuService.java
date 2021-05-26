@@ -6,11 +6,15 @@ import com.littlebuddha.recruit.modules.base.service.CrudService;
 import com.littlebuddha.recruit.modules.entity.system.Role;
 import com.littlebuddha.recruit.modules.entity.system.RoleMenu;
 import com.littlebuddha.recruit.modules.mapper.system.RoleMenuMapper;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class RoleMenuService extends CrudService<RoleMenu, RoleMenuMapper> {
 
     @Override
@@ -34,21 +38,25 @@ public class RoleMenuService extends CrudService<RoleMenu, RoleMenuMapper> {
     }
 
     @Override
+    @Transactional
     public int save(RoleMenu entity) {
         return super.save(entity);
     }
 
     @Override
+    @Transactional
     public int deleteByPhysics(RoleMenu entity) {
         return super.deleteByPhysics(entity);
     }
 
     @Override
+    @Transactional
     public int deleteByLogic(RoleMenu entity) {
         return super.deleteByLogic(entity);
     }
 
     @Override
+    @Transactional
     public int recovery(RoleMenu entity) {
         return super.recovery(entity);
     }
