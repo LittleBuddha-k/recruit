@@ -139,14 +139,15 @@ public class OperatorController extends BaseController {
     @ResponseBody
     @PostMapping("/delete")
     public Result delete(String ids) {
-        System.out.println("ids:" + ids);
+        int fail = 0;
         String[] split = ids.split(",");
         for (String s : split) {
             Operator operator = operatorService.get(s);
-            if (operator == null) {
-                return new Result("311", "数据不存在,或已被删除，请刷新试试！");
+            if (operator != null) {
+                int i = operatorService.deleteByLogic(operator);
+            }else {
+                fail = fail + 1;
             }
-            int i = operatorService.deleteByLogic(operator);
         }
         return new Result("200", "数据清除成功");
     }
@@ -154,13 +155,15 @@ public class OperatorController extends BaseController {
     @ResponseBody
     @PostMapping("/deleteByPhysics")
     public Result deleteByPhysics(String ids) {
+        int fail = 0;
         String[] split = ids.split(",");
         for (String s : split) {
             Operator operator = operatorService.get(s);
-            if (operator == null) {
-                return new Result("311", "数据不存在,或已被删除，请刷新试试！");
+            if (operator != null) {
+                int i = operatorService.deleteByPhysics(operator);
+            }else if (s != null && StringUtils.isNotBlank(s)){
+                fail = fail + 1;
             }
-            int i = operatorService.deleteByPhysics(operator);
         }
         return new Result("200", "数据清除成功");
     }

@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <meta charset="UTF-8">
-    <title>用户管理</title>
+    <title>角色管理</title>
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
     <link rel="stylesheet" href="/recruit/bootstrap/css/bootstrap.min.css">
     <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
@@ -10,6 +10,12 @@
     <script src="/recruit/plugins/jquery/jquery-3.3.1.min.js"></script>
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
     <script src="/recruit/bootstrap/js/bootstrap.min.js"></script>
+    <!--引入工具js-->
+    <script type="text/javascript" src="/recruit/utils/util.js"></script>
+    <!--layui-->
+    <link rel="stylesheet" href="/recruit/plugins/layui/lib/layui-v2.5.5/css/layui.css" media="all">
+    <script src="/recruit/plugins/layui/lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
+    <script src="/recruit/plugins/layui/js/lay-config.js?v=2.0.0" charset="utf-8"></script>
 </head>
 <body>
 <div class="container">
@@ -39,7 +45,10 @@
         if ($("#name").val() == '') {
             rc.alert("名称不能为空")
         }
-        if ($("#name").val() != '') {
+        if ($("#englishName").val() == '') {
+            rc.alert("英文名称不能为空")
+        }
+        if ($("#name").val() != '' && $("#englishName").val() != '') {
             $.ajax({
                 url: "/recruit/system/role/save",    //请求的url地址
                 dataType: "json",   //返回格式为json
@@ -47,8 +56,6 @@
                 data: $("#roleForm").serialize(),    //参数值
                 type: "POST",   //请求方式
                 success: function (result) {
-                    //请求成功时处理
-                    parent.refresh();
                     //假设这是iframe页
                     var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
                     parent.layer.close(index); //再执行关闭

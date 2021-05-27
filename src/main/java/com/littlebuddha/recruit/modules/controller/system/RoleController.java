@@ -6,6 +6,7 @@ package com.littlebuddha.recruit.modules.controller.system;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import com.littlebuddha.recruit.common.utils.Result;
+import com.littlebuddha.recruit.common.utils.TreeResult;
 import com.littlebuddha.recruit.modules.base.controller.BaseController;
 import com.littlebuddha.recruit.modules.entity.system.Menu;
 import com.littlebuddha.recruit.modules.entity.system.Role;
@@ -65,9 +66,9 @@ public class RoleController extends BaseController {
      */
     @ResponseBody
     @GetMapping("/data")
-    public Map data(Role role) {
+    public TreeResult data(Role role) {
         PageInfo<Role> page = roleService.findPage(new Page<Role>(), role);
-        return getBootstrapData(page);
+        return getLayUiData(page);
     }
 
     @ResponseBody

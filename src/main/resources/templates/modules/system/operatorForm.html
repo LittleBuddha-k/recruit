@@ -84,8 +84,6 @@
                 data: $("#operatorForm").serialize(),    //参数值
                 type: "POST",   //请求方式
                 success: function (result) {
-                    //请求成功时处理
-                    parent.refresh();
                     //假设这是iframe页
                     var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
                     parent.layer.close(index); //再执行关闭
@@ -97,31 +95,6 @@
             });
         }
     }
-
-    //页面一加载需要去请求到role数据，并将数据与html组合放进operatorForm中
-    $(document).ready(function () {
-        $.ajax({
-            url: "/recruit/system/role/allData",    //请求的url地址
-            dataType: "json",   //返回格式为json
-            async: true,//请求是否异步，默认为异步，这也是ajax重要特性
-            data: "",    //参数值
-            type: "GET",   //请求方式
-            success: function (result) {
-                let length = result.length;
-                let data = new Array(length);
-                let html = "";
-                for (let i = 0; i < length; i++) {
-                    data[i] = result[i];
-                    html = html + "<label class='checkbox-inline'>" +
-                        "<div class='col-sm-12'>" +
-                        "<input type='checkbox' id='" + result[i].id + "' value='" + result[i].id + "' name='roles[" + i + "].id'> " + result[i].name +
-                        "</div>" +
-                        "</label>"
-                }
-                $("#roleSelections").html(html)
-            }
-        });
-    })
 </script>
 </body>
 </html>

@@ -61,8 +61,8 @@ public abstract class BaseController {
         List list = pageInfo.getList();
         if (list == null || list.size() <= 0){
             result = new TreeResult(0,"无数据");
-        }else if(list != null || list.size() > 0){
-            result = new TreeResult(0,"无数据",list,list.size());
+        }else if(list != null || pageInfo.getTotal() > 0){
+            result = new TreeResult(0,"无数据",list, (int) pageInfo.getTotal());
         }
         return result;
     }

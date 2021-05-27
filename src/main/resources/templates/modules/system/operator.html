@@ -69,7 +69,7 @@
                     <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="add"> 新建</button>
                 </shiro:hasRole>
                 <shiro:hasRole name="admin">
-                    <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="edit"> 修改</button>
+                    <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="edit"> 编辑</button>
                 </shiro:hasRole>
                 <shiro:hasRole name="admin">
                     <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="view"> 查看</button>
@@ -90,14 +90,17 @@
         <table class="layui-hide" id="operatorTable" lay-filter="operatorTableFilter"></table>
 
         <script type="text/html" id="operation">
-            <a class="layui-btn layui-btn-normal layui-btn-xs data-count-edit" lay-event="edit">编辑</a>
-            <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete">删除</a>
+            <a class="layui-btn layui-btn-normal layui-btn-xs data-count-edit" lay-event="edit">设置角色</a>
         </script>
 
     </div>
 </div>
 <script src="/recruit/plugins/layui/lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
+<!--引入jquery-->
+<script src="/recruit/plugins/jquery/jquery-3.3.1.min.js"></script>
 <!--引入本html的js文件-->
 <script type="text/javascript" src="/recruit/modules/system/operator.js"></script>
+<!--引入工具js-->
+<script type="text/javascript" src="/recruit/utils/util.js"></script>
 </body>
 </html>

@@ -1,141 +1,185 @@
-$(document).ready(function () {
-    $(function () {
-        //1.初始化Table
-        var oTable = new TableInit();
-        oTable.Init();
+layui.use(['form', 'table'], function () {
+    var $ = layui.jquery,
+        form = layui.form,
+        table = layui.table;
 
-        //2.初始化Button的点击事件
-        var oButtonInit = new ButtonInit();
-        oButtonInit.Init();
+    table.render({
+        elem: '#roleTable',
+        url: '/recruit/system/role/data',
+        method: 'GET',
+        request: {
+            pageName: 'pageNo', // page
+            limitName: 'pageSize' // limit
+        },//重命名参数名称
+        done: function (res) {
+            //做checkbox回显
+            //如果是异步请求数据方式，res即为你接口返回的信息。
+            //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
+            /*let val = $("#rolesId").val();
+            let strings = val.split(",");
+            let data = res.data;
+            for (var i = 0;i < data.length; i++){
+                for (var j = 0;j < strings.length; j++){
 
-        //3.在表格右上角工具按钮处加入自定义按钮
-        let html = $("#toolButton").html();
-        $(".columns.columns-right.btn-group.pull-right").append(html);
+                }
+            }*/
+
+            let rolesId = $("#rolesId").val().split(",");
+            //遍历集合
+            layui.each(res.data, function (index, item) {
+                //将获取的选中行数据进行遍历
+                if (rolesId.indexOf('' + item.id + '') > -1) {
+                    //一:修改class属性--随缘有效
+                    // $('tr[data-index=' + index + '] input[type="checkbox"]').prop('checked', true);
+                    // $('tr[data-index=' + index + '] input[type="checkbox"]').next().addClass('layui-form-checked');
+                    //二：点击去属性 lay-id='table'==表格id ； index：需要回显的行数下标-从0开始
+                    $("div[lay-id='roleTable'] td .layui-form-checkbox").eq(index).click();
+                }
+            })
+        },
+        //toolbar: '#toolBar',
+        defaultToolbar: [
+            'filter',
+            'exports',
+            'print',
+            {
+                title: '提示',
+                layEvent: 'test',
+                icon: 'layui-icon-tips'
+            }
+        ],
+        cols: [
+            [
+                {
+                    type: "checkbox"
+                },
+                {
+                    title: '角色名称',
+                    field: 'name'
+                },
+                {
+                    title: '英文名称',
+                    field: 'englishName',
+                    sort: true
+                }/*,
+                {
+                    title: '操作',
+                    toolbar: '#operation',
+                    align: "center"
+                }*/
+            ]
+        ],
+        limits: [10, 15, 20, 25, 50, 100],
+        limit: 10,
+        page: true,
+        skin: 'line',
+        where: {
+            name: $("#name").val(),
+            englishName: $("#englishName").val()
+        }, //如果无需传递额外参数，可不加该参数
+        sort: true
     });
 
-    var TableInit = function () {
-        var oTableInit = new Object();
-        //初始化Table
-        oTableInit.Init = function () {
-            $('#roleTable').bootstrapTable({
-                url: '/recruit/system/role/data',         //请求后台的URL（*）
-                method: 'get',                      //请求方式（*）
-                //类型json
-                dataType: "json",
-                contentType: "application/x-www-form-urlencoded",
-                toolbar: '#toolbar',                //工具按钮用哪个容器
-                striped: true,                      //是否显示行间隔色
-                cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
-                pagination: true,                   //是否显示分页（*）
-                sortable: false,                     //是否启用排序
-                sortOrder: "asc",                   //排序方式
-                queryParams: function (params) {
-                    var searchParam = $("#roleSearchForm").serializeJson();
-                    searchParam.pageNo = params.limit === undefined ? "1" : params.offset / params.limit + 1;
-                    searchParam.pageSize = params.limit === undefined ? -1 : params.limit;
-                    searchParam.orderBy = params.sort === undefined ? "" : params.sort + " " + params.order;
-                    return searchParam;
-                },//传递参数（*）
-                sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
-                pageNumber: 1,                       //初始化加载第一页，默认第一页
-                pageSize: 10,                       //每页的记录行数（*）
-                pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
-                search: false,                       //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
-                strictSearch: true,
-                showColumns: true,                  //是否显示所有的列
-                showRefresh: true,                  //是否显示刷新按钮
-                minimumCountColumns: 2,             //最少允许的列数
-                clickToSelect: true,                //是否启用点击选中行
-                //height: 500,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
-                uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
-                showToggle: true,                    //是否显示详细视图和列表视图的切换按钮
-                cardView: false,                    //是否显示详细视图
-                detailView: false,                   //是否显示父子表
-                columns: [
-                    {
-                        field: '',
-                        checkbox: true,
-                        formatter: function stateFormatter(value, row, index) {
-                            let val = $("#rolesId").val();
-                            let strings = val.toString().split(",");
-                            for (var i = 0; i < strings.length; i++) {
-                                if (row.id == strings[i]) {
-                                    return {
-                                        disabled: false,//设置是否可用
-                                        checked: true//设置选中
-                                    };
-                                }
-                            }
-                        }
-                    }, {
-                        field: 'name',
-                        title: '角色名称',
-                    }, {
-                        field: 'englishName',
-                        title: '英文名称'
-                    }
-                ]
+    // 监听搜索操作
+    form.on('submit(data-search-btn)', function (data) {
+        //执行搜索重载
+        table.reload('roleTable', {
+            where: {
+                name: $("#name").val(),
+                englishName: $("#englishName").val()
+            }
+        });
+        return false;
+    });
+
+    /**
+     * toolbar监听事件
+     */
+    table.on('toolbar(roleTableFilter)', function (obj) {
+        if (obj.event === 'add') {  // 监听添加操作
+            var index = rc.openSaveDialog("/recruit/system/role/form/add", "新建角色信息")
+            $(window).on("resize", function () {
+                layer.full(index);
             });
-        };
-
-        return oTableInit;
-    };
-
-    var ButtonInit = function () {
-        var oInit = new Object();
-        var postdata = {};
-
-        oInit.Init = function () {
-            //初始化页面上面的按钮事件
-        };
-
-        return oInit;
-    };
-
-    //查询按钮
-    $("#search").click(function () {
-        //只需刷新bootstraptable，bootstraptable就会去/data接口下带着form参数请求数据
-        $('#roleTable').bootstrapTable('refresh');
-    })
-
-    //重置按钮
-    $("#reset").click(function () {
-        //先将查询form的值全部置空
-        $("#roleSearchForm  input").val("");
-        //只需刷新bootstraptable，bootstraptable就会去/data接口下带着form参数请求数据
-        $('#roleTable').bootstrapTable('refresh');
-    })
-})
-
-//获取点击的行的数据id
-function getIdSelections() {
-    return $.map($("#roleTable").bootstrapTable('getSelections'), function (row) {
-        return row.id
+        } else if (obj.event === 'edit') {  // 监听修改操作
+            let ids = getIdSelections(table, 'roleTable') + "";
+            let idArr = ids.toString().split(",");
+            if (idArr[1]) {
+                rc.alert("只能选择一条数据")
+            } else if (ids.length <= 0) {
+                rc.alert("请至少选择一条数据")
+            } else if (idArr[0]) {
+                ids = idArr[0];
+                rc.openSaveDialog('/recruit/system/role/form/edit?id=' + ids, "编辑角色信息");
+            }
+            $(window).on("resize", function () {
+                layer.full(index);
+            });
+        } else if (obj.event === 'view') {  // 监听查看操作
+            let ids = getIdSelections(table, 'roleTable');
+            let idArr = ids.toString().split(",");
+            if (idArr[1]) {
+                rc.alert("只能选择一条数据")
+            } else if (ids.length <= 0) {
+                rc.alert("请至少选择一条数据")
+            } else if (idArr[0]) {
+                ids = idArr[0];
+                rc.openSaveDialog('/recruit/system/role/form/view?id=' + ids, "编辑角色信息");
+            }
+            $(window).on("resize", function () {
+                layer.full(index);
+            });
+        } else if (obj.event === 'delete') {  // 监听删除操作
+            let ids = getIdSelections(table, 'roleTable');
+            if (ids == null || ids == '') {
+                rc.alert("请至少选择一条数据")
+            } else {
+                rc.post("/recruit/system/role/deleteByPhysics?ids=" + ids, "", 'roleTable', table);
+            }
+        } else if (obj.event === 'import') {  // 监听删除操作
+            rc.openImportDialog("/recruit/forecast/twoColorBall/importTemplate", "/recruit/forecast/twoColorBall/importFile")
+        } else if (obj.event === 'export') {  // 监听删除操作
+            rc.downloadFile("/recruit/forecast/twoColorBall/exportFile?" + $("#twoColorBallSearchForm").serialize());
+        }
     });
+
+    table.on('tool(roleTableFilter)', function (obj) {
+        var id = obj.data.id;
+        var index = rc.openSelectionDialog("/recruit/system/role/addRolePage?id=" + id, "设置角色")
+        $(window).on("resize", function () {
+            layer.full(index);
+        });
+        return false;
+    });
+});
+
+/**
+ * 获取layui table 复选框的id
+ * @param table -- table = layui.table;
+ * @param tableId -- layui table 的id
+ * @returns {string}
+ */
+function getIdSelections(table, tableId) {
+    let ids = "";
+    layui.use(['form', 'table'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            table = layui.table;
+
+        var checkStatus = table.checkStatus('roleTable'),
+            data = checkStatus.data;
+        for (let i = 0; i < data.length; i++) {
+            ids = ids + data[i].id + ",";
+        }
+    })
+    return ids;
 }
 
-//刷新列表
-function refresh() {
-    $('#roleTable').bootstrapTable('refresh');
-}
-
-function showSearchButton() {
-    //$("#operatorSearchForm").attr();---也可以给标签设置属性值
-    let attr = $("#roleSearchForm").data("collapse");
-    if (attr) {
-        //1.搜索表里有指定的属性值，此时搜索表为展开状态
-        //2.判断属性值有否,需要移除data属性值，并移除”in“类
-        $("#roleSearchForm").removeData("collapse");
-        $("#roleSearchForm").removeClass("in");
-    } else {
-        //1.搜索表里没有指定的属性值，此时搜索表为隐藏状态
-        //2.需要修改属性值，并且添加打开类”in“
-        $("#roleSearchForm").data("collapse", "in");
-        $("#roleSearchForm").addClass("in");
-    }
-}
-
-function save(ids,index) {
+/**
+ * 保存的save方法
+ * @param ids
+ */
+function save(ids) {
     $("#rolesId").val(ids);
-    rc.post("/recruit/system/operator/addRole",$("#hiddenForm").serializeJson())
+    rc.post("/recruit/system/operator/addRole",$("#hiddenForm").serializeJson(),'roleTable',layui.table)
 }

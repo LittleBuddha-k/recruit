@@ -36,7 +36,7 @@
 
             return times
         },
-        post: function post(url, data) {
+        post: function post(url, data,tableId,table) {
             $.ajax({
                 url: url,    //请求的url地址
                 dataType: "json",   //返回格式为json
@@ -45,9 +45,10 @@
                 type: "POST",   //请求方式
                 success: function (result) {
                     //请求成功时处理
+                    //执行搜索重载
+                    table.reload(tableId, {}, 'data');
                     rc.msg(result.msg)
                     //重新刷新页面
-                    refresh();
                 }
             });
         },
