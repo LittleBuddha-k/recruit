@@ -65,32 +65,34 @@
 
         <script type="text/html" id="toolBar">
             <div class="layui-btn-container">
-                <shiro:hasRole name="admin">
+                <shiro:hasPermission name="system:operator:add">
                     <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="add"> 新建</button>
-                </shiro:hasRole>
-                <shiro:hasRole name="admin">
+                </shiro:hasPermission>
+                <shiro:hasPermission name="system:operator:edit">
                     <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="edit"> 编辑</button>
-                </shiro:hasRole>
-                <shiro:hasRole name="admin">
+                </shiro:hasPermission>
+                <shiro:hasPermission name="system:operator:view">
                     <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="view"> 查看</button>
-                </shiro:hasRole>
-                <shiro:hasRole name="admin">
+                </shiro:hasPermission>
+                <shiro:hasPermission name="system:operator:delete">
                     <button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="delete"> 删除
                     </button>
-                </shiro:hasRole>
-                <shiro:hasRole name="admin">
+                </shiro:hasPermission>
+                <shiro:hasPermission name="system:operator:import">
                     <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="import"> 导入</button>
-                </shiro:hasRole>
-                <shiro:hasRole name="admin">
+                </shiro:hasPermission>
+                <shiro:hasPermission name="system:operator:export">
                     <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="export"> 导出</button>
-                </shiro:hasRole>
+                </shiro:hasPermission>
             </div>
         </script>
 
         <table class="layui-hide" id="operatorTable" lay-filter="operatorTableFilter"></table>
 
         <script type="text/html" id="operation">
-            <a class="layui-btn layui-btn-normal layui-btn-xs data-count-edit" lay-event="edit">设置角色</a>
+            <shiro:hasPermission name="system:operator:editRole">
+                <a class="layui-btn layui-btn-normal layui-btn-xs data-count-edit" lay-event="edit">设置角色</a>
+            </shiro:hasPermission>
         </script>
 
     </div>

@@ -85,6 +85,9 @@
             <if test="address != null and address != ''">
                 and a.address = #{address}
             </if>
+            <if test="phone != null and address != ''">
+                and a.phone = #{phone}
+            </if>
         </where>
         <choose>
             <when test="orderBy !=null and orderBy != ''">

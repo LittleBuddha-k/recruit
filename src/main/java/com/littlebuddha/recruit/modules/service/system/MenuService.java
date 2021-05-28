@@ -91,13 +91,13 @@ public class MenuService extends CrudService<Menu, MenuMapper> {
             save = super.save(menu);
         }
 
+        //设置父类信息
+        menu.setParent(menuMapper.get(menu.getParent().getId()));
+
         // 获取修改前的parentIds，用于更新子节点的parentIds
         String oldParentIds = menu.getParentIds();
 
-        //设置父类信息
-        menu.setParent(menuMapper.get(menu.getParent().getId()));
         Menu parent = menu.getParent();
-        System.out.println("424152");
         String parentIds = parent.getParentIds();
         String id1 = menu.getParent().getId();
         menu.setParentIds(parentIds + id1 + ",");
@@ -112,6 +112,8 @@ public class MenuService extends CrudService<Menu, MenuMapper> {
             Menu.sortList(list, sourcelist, id, false);
             if (list.size() > 0) {
                 menu.setSort(list.get(list.size() - 1).getSort() + 30);
+            }else {
+                menu.setSort(0 + 30);
             }
         }
 
