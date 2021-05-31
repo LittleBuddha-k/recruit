@@ -146,6 +146,5 @@ function getIdSelections(table, tableId) {
     for (let i = 0; i < data.length; i++) {
         ids = ids + data[i].id + ",";
     }
-    ;
     return ids;
 }
