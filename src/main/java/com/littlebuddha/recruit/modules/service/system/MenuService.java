@@ -130,6 +130,11 @@ public class MenuService extends CrudService<Menu, MenuMapper> {
         return save;
     }
 
+    /**
+     * 删除某一菜单后，删除其子菜单
+     * @param menu
+     * @return
+     */
     @Override
     @Transactional
     public int deleteByPhysics(Menu menu) {
@@ -137,6 +142,18 @@ public class MenuService extends CrudService<Menu, MenuMapper> {
         int i = super.deleteByPhysics(menu);
         //查找与菜单相关的 角色--菜单相关数据一并删除
         int i1 = roleMenuMapper.deleteByPhysics(new RoleMenu(menu));
+        //删除其子菜单
+        if (menu != null && StringUtils.isNotBlank(menu.getId())){
+            Menu parentIds = new Menu();
+            parentIds.setParentIds("%,"+menu.getId()+",%");
+            List<Menu> byParentIdsLike = menuMapper.findByParentIdsLike(parentIds);
+            for (Menu entity : byParentIdsLike) {
+                super.deleteByPhysics(entity);
+                //删除其子菜单   角色--菜单相关数据
+                roleMenuMapper.deleteByPhysics(new RoleMenu(entity));
+                System.out.println(entity);
+            }
+        }
         return i;
     }
 
@@ -165,15 +182,22 @@ public class MenuService extends CrudService<Menu, MenuMapper> {
     public List<Menu> findMenuInfo() {
         //1.查询当前用户的菜单数据list
         List<Menu> menuData = operatorService.getMenusByOperator();
+        //2.去除类型为按钮的数据
+        List noBtn = new ArrayList();
+        for (Menu menuDatum : menuData) {
+            if("0".equals(menuDatum.getType())){
+                noBtn.add(menuDatum);
+            }
+        }
         //3.因为多个角色可能有多个重复的菜单信息，所以对菜单去重
-        MenuUtils.removeDuplicate(menuData);
+        MenuUtils.removeDuplicate(noBtn);
         //4.排序
         List<Menu> afterSort = new ArrayList<>();
         String id = getTopMenu().getId();
         if (id != null && StringUtils.isNotBlank(id)) {
-            MenuUtils.sort(menuData, afterSort, id);
+            MenuUtils.sort(noBtn, afterSort, id);
         } else {
-            MenuUtils.sort(menuData, afterSort, "-1");
+            MenuUtils.sort(noBtn, afterSort, "-1");
         }
         //5.set子集
         MenuUtils.setChildrenList(afterSort);

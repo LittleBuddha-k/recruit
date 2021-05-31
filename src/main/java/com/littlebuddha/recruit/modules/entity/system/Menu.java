@@ -22,7 +22,7 @@ public class Menu extends DataEntity<Menu> {
     private String icon;    // 图标
     private Integer sort;    // 排序
     private String isShow;    // 是否在菜单中显示（1：显示；0：不显示）
-    private String type; //按钮类型
+    private String type; //按钮类型（1：按钮；0：菜单）
     private String permission; // 权限标识
     private boolean hasChildren;
 

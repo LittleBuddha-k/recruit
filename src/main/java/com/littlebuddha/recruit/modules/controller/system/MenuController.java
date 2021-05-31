@@ -155,8 +155,9 @@ public class MenuController extends BaseController {
                 Menu menu = menuService.get(s);
                 if (menu == null){
                     return new Result("366", "数据不存在或者数据已被清除");
+                }else {
+                    int i = menuService.deleteByPhysics(menu);
                 }
-                int i = menuService.deleteByPhysics(menu);
             }
         }
         return new Result("200", "数据清除成功");
