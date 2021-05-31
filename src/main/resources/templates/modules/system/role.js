@@ -125,7 +125,7 @@ layui.use(['form', 'table'], function () {
 
     table.on('tool(roleTableFilter)', function (obj) {
         var id = obj.data.id;
-        var index = rc.openTreeSaveDialog("/recruit/system/role/permissionPage?id=" + id, "设置权限")
+        var index = rc.openSelectionDialog("/recruit/system/role/permissionPage?id=" + id, "设置权限")
         $(window).on("resize", function () {
             layer.full(index);
         });

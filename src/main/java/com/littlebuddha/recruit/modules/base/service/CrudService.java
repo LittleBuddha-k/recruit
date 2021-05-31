@@ -22,24 +22,6 @@ public abstract class CrudService<E extends DataEntity,M extends BaseMapper<E>> 
     private M mapper;
 
     /**
-     * 新增数据业务层
-     * 包含了update数据操作
-     * @param entity
-     * @return
-     */
-    public int save(E entity){
-        int row = 0;
-        if (entity.getIsNewData()){
-            entity.preInsert();
-            row = mapper.insert(entity);
-        }else{
-            entity.preUpdate();
-            row = mapper.update(entity);
-        }
-        return row;
-    }
-
-    /**
      * 获取单条数据
      * @param id
      * @return
@@ -67,15 +49,6 @@ public abstract class CrudService<E extends DataEntity,M extends BaseMapper<E>> 
     }
 
     /**
-     * 查询所有数据列表
-     * @param entity
-     * @return
-     */
-    public List<E> findAllList(E entity){
-        return mapper.findAllList(entity);
-    }
-
-    /**
      * 查询分页数据
      * @param page
      * @param entity
@@ -89,6 +62,33 @@ public abstract class CrudService<E extends DataEntity,M extends BaseMapper<E>> 
         List<E> list = mapper.findList(entity);
         PageInfo<E> pageInfo = new PageInfo<E>(list);
         return pageInfo;
+    }
+
+    /**
+     * 查询所有数据列表
+     * @param entity
+     * @return
+     */
+    public List<E> findAllList(E entity){
+        return mapper.findAllList(entity);
+    }
+
+    /**
+     * 新增数据业务层
+     * 包含了update数据操作
+     * @param entity
+     * @return
+     */
+    public int save(E entity){
+        int row = 0;
+        if (entity.getIsNewData()){
+            entity.preInsert();
+            row = mapper.insert(entity);
+        }else{
+            entity.preUpdate();
+            row = mapper.update(entity);
+        }
+        return row;
     }
 
     /**

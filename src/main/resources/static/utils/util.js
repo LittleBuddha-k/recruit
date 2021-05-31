@@ -36,19 +36,63 @@
 
             return times
         },
-        post: function post(url, data,tableId,table) {
+
+        post:function(url,data,callback){
             $.ajax({
-                url: url,    //请求的url地址
-                dataType: "json",   //返回格式为json
-                async: true,//请求是否异步，默认为异步，这也是ajax重要特性
-                data: data,    //参数值
-                type: "POST",   //请求方式
-                success: function (result) {
-                    //请求成功时处理
-                    //执行搜索重载
-                    table.reload(tableId, {}, 'data');
-                    rc.msg(result.msg)
-                    //重新刷新页面
+                url:url,
+                method:"post",
+                data:data,
+                error:function(xhr,textStatus){
+                    if(xhr.status == 0){
+                        rc.msg("连接失败，请检查网络!")
+                    }else if(xhr.status == 404){
+                        var errDetail ="<font color='red'>404,请求地址不存在！</font>";
+                        rc.alert("请求出错")
+                    }else if(xhr.status && xhr.responseText){
+                        var errDetail ="<font color='red'>"+ xhr.responseText.replace(/[\r\n]/g,"<br>").replace(/[\r]/g,"<br>").replace(/[\n]/g,"<br>")+"</font>";
+                        rc.alert(xhr.status+"错误")
+                    }else{
+                        var errDetail ="<font color='red'>未知错误!</font>";
+                        rc.alert("真悲剧，后台抛出异常了")
+                    }
+                },
+                success:function(data,textStatus,jqXHR){
+                    if(data.indexOf == "_login_page_"){//登录超时
+                        location.reload(true);
+                    }else{
+                        callback(data);
+                    }
+                }
+            });
+        },
+
+        get:function(url,callback){
+            $.ajax({
+                url:url,
+                method:"get",
+                error:function(xhr,textStatus){
+                    if(xhr.status == 0){
+                        rc.msg("连接失败，请检查网络!")
+                    }else if(xhr.status == 404){
+                        var errDetail ="<font color='red'>404,请求地址不存在！</font>";
+                        rc.alert("请求出错")
+                    }else if(xhr.status && xhr.responseText){
+                        var errDetail ="<font color='red'>"+ xhr.responseText.replace(/[\r\n]/g,"<br>").replace(/[\r]/g,"<br>").replace(/[\n]/g,"<br>")+"</font>";
+                        rc.alert(xhr.status+"错误")
+                    }else{
+                        var errDetail ="<font color='red'>未知错误!</font>";
+                        rc.alert("真悲剧，后台抛出异常了")
+                    }
+
+                },
+                success:function(data,textStatus,jqXHR){
+                    if(data.indexOf == "_login_page_"){//返回首页内容代表登录超时
+                        rc.alert("登录超时！")
+                        location.reload(true);
+                    }else{
+                        callback(data);
+                    }
+
                 }
             });
         },
@@ -63,22 +107,6 @@
                     //请求成功时处理
                     rc.msg(result.msg)
                     //重新刷新页面
-                }
-            });
-        },
-        get: function get(url, data) {
-            $.ajax({
-                url: url,    //请求的url地址
-                dataType: "json",   //返回格式为json
-                async: true,//请求是否异步，默认为异步，这也是ajax重要特性
-                data: data,    //参数值
-                type: "GET",   //请求方式
-                success: function (result) {
-                    //请求成功时处理
-                    rc.msg(result.msg)
-                    //重新刷新页面
-                    //window.location.reload();
-                    refresh();
                 }
             });
         },

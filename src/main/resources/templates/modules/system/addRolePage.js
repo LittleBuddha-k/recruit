@@ -159,7 +159,7 @@ layui.use(['form', 'table'], function () {
  * @param tableId -- layui table 的id
  * @returns {string}
  */
-function getIdSelections(table, tableId) {
+function getIdSelections() {
     let ids = "";
     layui.use(['form', 'table'], function () {
         var $ = layui.jquery,
@@ -181,5 +181,11 @@ function getIdSelections(table, tableId) {
  */
 function save(ids) {
     $("#rolesId").val(ids);
-    rc.post("/recruit/system/operator/addRole",$("#hiddenForm").serializeJson(),'roleTable',layui.table)
+    rc.post("/recruit/system/operator/addRole",$("#hiddenForm").serializeJson(),function (data) {
+        if(200 == data.code){
+            rc.msg("设置角色成功")
+        }else {
+            rc.msg("设置角色失败")
+        }
+    })
 }

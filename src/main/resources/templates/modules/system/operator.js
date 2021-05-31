@@ -100,7 +100,7 @@ layui.use(['form', 'table'], function () {
                 layer.full(index);
             });
         } else if (obj.event === 'edit') {  // 监听修改操作
-            let ids = getIdSelections(table, 'operatorTable') + "";
+            let ids = getIdSelections(table) + "";
             let idArr = ids.toString().split(",");
             if (idArr[1]) {
                 rc.alert("只能选择一条数据")
@@ -114,7 +114,7 @@ layui.use(['form', 'table'], function () {
                 layer.full(index);
             });
         } else if (obj.event === 'view') {  // 监听查看操作
-            let ids = getIdSelections(table, 'operatorTable');
+            let ids = getIdSelections(table);
             let idArr = ids.toString().split(",");
             if (idArr[1]) {
                 rc.alert("只能选择一条数据")
@@ -122,22 +122,29 @@ layui.use(['form', 'table'], function () {
                 rc.alert("请至少选择一条数据")
             } else if (idArr[0]) {
                 ids = idArr[0];
-                rc.openSaveDialog('/recruit/system/operator/form/view?id=' + ids, "编辑用户信息");
+                rc.openViewDialog('/recruit/system/operator/form/view?id=' + ids, "查看用户信息");
             }
             $(window).on("resize", function () {
                 layer.full(index);
             });
         } else if (obj.event === 'delete') {  // 监听删除操作
-            let ids = getIdSelections(table, 'operatorTable');
+            let ids = getIdSelections(table);
             if (ids == null || ids == '') {
                 rc.alert("请至少选择一条数据")
             } else {
-                rc.post("/recruit/system/operator/deleteByPhysics?ids=" + ids, "", 'operatorTable', table);
+                rc.post("/recruit/system/operator/deleteByPhysics?ids=" + ids, '',function (data) {
+                    if(data.code == 200){
+                        //执行搜索重载
+                        refresh();
+                    }else{
+                        rc.alert(data.msg);
+                    }
+                });
             }
         } else if (obj.event === 'import') {  // 监听删除操作
-            rc.openImportDialog("/recruit/forecast/twoColorBall/importTemplate", "/recruit/forecast/twoColorBall/importFile")
+            rc.openImportDialog("/recruit/system/operator/importTemplate", "/recruit/system/operator/importFile")
         } else if (obj.event === 'export') {  // 监听删除操作
-            rc.downloadFile("/recruit/forecast/twoColorBall/exportFile?" + $("#twoColorBallSearchForm").serialize());
+            rc.downloadFile("/recruit/system/operator/exportFile?" + $("#searchForm").serialize());
         }
     });
 
@@ -157,8 +164,8 @@ layui.use(['form', 'table'], function () {
  * @param tableId -- layui table 的id
  * @returns {string}
  */
-function getIdSelections(table, tableId) {
-    var checkStatus = table.checkStatus(tableId),
+function getIdSelections(table) {
+    var checkStatus = table.checkStatus('operatorTable'),
         data = checkStatus.data;
     let ids = "";
     for (let i = 0; i < data.length; i++) {
@@ -166,4 +173,22 @@ function getIdSelections(table, tableId) {
     }
     ;
     return ids;
+}
+
+function refresh() {
+    layui.use(['form', 'table'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            table = layui.table;
+
+        //执行搜索重载
+        table.reload('operatorTable', {
+            page: {
+                curr: 1
+            }
+            , where: {
+
+            }
+        }, 'data');
+    })
 }

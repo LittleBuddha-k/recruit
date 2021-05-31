@@ -119,78 +119,6 @@ layui.use(['form', 'table'], function () {
         }, //如果无需传递额外参数，可不加该参数
         sort: true
     });
-
-    // 监听搜索操作
-    form.on('submit(data-search-btn)', function (data) {
-        //执行搜索重载
-        table.reload('menuTable', {
-            where: {
-                name: $("#name").val(),
-                englishName: $("#englishName").val()
-            }
-        });
-        return false;
-    });
-
-    /**
-     * toolbar监听事件
-     */
-    table.on('toolbar(menuTableFilter)', function (obj) {
-        if (obj.event === 'add') {  // 监听添加操作
-            var index = rc.openSaveDialog("/recruit/system/menu/form/add", "新建角色信息")
-            $(window).on("resize", function () {
-                layer.full(index);
-            });
-        } else if (obj.event === 'edit') {  // 监听修改操作
-            let ids = getIdSelections(table, 'menuTable') + "";
-            let idArr = ids.toString().split(",");
-            if (idArr[1]) {
-                rc.alert("只能选择一条数据")
-            } else if (ids.length <= 0) {
-                rc.alert("请至少选择一条数据")
-            } else if (idArr[0]) {
-                ids = idArr[0];
-                rc.openSaveDialog('/recruit/system/menu/form/edit?id=' + ids, "编辑角色信息");
-            }
-            $(window).on("resize", function () {
-                layer.full(index);
-            });
-        } else if (obj.event === 'view') {  // 监听查看操作
-            let ids = getIdSelections(table, 'menuTable');
-            let idArr = ids.toString().split(",");
-            if (idArr[1]) {
-                rc.alert("只能选择一条数据")
-            } else if (ids.length <= 0) {
-                rc.alert("请至少选择一条数据")
-            } else if (idArr[0]) {
-                ids = idArr[0];
-                rc.openSaveDialog('/recruit/system/menu/form/view?id=' + ids, "编辑角色信息");
-            }
-            $(window).on("resize", function () {
-                layer.full(index);
-            });
-        } else if (obj.event === 'delete') {  // 监听删除操作
-            let ids = getIdSelections(table, 'menuTable');
-            if (ids == null || ids == '') {
-                rc.alert("请至少选择一条数据")
-            } else {
-                rc.post("/recruit/system/menu/deleteByPhysics?ids=" + ids, "", 'menuTable', table);
-            }
-        } else if (obj.event === 'import') {  // 监听删除操作
-            rc.openImportDialog("/recruit/forecast/twoColorBall/importTemplate", "/recruit/forecast/twoColorBall/importFile")
-        } else if (obj.event === 'export') {  // 监听删除操作
-            rc.downloadFile("/recruit/forecast/twoColorBall/exportFile?" + $("#twoColorBallSearchForm").serialize());
-        }
-    });
-
-    table.on('tool(menuTableFilter)', function (obj) {
-        var id = obj.data.id;
-        var index = rc.openSelectionDialog("/recruit/system/menu/addmenuPage?id=" + id, "设置角色")
-        $(window).on("resize", function () {
-            layer.full(index);
-        });
-        return false;
-    });
 });
 
 /**
@@ -199,7 +127,7 @@ layui.use(['form', 'table'], function () {
  * @param tableId -- layui table 的id
  * @returns {string}
  */
-function getIdSelections(table, tableId) {
+function getIdSelections() {
     let ids = "";
     layui.use(['form', 'table'], function () {
         var $ = layui.jquery,
@@ -221,5 +149,11 @@ function getIdSelections(table, tableId) {
  */
 function save(ids) {
     $("#menusId").val(ids);
-    rc.post("/recruit/system/role/addPermission",$("#hiddenForm").serializeJson(),'roleTable',layui.table)
+    rc.post("/recruit/system/role/addPermission",$("#hiddenForm").serializeJson(),function (data) {
+        if(200 == data.code){
+            rc.msg("设置权限成功")
+        }else {
+            rc.msg("设置权限失败")
+        }
+    })
 }
