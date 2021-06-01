@@ -134,6 +134,8 @@ function getIdSelections() {
 
         var checkStatus = table.checkStatus('menuTable'),
             data = checkStatus.data;
+        console.log("checkStatus:"+JSON.stringify(checkStatus))
+        console.log("data:"+data)
         for (let i = 0; i < data.length; i++) {
             ids = ids + data[i].id + ",";
         }
@@ -148,5 +150,5 @@ function getIdSelections() {
 function save() {
     var ids = getIdSelections();
     $("#menusId").val(ids);
-    rc.post("/recruit/system/role/addPermission",$("#hiddenForm").serializeJson(),'roleTable',layui.table)
+    //rc.post("/recruit/system/role/addPermission",$("#hiddenForm").serializeJson(),'roleTable',layui.table)
 }
