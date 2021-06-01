@@ -1,141 +1,141 @@
-$(document).ready(function () {
-    /*表格初始化*/
-    init();
-})
+layui.use(['form', 'table'], function () {
+    var $ = layui.jquery,
+        form = layui.form,
+        table = layui.table;
 
-/*刷新表格、重新加载初始化*/
-function refresh() {
-    init();
-}
+    table.render({
+        elem: '#menuTable',
+        url: '/recruit/system/menu/data',
+        method: 'GET',
+        request: {
+            pageName: 'pageNo', // page
+            limitName: 'pageSize' // limit
+        },//重命名参数名称
+        done: function (res) {
+            //做checkbox回显
+            //如果是异步请求数据方式，res即为你接口返回的信息。
+            //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
+            /*let val = $("#menusId").val();
+            let strings = val.split(",");
+            let data = res.data;
+            for (var i = 0;i < data.length; i++){
+                for (var j = 0;j < strings.length; j++){
 
-//重新加载刷新
-function init() {
-    layui.use(['table', 'treetable'], function () {
-        var $ = layui.jquery;
-        var table = layui.table;
-        var treetable = layui.treetable;
-
-        // 渲染表格
-        var renderTable = function () {
-            layer.load(2);
-            treetable.render({
-                treeColIndex: 1,
-                treeSpid: -1,
-                treeIdName: 'id',
-                treePidName: 'parentId',
-                elem: '#menuTable',
-                url: '/recruit/system/menu/data',
-                treeDefaultClose: true,	//是否默认折叠
-                treeLinkage: false,		//父级展开时是否自动展开所有子级
-                //toolbar: '#toolbarDemo',
-                page: false,
-                cols: [
-                    [
-                        {type: 'checkbox'},
-                        {
-                            field: 'title',
-                            align: 'left',
-                            title: '菜单名称'
-                        },
-                        {
-                            field: 'href',
-                            align: 'left',
-                            title: '菜单url'
-                        },
-                        {
-                            field: 'icon',
-                            align: 'left',
-                            title: '菜单图标',
-                            templet: function (d) {
-                                let strings = d.icon.toString().split(" ");
-                                let html = '<i class="' + d.icon + '"></i> ';
-                                return html;
-                            }
-                        },
-                        {
-                            field: 'sort',
-                            align: 'left',
-                            title: '排序'
-                        },
-                        {
-                            field: 'isShow',
-                            align: 'left',
-                            title: '是否展示',
-                            templet: function (d) {
-                                if (1 == d.isShow) {
-                                    return '是';
-                                } else {
-                                    return '否';
-                                }
-                            }
-                        },
-                        {
-                            field: 'type',
-                            align: 'left',
-                            title: '类型'
-                        },
-                        {
-                            field: 'permission',
-                            align: 'left',
-                            title: '权限标识'
-                        },
-                        {
-                            field: 'hasChildren',
-                            align: 'left',
-                            title: '是否有子菜单',
-                            templet: function (d) {
-                                if (d.hasChildren) {
-                                    return '是';
-                                } else {
-                                    return '否';
-                                }
-                            }
-                        }
-                    ]
-                ],
-                done: function (res) {
-                    layer.closeAll('loading');
-
-                    let menusId = $("#menusId").val().split(",");
-                    //遍历集合
-                    layui.each(res.data, function (index, item) {
-                        //将获取的选中行数据进行遍历
-                        if (menusId.indexOf('' + item.id + '') > -1) {
-                            //一:修改class属性--随缘有效
-                            // $('tr[data-index=' + index + '] input[type="checkbox"]').prop('checked', true);
-                            // $('tr[data-index=' + index + '] input[type="checkbox"]').next().addClass('layui-form-checked');
-                            //二：点击去属性 lay-id='table'==表格id ； index：需要回显的行数下标-从0开始
-                            $("div[lay-id='menuTable'] td .layui-form-checkbox").eq(index).click();
-                        }
-                    })
                 }
-            });
-        }
+            }*/
 
-        //加载
-        renderTable();
-
-        $('#btn-expand').click(function () {
-            treetable.expandAll('#menuTable');
-        });
-
-        $('#btn-fold').click(function () {
-            treetable.foldAll('#menuTable');
-        });
+            let menusId = $("#menusId").val().split(",");
+            //遍历集合
+            layui.each(res.data, function (index, item) {
+                //将获取的选中行数据进行遍历
+                if (menusId.indexOf('' + item.id + '') > -1) {
+                    //一:修改class属性--随缘有效
+                    // $('tr[data-index=' + index + '] input[type="checkbox"]').prop('checked', true);
+                    // $('tr[data-index=' + index + '] input[type="checkbox"]').next().addClass('layui-form-checked');
+                    //二：点击去属性 lay-id='table'==表格id ； index：需要回显的行数下标-从0开始
+                    $("div[lay-id='menuTable'] td .layui-form-checkbox").eq(index).click();
+                }
+            })
+        },
+        //toolbar: '#toolBar',
+        defaultToolbar: [
+            'filter',
+            'exports',
+            'print',
+            {
+                title: '提示',
+                layEvent: 'test',
+                icon: 'layui-icon-tips'
+            }
+        ],
+        cols: [
+            [
+                {
+                    type: "checkbox"
+                },
+                {
+                    title: '父级id',
+                    field: 'parent.id'
+                },
+                {
+                    title: '菜单名字',
+                    field: 'title',
+                    sort: true
+                },
+                {
+                    title: '链接',
+                    field: 'href',
+                    sort: true
+                },
+                {
+                    title: '目标',
+                    field: 'target',
+                    sort: true
+                },
+                {
+                    title: '图标',
+                    field: 'icon',
+                    sort: true
+                },
+                {
+                    title: '排序',
+                    field: 'sort',
+                    sort: true
+                },
+                {
+                    title: '是否显示',
+                    field: 'isShow',
+                    sort: true
+                },
+                {
+                    title: '菜单类型',
+                    field: 'type',
+                    sort: true
+                },
+                {
+                    title: '权限标识',
+                    field: 'permission',
+                    sort: true
+                },
+                {
+                    title: '是否有子类',
+                    field: 'hasChildren',
+                    sort: true
+                }/*,
+                {
+                    title: '操作',
+                    toolbar: '#operation',
+                    align: "center"
+                }*/
+            ]
+        ],
+        limits: [10, 15, 20, 25, 50, 100],
+        limit: 10,
+        page: true,
+        skin: 'line',
+        where: {
+            name: $("#name").val(),
+            englishName: $("#englishName").val()
+        }, //如果无需传递额外参数，可不加该参数
+        sort: true
     });
-}
+});
 
+/**
+ * 获取layui table 复选框的id
+ * @param table -- table = layui.table;
+ * @param tableId -- layui table 的id
+ * @returns {string}
+ */
 function getIdSelections() {
     let ids = "";
-    layui.use(['table', 'treetable'], function () {
-        var $ = layui.jquery;
-        var table = layui.table;
-        var treetable = layui.treetable;
+    layui.use(['form', 'table'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            table = layui.table;
 
-        var checkStatus = table.checkStatus('menuTable');
-        var data = checkStatus.data;
-        console.log("checkStatus:"+JSON.stringify(checkStatus))
-        console.log("data:"+data)
+        var checkStatus = table.checkStatus('menuTable'),
+            data = checkStatus.data;
         for (let i = 0; i < data.length; i++) {
             ids = ids + data[i].id + ",";
         }
@@ -147,8 +147,13 @@ function getIdSelections() {
  * 保存的save方法
  * @param ids
  */
-function save() {
-    var ids = getIdSelections();
+function save(ids) {
     $("#menusId").val(ids);
-    rc.post("/recruit/system/role/addPermission",$("#hiddenForm").serializeJson(),'roleTable',layui.table)
+    rc.post("/recruit/system/role/addPermission",$("#hiddenForm").serializeJson(),function (data) {
+        if(200 == data.code){
+            rc.msg("设置权限成功")
+        }else {
+            rc.msg("设置权限失败")
+        }
+    })
 }

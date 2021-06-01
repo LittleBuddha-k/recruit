@@ -3,13 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>角色管理</title>
-    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
-    <link rel="stylesheet" href="/recruit/bootstrap/css/bootstrap.min.css">
-    <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
-    <link rel="stylesheet" href="/recruit/bootstrap/css/bootstrap-theme.min.css">
     <script src="/recruit/plugins/jquery/jquery-3.3.1.min.js"></script>
-    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
-    <script src="/recruit/bootstrap/js/bootstrap.min.js"></script>
     <!--引入工具js-->
     <script type="text/javascript" src="/recruit/utils/util.js"></script>
     <!--layui-->
@@ -19,25 +13,25 @@
 </head>
 <body>
 <div class="container">
-    <div class="row col-xs-12 col-sm-12	col-md-12 col-lg-12">
-        <form class="form-horizontal" col-xs-12 col-sm-12 col-md-12 col-lg-12 id="roleForm">
-            <input type="hidden" name="id" th:value="${role.getId()}">
-            <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
-                <label for="name" class="col-sm-4 control-label">角色名称</label>
-                <div class="col-sm-8">
-                    <input type="name" class="form-control" id="name" name="name"
-                           th:value="${role.getName()}" placeholder="角色名称" required>
+    <form class="layui-form" id="roleForm">
+        <input type="hidden" name="id" th:value="${role.getId()}">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">角色名称</label>
+                <div class="layui-input-inline">
+                    <input type="name"  th:name="name" th:value="${role.getName()}" placeholder="角色名称"
+                           lay-verify="required|name" autocomplete="off" class="layui-input">
                 </div>
             </div>
-            <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
-                <label for="englishName" class="col-sm-4 control-label">英文名称</label>
-                <div class="col-sm-8">
-                    <input type="englishName" class="form-control" id="englishName" name="englishName"
-                           th:value="${role.getEnglishName()}" placeholder="英文名称" required>
+            <div class="layui-inline">
+                <label class="layui-form-label">英文名称</label>
+                <div class="layui-input-inline">
+                    <input type="englishName" th:name="englishName" th:value="${role.getEnglishName()}" placeholder="角色名称"
+                           lay-verify="required|englishName" autocomplete="off" class="layui-input">
                 </div>
             </div>
-        </form>
-    </div>
+        </div>
+    </form>
 </div>
 <script type="text/javascript">
     //保存方法
@@ -61,7 +55,7 @@
                     parent.layer.close(index); //再执行关闭
                     rc.alert(result.msg)
                 },
-                error:function (result) {
+                error: function (result) {
                     rc.alert(result.msg)
                 }
             });

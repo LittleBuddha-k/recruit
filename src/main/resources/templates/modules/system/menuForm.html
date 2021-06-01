@@ -2,81 +2,78 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <meta charset="UTF-8">
-    <title>用户管理</title>
-    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
-    <link rel="stylesheet" href="/recruit/bootstrap/css/bootstrap.min.css">
-    <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
-    <link rel="stylesheet" href="/recruit/bootstrap/css/bootstrap-theme.min.css">
+    <title>菜单管理</title>
     <script src="/recruit/plugins/jquery/jquery-3.3.1.min.js"></script>
-    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
-    <script src="/recruit/bootstrap/js/bootstrap.min.js"></script>
+    <!--layui-->
+    <link rel="stylesheet" href="/recruit/plugins/layui/lib/layui-v2.5.5/css/layui.css" media="all">
+    <script src="/recruit/plugins/layui/lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
+    <script src="/recruit/plugins/layui/js/lay-config.js?v=2.0.0" charset="utf-8"></script>
 </head>
 <body>
 <div class="container">
-    <div class="row col-xs-12 col-sm-12	col-md-12 col-lg-12">
-        <form class="form-horizontal" col-xs-12 col-sm-12 col-md-12 col-lg-12 id="menuForm">
-            <input type="hidden" name="id" th:value="${menu.getId()}">
-            <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
-                <label for="" class="col-sm-4 control-label">上级菜单</label>
-                <div class="col-sm-8">
-                    <select class="form-control" name="parent.id" id="parent.id">
-                        <option th:value="${menu.getParent().getId()}" th:text="${menu.getParent().getTitle()}"></option>
+    <form class="layui-form" id="menuForm">
+        <input type="hidden" name="id" th:value="${menu.getId()}">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">上级菜单</label>
+                <div class="layui-input-inline">
+                    <select name="parent.id" id="parent.id" lay-verify="">
+                        <option th:value="${menu.getParent().getId()}"
+                                th:text="${menu.getParent().getTitle()}"></option>
                     </select>
                 </div>
             </div>
-            <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
-                <label for="title" class="col-sm-4 control-label">菜单名</label>
-                <div class="col-sm-8">
-                    <input type="title" class="form-control" id="title" name="title"
-                           th:value="${menu.getTitle()}" placeholder="菜单名">
+            <div class="layui-inline">
+                <label class="layui-form-label">菜单名</label>
+                <div class="layui-input-inline">
+                    <input type="title" id="title" th:name="title" th:value="${menu.getTitle()}"
+                           placeholder="菜单名" lay-verify="required|title" autocomplete="off" class="layui-input">
                 </div>
             </div>
-            <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
-                <label for="href" class="col-sm-4 control-label">链接</label>
-                <div class="col-sm-8">
-                    <input type="href" class="form-control" id="href" name="href" th:value="${menu.getHref()}"
-                           placeholder="链接">
+            <div class="layui-inline">
+                <label class="layui-form-label">链接</label>
+                <div class="layui-input-inline">
+                    <input type="href" id="href" th:name="href" th:value="${menu.getHref()}"
+                           placeholder="链接" lay-verify="required|href" autocomplete="off" class="layui-input">
                 </div>
             </div>
-            <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
-                <label for="target" class="col-sm-4 control-label">目标</label>
-                <div class="col-sm-8">
-                    <input type="target" class="form-control" id="target" name="target" th:value="${menu.getTarget()}"
-                           placeholder="目标">
+            <div class="layui-inline">
+                <label class="layui-form-label">目标</label>
+                <div class="layui-input-inline">
+                    <input type="target" id="target" th:name="target" th:value="${menu.getTarget()}"
+                           placeholder="目标" lay-verify="required|target" autocomplete="off" class="layui-input">
                 </div>
             </div>
-            <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
-                <label for="icon" class="col-sm-4 control-label">图标</label>
-                <div class="col-sm-8">
-                    <input type="icon" class="form-control" id="icon" name="icon"
-                           th:value="${menu.getIcon()}" placeholder="图标">
+            <div class="layui-inline">
+                <label class="layui-form-label">图标</label>
+                <div class="layui-input-inline">
+                    <input type="icon" id="icon" th:name="icon" th:value="${menu.getIcon()}"
+                           placeholder="图标" lay-verify="required|icon" autocomplete="off" class="layui-input">
                 </div>
             </div>
-            <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
-                <label for="" class="col-sm-4 control-label">是否显示</label>
-                <div class="col-sm-8">
-                    <select class="form-control" name="isShow">
-                        <option value="true">是</option>
-                        <option value="false">否</option>
-                    </select>
+            <div class="layui-inline">
+                <label class="layui-form-label">是否显示</label>
+                <div class="layui-input-inline">
+                    <input type="isShow" id="isShow" th:name="isShow" th:value="${menu.getIsShow()}"
+                           placeholder="是否显示" lay-verify="required|isShow" autocomplete="off" class="layui-input">
                 </div>
             </div>
-            <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
-                <label for="type" class="col-sm-4 control-label">类型</label>
-                <div class="col-sm-8">
-                    <input type="type" class="form-control" id="type" name="type"
-                           th:value="${menu.getType()}" placeholder="类型">
+            <div class="layui-inline">
+                <label class="layui-form-label">类型</label>
+                <div class="layui-input-inline">
+                    <input type="type" id="type" th:name="type" th:value="${menu.getType()}"
+                           placeholder="类型" lay-verify="required|type" autocomplete="off" class="layui-input">
                 </div>
             </div>
-            <div class="form-group col-xs-12 col-sm-12	col-md-4 col-lg-4">
-                <label for="permission" class="col-sm-4 control-label">权限标识</label>
-                <div class="col-sm-8">
-                    <input type="permission" class="form-control" id="permission" name="permission"
-                           th:value="${menu.getPermission()}" placeholder="权限标识">
+            <div class="layui-inline">
+                <label class="layui-form-label">权限标识</label>
+                <div class="layui-input-inline">
+                    <input type="permission" id="address" th:name="permission" th:value="${menu.getPermission()}"
+                           placeholder="权限标识" lay-verify="required|permission" autocomplete="off" class="layui-input">
                 </div>
             </div>
-        </form>
-    </div>
+        </div>
+    </form>
 </div>
 <script type="text/javascript">
     //保存方法
