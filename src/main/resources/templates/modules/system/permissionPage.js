@@ -127,13 +127,13 @@ function init() {
 
 function getIdSelections() {
     let ids = "";
-    layui.use(['form', 'table'], function () {
+    layui.use(['table', 'treetable'], function () {
         var $ = layui.jquery,
             form = layui.form,
             table = layui.table,
             treeTable = layui.treetable;
 
-        var checkStatus = table.checkStatus('menuTable'),
+        var checkStatus = treeTable.getChecked('menuTable'),
             data = checkStatus.data;
         console.log("checkStatus:"+JSON.stringify(checkStatus))
         console.log("data:"+data)
