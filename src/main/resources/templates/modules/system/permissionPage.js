@@ -130,7 +130,8 @@ function getIdSelections() {
     layui.use(['form', 'table'], function () {
         var $ = layui.jquery,
             form = layui.form,
-            table = layui.table;
+            table = layui.table,
+            treeTable = layui.treetable;
 
         var checkStatus = table.checkStatus('menuTable'),
             data = checkStatus.data;
