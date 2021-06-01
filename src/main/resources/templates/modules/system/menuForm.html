@@ -86,10 +86,10 @@
             type: "POST",   //请求方式
             success: function (result) {
                 //请求成功时处理
+                // 刷新整个父窗口
+                parent.refresh();
                 //假设这是iframe页
                 var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
-                //刷新整个父窗口
-                parent.refresh();
                 parent.layer.close(index); //再执行关闭
             }
         });

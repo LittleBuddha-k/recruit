@@ -148,3 +148,21 @@ function getIdSelections(table, tableId) {
     }
     return ids;
 }
+
+function refresh() {
+    layui.use(['form', 'table'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            table = layui.table;
+
+        //执行搜索重载
+        table.reload('roleTable', {
+            page: {
+                curr: 1
+            }
+            , where: {
+
+            }
+        }, 'data');
+    })
+}
