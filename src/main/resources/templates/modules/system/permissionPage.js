@@ -128,13 +128,12 @@ function init() {
 function getIdSelections() {
     let ids = "";
     layui.use(['table', 'treetable'], function () {
-        var $ = layui.jquery,
-            form = layui.form,
-            table = layui.table,
-            treeTable = layui.treetable;
+        var $ = layui.jquery;
+        var table = layui.table;
+        var treetable = layui.treetable;
 
-        var checkStatus = treeTable.getChecked('menuTable'),
-            data = checkStatus.data;
+        var checkStatus = table.checkStatus('menuTable');
+        var data = checkStatus.data;
         console.log("checkStatus:"+JSON.stringify(checkStatus))
         console.log("data:"+data)
         for (let i = 0; i < data.length; i++) {
@@ -151,5 +150,5 @@ function getIdSelections() {
 function save() {
     var ids = getIdSelections();
     $("#menusId").val(ids);
-    //rc.post("/recruit/system/role/addPermission",$("#hiddenForm").serializeJson(),'roleTable',layui.table)
+    rc.post("/recruit/system/role/addPermission",$("#hiddenForm").serializeJson(),'roleTable',layui.table)
 }
