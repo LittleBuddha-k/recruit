@@ -70,7 +70,7 @@ public class MedicineController extends BaseController {
      * @return
      */
     @ResponseBody
-    @PostMapping("/data")
+    @GetMapping("/data")
     public Map data(Medicine medicine) {
         PageInfo<Medicine> page = medicineService.findPage(new Page<Medicine>(), medicine);
         return getBootstrapData(page);
