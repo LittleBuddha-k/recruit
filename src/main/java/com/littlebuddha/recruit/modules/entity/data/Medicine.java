@@ -11,143 +11,121 @@ import java.util.Date;
  */
 public class Medicine extends DataEntity<Medicine> {
 
-    private String position;           //招聘职位
-    private String salary;             //薪资
-    private String workingYears;       //工作年限
-    private String qualifications;     //学历
-    private String employCount;        //招聘人数
-    private Date publicDate;           //发布日期
-    private String type;//类型
-    private String address;//招聘公司的工作地址
+    private String name;            //药名
+    private String function;        //功能
+    private Double originalPrice;   //原价
+    private Double discountPrice;   //折后价
+    private String picture;         //图片
+    private String rebate;          //折扣
+    private String label;           //标签
+    private String prescriptionType;//处方类型
+    private String basicUnit;       //基本单位
+    private String brand;           //品牌
+    private String approvalNumber;  //批准文号
+    private String placeOfOrigin;   //产地
+    private String component;       //成分
 
-    private Company company;           //公司
-    private String companyId;          //公司id
-    private String companyName;        //公司名称
-    private String headquartersAddress;//地址
-    private String phone;              //公司联系电话
-    private String jobInformation;     //工作信息
-
-    public String getPosition() {
-        return position;
+    public String getName() {
+        return name;
     }
 
-    public void setPosition(String position) {
-        this.position = position;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getSalary() {
-        return salary;
+    public String getFunction() {
+        return function;
     }
 
-    public void setSalary(String salary) {
-        this.salary = salary;
+    public void setFunction(String function) {
+        this.function = function;
     }
 
-    public String getWorkingYears() {
-        return workingYears;
+    public Double getOriginalPrice() {
+        return originalPrice;
     }
 
-    public void setWorkingYears(String workingYears) {
-        this.workingYears = workingYears;
+    public void setOriginalPrice(Double originalPrice) {
+        this.originalPrice = originalPrice;
     }
 
-    public String getQualifications() {
-        return qualifications;
+    public Double getDiscountPrice() {
+        return discountPrice;
     }
 
-    public void setQualifications(String qualifications) {
-        this.qualifications = qualifications;
+    public void setDiscountPrice(Double discountPrice) {
+        this.discountPrice = discountPrice;
     }
 
-    public String getEmployCount() {
-        return employCount;
+    public String getPicture() {
+        return picture;
     }
 
-    public void setEmployCount(String employCount) {
-        this.employCount = employCount;
+    public void setPicture(String picture) {
+        this.picture = picture;
     }
 
-    public Date getPublicDate() {
-        return publicDate;
+    public String getRebate() {
+        return rebate;
     }
 
-    public void setPublicDate(Date publicDate) {
-        this.publicDate = publicDate;
+    public void setRebate(String rebate) {
+        this.rebate = rebate;
     }
 
-    public String getType() {
-        return type;
+    public String getLabel() {
+        return label;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setLabel(String label) {
+        this.label = label;
     }
 
-    public String getAddress() {
-        return address;
+    public String getPrescriptionType() {
+        return prescriptionType;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setPrescriptionType(String prescriptionType) {
+        this.prescriptionType = prescriptionType;
     }
 
-    public Company getCompany() {
-        return company;
+    public String getBasicUnit() {
+        return basicUnit;
     }
 
-    public void setCompany(Company company) {
-        this.company = company;
+    public void setBasicUnit(String basicUnit) {
+        this.basicUnit = basicUnit;
     }
 
-    public String getCompanyId() {
-        if(company != null && StringUtils.isNotBlank(company.getId())){
-            this.companyId = company.getId();
-        }
-        return companyId;
+    public String getBrand() {
+        return brand;
     }
 
-    public void setCompanyId(String companyId) {
-        this.companyId = companyId;
+    public void setBrand(String brand) {
+        this.brand = brand;
     }
 
-    public String getCompanyName() {
-        if(company != null && StringUtils.isNotBlank(company.getCompanyName())){
-            this.companyName = company.getCompanyName();
-        }
-        return companyName;
+    public String getApprovalNumber() {
+        return approvalNumber;
     }
 
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
+    public void setApprovalNumber(String approvalNumber) {
+        this.approvalNumber = approvalNumber;
     }
 
-    public String getHeadquartersAddress() {
-        if(company != null && StringUtils.isNotBlank(company.getHeadquartersAddress())){
-            this.headquartersAddress = company.getHeadquartersAddress();
-        }
-        return headquartersAddress;
+    public String getPlaceOfOrigin() {
+        return placeOfOrigin;
     }
 
-    public void setHeadquartersAddress(String headquartersAddress) {
-        this.headquartersAddress = headquartersAddress;
+    public void setPlaceOfOrigin(String placeOfOrigin) {
+        this.placeOfOrigin = placeOfOrigin;
     }
 
-    public String getPhone() {
-        if(company != null && StringUtils.isNotBlank(company.getPhone())){
-            this.phone = company.getPhone();
-        }
-        return phone;
+    public String getComponent() {
+        return component;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getJobInformation() {
-        return jobInformation;
-    }
-
-    public void setJobInformation(String jobInformation) {
-        this.jobInformation = jobInformation;
+    public void setComponent(String component) {
+        this.component = component;
     }
 }
