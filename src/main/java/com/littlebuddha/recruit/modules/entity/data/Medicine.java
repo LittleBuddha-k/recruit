@@ -1,5 +1,6 @@
 package com.littlebuddha.recruit.modules.entity.data;
 
+import com.littlebuddha.recruit.common.utils.excel.ExcelField;
 import com.littlebuddha.recruit.modules.base.entity.DataEntity;
 import com.littlebuddha.recruit.modules.entity.manager.Company;
 import org.apache.commons.lang3.StringUtils;
@@ -25,6 +26,7 @@ public class Medicine extends DataEntity<Medicine> {
     private String placeOfOrigin;   //产地
     private String component;       //成分
 
+    @ExcelField(title = "药名",align=2,sort=1)
     public String getName() {
         return name;
     }
@@ -33,6 +35,7 @@ public class Medicine extends DataEntity<Medicine> {
         this.name = name;
     }
 
+    @ExcelField(title = "功能",align=2,sort=2)
     public String getFunction() {
         return function;
     }
@@ -41,6 +44,7 @@ public class Medicine extends DataEntity<Medicine> {
         this.function = function;
     }
 
+    @ExcelField(title = "原价",align=2,sort=3)
     public Double getOriginalPrice() {
         return originalPrice;
     }
@@ -49,6 +53,7 @@ public class Medicine extends DataEntity<Medicine> {
         this.originalPrice = originalPrice;
     }
 
+    @ExcelField(title = "折后价",align=2,sort=4)
     public Double getDiscountPrice() {
         return discountPrice;
     }
@@ -57,6 +62,7 @@ public class Medicine extends DataEntity<Medicine> {
         this.discountPrice = discountPrice;
     }
 
+    @ExcelField(title = "图片",align=2,sort=5)
     public String getPicture() {
         return picture;
     }
@@ -65,6 +71,7 @@ public class Medicine extends DataEntity<Medicine> {
         this.picture = picture;
     }
 
+    @ExcelField(title = "折扣",align=2,sort=6)
     public String getRebate() {
         return rebate;
     }
@@ -73,6 +80,7 @@ public class Medicine extends DataEntity<Medicine> {
         this.rebate = rebate;
     }
 
+    @ExcelField(title = "标签",align=2,sort=7)
     public String getLabel() {
         return label;
     }
@@ -81,6 +89,7 @@ public class Medicine extends DataEntity<Medicine> {
         this.label = label;
     }
 
+    @ExcelField(title = "处方类型",align=2,sort=8)
     public String getPrescriptionType() {
         return prescriptionType;
     }
@@ -89,6 +98,7 @@ public class Medicine extends DataEntity<Medicine> {
         this.prescriptionType = prescriptionType;
     }
 
+    @ExcelField(title = "基本单位",align=2,sort=9)
     public String getBasicUnit() {
         return basicUnit;
     }
@@ -97,6 +107,7 @@ public class Medicine extends DataEntity<Medicine> {
         this.basicUnit = basicUnit;
     }
 
+    @ExcelField(title = "品牌",align=2,sort=10)
     public String getBrand() {
         return brand;
     }
@@ -105,6 +116,7 @@ public class Medicine extends DataEntity<Medicine> {
         this.brand = brand;
     }
 
+    @ExcelField(title = "批准文号",align=2,sort=11)
     public String getApprovalNumber() {
         return approvalNumber;
     }
@@ -113,6 +125,7 @@ public class Medicine extends DataEntity<Medicine> {
         this.approvalNumber = approvalNumber;
     }
 
+    @ExcelField(title = "产地",align=2,sort=12)
     public String getPlaceOfOrigin() {
         return placeOfOrigin;
     }
@@ -121,6 +134,7 @@ public class Medicine extends DataEntity<Medicine> {
         this.placeOfOrigin = placeOfOrigin;
     }
 
+    @ExcelField(title = "成分",align=2,sort=13)
     public String getComponent() {
         return component;
     }

@@ -33,25 +33,67 @@ layui.use(['form', 'table'], function () {
                     type: "checkbox"
                 },
                 {
-                    title: '用户名',
-                    field: 'name'
+                    title: '药名',
+                    field: 'name',
+                    sort: true,
+                    sortName: 'name'
                 },
                 {
-                    title: '性别',
+                    title: '功能',
                     field: 'function',
                     sort: true
                 },
                 {
-                    title: '年龄',
+                    title: '原价',
                     field: 'originalPrice'
                 },
                 {
-                    title: '住址',
+                    title: '折后价',
                     field: 'discountPrice'
                 },
                 {
-                    title: '电话',
+                    title: '图片',
                     field: 'picture',
+                    sort: true
+                },
+                {
+                    title: '折扣',
+                    field: 'rebate',
+                    sort: true
+                },
+                {
+                    title: '标签',
+                    field: 'label',
+                    sort: true
+                },
+                {
+                    title: '处方类型',
+                    field: 'prescriptionType',
+                    sort: true
+                },
+                {
+                    title: '基本单位',
+                    field: 'basicUnit',
+                    sort: true
+                },
+                {
+                    title: '品牌',
+                    field: 'brand',
+                    sort: true
+                },
+                {
+                    title: '批准文号',
+                    field: 'approvalNumber',
+                    sort: true
+                },
+                {
+                    title: '产地',
+                    field: 'placeOfOrigin',
+                    sort: true
+                },
+                {
+                    title: '成分',
+                    field: 'component',
                     sort: true
                 },
                 {
@@ -136,6 +178,7 @@ layui.use(['form', 'table'], function () {
                     if(data.code == 200){
                         //执行搜索重载
                         refresh();
+                        rc.alert(data.msg);
                     }else{
                         rc.alert(data.msg);
                     }

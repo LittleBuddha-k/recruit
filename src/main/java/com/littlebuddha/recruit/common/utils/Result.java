@@ -12,7 +12,14 @@ public class Result<T> {
     //只是迎合layui树形表格所加字段
     private Integer count;
 
+    private boolean success;
+
     public Result() {
+    }
+
+    public Result(String msg, boolean success) {
+        this.msg = msg;
+        this.success = success;
     }
 
     public Result(String code, String msg) {
@@ -62,5 +69,13 @@ public class Result<T> {
 
     public void setCount(Integer count) {
         this.count = count;
+    }
+
+    public boolean isSuccess() {
+        return success;
+    }
+
+    public void setSuccess(boolean success) {
+        this.success = success;
     }
 }

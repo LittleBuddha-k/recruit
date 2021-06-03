@@ -17,38 +17,40 @@
         <input type="hidden" name="id" th:value="${medicine.getId()}">
         <div class="layui-form-item">
             <div class="layui-inline">
-                <label class="layui-form-label">姓名</label>
+                <label class="layui-form-label">药名</label>
                 <div class="layui-input-inline">
-                    <input type="username" id="username" th:name="username" th:value="${medicine.getUsername()}"
-                           placeholder="姓名" lay-verify="required|username" autocomplete="off" class="layui-input">
+                    <input type="name" id="name" th:name="name" th:value="${medicine.getName()}"
+                           placeholder="药名" lay-verify="required|name" autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-inline">
-                <label class="layui-form-label">密码</label>
+                <label class="layui-form-label">功能</label>
                 <div class="layui-input-inline">
-                    <input type="password" id="password" th:name="password" th:value="${medicine.getPassword()}"
-                           placeholder="密码" lay-verify="required|password" autocomplete="off" class="layui-input">
+                    <input type="function" id="function" th:name="function" th:value="${medicine.getFunction()}"
+                           placeholder="功能" lay-verify="required|function" autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-inline">
-                <label class="layui-form-label">性别</label>
+                <label class="layui-form-label">原价</label>
                 <div class="layui-input-inline">
-                    <input type="sex" id="sex" th:name="sex" th:value="${medicine.getSex()}"
-                           placeholder="性别" lay-verify="required|sex" autocomplete="off" class="layui-input">
+                    <input type="originalPrice" id="originalPrice" th:name="originalPrice"
+                           th:value="${medicine.getOriginalPrice()}"
+                           placeholder="原价" lay-verify="required|originalPrice" autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-inline">
-                <label class="layui-form-label">年龄</label>
+                <label class="layui-form-label">折后价</label>
                 <div class="layui-input-inline">
-                    <input type="age" id="age" th:name="age" th:value="${medicine.getAge()}"
-                           placeholder="年龄" lay-verify="required|age" autocomplete="off" class="layui-input">
+                    <input type="discountPrice" id="discountPrice" th:name="discountPrice"
+                           th:value="${medicine.getDiscountPrice()}"
+                           placeholder="折后价" lay-verify="required|discountPrice" autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-inline">
-                <label class="layui-form-label">地址</label>
+                <label class="layui-form-label">图片</label>
                 <div class="layui-input-inline">
-                    <input type="address" id="address" th:name="address" th:value="${medicine.getAddress()}"
-                           placeholder="地址" lay-verify="required|address" autocomplete="off" class="layui-input">
+                    <input type="picture" id="picture" th:name="picture" th:value="${medicine.getPicture()}"
+                           placeholder="图片" lay-verify="required|picture" autocomplete="off" class="layui-input">
                 </div>
             </div>
         </div>
@@ -57,31 +59,23 @@
 <script type="text/javascript">
     //保存方法
     function save(parentIndex) {
-        if ($("#username").val() == '') {
-            rc.alert("名称不能为空")
-        }
-        if ($("#password").val() == '') {
-            rc.alert("密码不能为空")
-        }
-        if ($("#username").val() != '' && $("#password").val() != '') {
-            $.ajax({
-                url: "/recruit/system/medicine/save",    //请求的url地址
-                dataType: "json",   //返回格式为json
-                async: true,//请求是否异步，默认为异步，这也是ajax重要特性
-                data: $("#medicineForm").serialize(),    //参数值
-                type: "POST",   //请求方式
-                success: function (result) {
-                    //假设这是iframe页
-                    var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
-                    parent.layer.close(index); //再执行关闭
-                    parent.refresh();
-                    rc.alert(result.msg)
-                },
-                error: function (result) {
-                    rc.alert(result.msg)
-                }
-            });
-        }
+        $.ajax({
+            url: "/recruit/data/medicine/save",    //请求的url地址
+            dataType: "json",   //返回格式为json
+            async: true,//请求是否异步，默认为异步，这也是ajax重要特性
+            data: $("#medicineForm").serialize(),    //参数值
+            type: "POST",   //请求方式
+            success: function (result) {
+                //假设这是iframe页
+                var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                parent.layer.close(index); //再执行关闭
+                parent.refresh();
+                rc.alert(result.msg)
+            },
+            error: function (result) {
+                rc.alert(result.msg)
+            }
+        });
     }
 </script>
 </body>

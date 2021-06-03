@@ -158,12 +158,12 @@
     </update>
 
     <update id="deleteByLogic">
-        UPDATE recruit_data_medicine SET del_flag = 1
+        UPDATE recruit_data_medicine SET del_flag = #{DEL_FLAG_DELETE}
         WHERE id=#{id}
     </update>
 
     <update id="recovery">
-        UPDATE recruit_data_medicine SET del_flag = 0
+        UPDATE recruit_data_medicine SET del_flag = #{DEL_FLAG_NORMAL}
         WHERE id=#{id}
     </update>
 

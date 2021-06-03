@@ -4,6 +4,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import com.littlebuddha.recruit.common.utils.DateUtils;
 import com.littlebuddha.recruit.common.utils.Result;
+import com.littlebuddha.recruit.common.utils.TreeResult;
 import com.littlebuddha.recruit.common.utils.excel.ExcelExport;
 import com.littlebuddha.recruit.common.utils.excel.ExcelImport;
 import com.littlebuddha.recruit.modules.base.controller.BaseController;
@@ -71,9 +72,9 @@ public class MedicineController extends BaseController {
      */
     @ResponseBody
     @GetMapping("/data")
-    public Map data(Medicine medicine) {
+    public TreeResult data(Medicine medicine) {
         PageInfo<Medicine> page = medicineService.findPage(new Page<Medicine>(), medicine);
-        return getBootstrapData(page);
+        return getLayUiData(page);
     }
 
     /**
@@ -144,9 +145,10 @@ public class MedicineController extends BaseController {
             if (failureNum>0){
                 failureMsg.insert(0, "，失败 "+failureNum+" 条药品记录。");
             }
+            result.setSuccess(true);
             result.setMsg( "已成功导入 "+successNum+" 条药品记录"+failureMsg);
         } catch (Exception e) {
-            result.setCode("200");
+            result.setSuccess(false);
             result.setMsg("导入药品失败！失败信息："+e.getMessage());
         }
         return result;

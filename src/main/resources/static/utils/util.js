@@ -284,11 +284,11 @@
                         var iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：
                         //调用子页面的方法
                         iframeWin.importExcel(uploadUrl, function (result) {
-                                if (data.success) {
-                                    rc.alert(data.msg);
+                                if (result.success) {
+                                    rc.alert(result.msg);
                                     refresh();
                                 } else {
-                                    rc.alert(data.msg);
+                                    rc.alert(result.msg);
                                 }
                                 rc.close(index);
                             }
