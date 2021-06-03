@@ -5,18 +5,11 @@ import com.github.pagehelper.PageInfo;
 import com.littlebuddha.recruit.common.utils.DateUtils;
 import com.littlebuddha.recruit.common.utils.Result;
 import com.littlebuddha.recruit.common.utils.TreeResult;
-import com.littlebuddha.recruit.common.utils.excel.ExcelExport;
-import com.littlebuddha.recruit.common.utils.excel.ExcelImport;
+import com.littlebuddha.recruit.common.utils.excel.ExportExcel;
+import com.littlebuddha.recruit.common.utils.excel.ImportExcel;
 import com.littlebuddha.recruit.modules.base.controller.BaseController;
 import com.littlebuddha.recruit.modules.entity.data.Medicine;
-import com.littlebuddha.recruit.modules.entity.manager.Company;
-import com.littlebuddha.recruit.modules.entity.manager.ReceivedResume;
-import com.littlebuddha.recruit.modules.entity.manager.Recruit;
 import com.littlebuddha.recruit.modules.service.data.MedicineService;
-import com.littlebuddha.recruit.modules.service.manager.CompanyService;
-import com.littlebuddha.recruit.modules.service.manager.ReceivedResumeService;
-import com.littlebuddha.recruit.modules.service.manager.RecruitService;
-import com.littlebuddha.recruit.modules.service.manager.ResumeService;
 import org.apache.commons.compress.utils.Lists;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -115,7 +108,7 @@ public class MedicineController extends BaseController {
         try {
             String fileName = "药品模板.xlsx";
             List<Medicine> list = Lists.newArrayList();
-            new ExcelExport("药品数据", Medicine.class, 1).setDataList(list).write(response, fileName).dispose();
+            new ExportExcel("药品数据", Medicine.class, 1).setDataList(list).write(response, fileName).dispose();
             return null;
         } catch (Exception e) {
             result.setCode("200");
@@ -132,7 +125,7 @@ public class MedicineController extends BaseController {
             int successNum = 0;
             int failureNum = 0;
             StringBuilder failureMsg = new StringBuilder();
-            ExcelImport ei = new ExcelImport(file, 1, 0);
+            ImportExcel ei = new ImportExcel(file, 1, 0);
             List<Medicine> list = ei.getDataList(Medicine.class);
             for (Medicine mayApplyCost : list){
                 try{
@@ -161,7 +154,7 @@ public class MedicineController extends BaseController {
         try {
             String fileName = "药品"+ DateUtils.getDate("yyyyMMddHHmmss")+".xlsx";
             PageInfo<Medicine> page = medicineService.findPage(new Page<Medicine>(), medicine);
-            new ExcelExport("药品", Medicine.class).setDataList(page.getList()).write(response, fileName).dispose();
+                new ExportExcel("药品", Medicine.class).setDataList(page.getList()).write(response, fileName).dispose();
             result.setCode("200");
             result.setMsg("导出成功！");
             return result;

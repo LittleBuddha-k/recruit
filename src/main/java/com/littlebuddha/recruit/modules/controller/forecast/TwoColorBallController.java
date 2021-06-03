@@ -5,8 +5,8 @@ import com.github.pagehelper.PageInfo;
 import com.littlebuddha.recruit.common.utils.DateUtils;
 import com.littlebuddha.recruit.common.utils.Result;
 import com.littlebuddha.recruit.common.utils.TreeResult;
-import com.littlebuddha.recruit.common.utils.excel.ExcelExport;
-import com.littlebuddha.recruit.common.utils.excel.ExcelImport;
+import com.littlebuddha.recruit.common.utils.excel.ExportExcel;
+import com.littlebuddha.recruit.common.utils.excel.ImportExcel;
 import com.littlebuddha.recruit.modules.base.controller.BaseController;
 import com.littlebuddha.recruit.modules.entity.forecast.TwoColorBall;
 import com.littlebuddha.recruit.modules.service.forecast.TwoColorBallService;
@@ -122,7 +122,7 @@ public class TwoColorBallController extends BaseController {
         try {
             String fileName = "双色球模板.xlsx";
             List<TwoColorBall> list = Lists.newArrayList();
-            new ExcelExport("双色球数据", TwoColorBall.class, 1).setDataList(list).write(response, fileName).dispose();
+            new ExportExcel("双色球数据", TwoColorBall.class, 1).setDataList(list).write(response, fileName).dispose();
             return null;
         } catch (Exception e) {
             result.setCode("200");
@@ -139,7 +139,7 @@ public class TwoColorBallController extends BaseController {
             int successNum = 0;
             int failureNum = 0;
             StringBuilder failureMsg = new StringBuilder();
-            ExcelImport ei = new ExcelImport(file, 1, 0);
+            ImportExcel ei = new ImportExcel(file, 1, 0);
             List<TwoColorBall> list = ei.getDataList(TwoColorBall.class);
             for (TwoColorBall mayApplyCost : list){
                 try{
@@ -167,7 +167,7 @@ public class TwoColorBallController extends BaseController {
         try {
             String fileName = "双色球"+ DateUtils.getDate("yyyyMMddHHmmss")+".xlsx";
             PageInfo<TwoColorBall> page = twoColorBallService.findPage(new Page<TwoColorBall>(), twoColorBall);
-            new ExcelExport("双色球", TwoColorBall.class).setDataList(page.getList()).write(response, fileName).dispose();
+            new ExportExcel("双色球", TwoColorBall.class).setDataList(page.getList()).write(response, fileName).dispose();
             result.setCode("200");
             result.setMsg("导出成功！");
             return result;
