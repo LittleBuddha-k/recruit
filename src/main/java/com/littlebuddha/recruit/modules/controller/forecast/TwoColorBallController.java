@@ -4,6 +4,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import com.littlebuddha.recruit.common.utils.DateUtils;
 import com.littlebuddha.recruit.common.utils.Result;
+import com.littlebuddha.recruit.common.utils.TreeResult;
 import com.littlebuddha.recruit.common.utils.excel.ExcelExport;
 import com.littlebuddha.recruit.common.utils.excel.ExcelImport;
 import com.littlebuddha.recruit.modules.base.controller.BaseController;
@@ -64,9 +65,9 @@ public class TwoColorBallController extends BaseController {
      */
     @ResponseBody
     @PostMapping("/data")
-    public Map data(TwoColorBall twoColorBall) {
+    public TreeResult data(TwoColorBall twoColorBall) {
         PageInfo<TwoColorBall> page = twoColorBallService.findPage(new Page<TwoColorBall>(), twoColorBall);
-        return getBootstrapData(page);
+        return getLayUiData(page);
     }
 
     /**

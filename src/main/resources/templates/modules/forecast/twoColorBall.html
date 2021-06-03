@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="utf-8">
+    <title>双色球列表</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/recruit/plugins/layui/lib/layui-v2.5.5/css/layui.css" media="all">
+    <link rel="stylesheet" href="/recruit/plugins/layui/css/public.css" media="all">
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+
+        <fieldset class="table-search-fieldset">
+            <legend>搜索信息</legend>
+        </fieldset>
+
+        <script type="text/html" id="toolBar">
+            <div class="layui-btn-container">
+                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="add"> 新建</button>
+                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="edit"> 编辑</button>
+                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="view"> 查看</button>
+                <button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="delete"> 删除
+                </button>
+                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="import"> 导入</button>
+                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="export"> 导出</button>
+            </div>
+        </script>
+
+        <table class="layui-hide" id="twoColorBallTable" lay-filter="twoColorBallTableFilter"></table>
+
+        <script type="text/html" id="operation">
+            <shiro:hasPermission name="system:twoColorBall:export">
+                <a class="layui-btn layui-btn-normal layui-btn-xs data-count-edit" lay-event="edit">设置</a>
+            </shiro:hasPermission>
+        </script>
+
+    </div>
+</div>
+<script src="/recruit/plugins/layui/lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
+<!--引入jquery-->
+<script src="/recruit/plugins/jquery/jquery-3.3.1.min.js"></script>
+<!--引入本html的js文件-->
+<script type="text/javascript" src="/recruit/modules/forecast/twoColorBall.js"></script>
+<!--引入工具js-->
+<script type="text/javascript" src="/recruit/utils/util.js"></script>
+</body>
+</html>

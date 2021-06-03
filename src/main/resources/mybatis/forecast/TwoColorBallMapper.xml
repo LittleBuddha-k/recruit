@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.littlebuddha.recruit.modules.mapper.forecast.TwoColorBallMapper">
+    <sql id="twoColorBallColumns">
+        id AS "id",
+        issue_number AS "issueNumber",
+        red_one AS "redOne",
+        red_two AS "redTwo",
+        red_three AS "redThree",
+        red_four AS "redFour",
+        red_five AS "redFive",
+        red_six AS "redSix",
+        blue AS "blue",
+        happy_sunday AS "happySunday",
+        bonus AS "bonus",
+        number_of_first_prize AS "numberOfFirstPrize",
+        bonus_of_first_prize AS "bonusOfFirstPrize",
+        number_of_second_award AS "numberOfSecondAward",
+        bonus_of_second_award AS "bonusOfSecondAward",
+        total_bets AS "totalBets",
+        draw_date AS "drawDate",
+        create_by AS "createBy.id",
+        create_date AS "createDate",
+        update_by AS "updateBy.id",
+        update_date AS "updateDate",
+        remarks AS "remarks",
+        del_flag AS "delFlag"
+    </sql>
+
+    <select id="get" resultType="com.littlebuddha.recruit.modules.entity.forecast.TwoColorBall">
+        SELECT
+        <include refid="twoColorBallColumns"/>
+        FROM recruit_forecast_two_color_ball a
+        WHERE id=#{id}
+    </select>
+
+    <select id="findList" resultType="com.littlebuddha.recruit.modules.entity.forecast.TwoColorBall">
+        SELECT
+        <include refid="twoColorBallColumns"/>
+        FROM recruit_forecast_two_color_ball a
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
+            <!-- 判断条件参数是否为空 -->
+
+        </where>
+        <choose>
+            <when test="orderBy !=null and orderBy != ''">
+                ORDER BY ${orderBy}
+            </when>
+            <otherwise>
+                ORDER BY a.create_date DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="findRecoveryList" resultType="com.littlebuddha.recruit.modules.entity.forecast.TwoColorBall">
+        SELECT
+        <include refid="twoColorBallColumns"/>
+        FROM recruit_forecast_two_color_ball a
+        <where>
+            a.del_flag = #{DEL_FLAG_DELETE}
+            <!-- 判断条件参数是否为空 -->
+
+        </where>
+        <choose>
+            <when test="orderBy !=null and orderBy != ''">
+                ORDER BY ${orderBy}
+            </when>
+            <otherwise>
+                ORDER BY a.create_date DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="findAllList" resultType="com.littlebuddha.recruit.modules.entity.forecast.TwoColorBall">
+        SELECT
+        <include refid="twoColorBallColumns"/>
+        FROM recruit_forecast_two_color_ball a
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+
+            </when>
+            <otherwise>
+
+            </otherwise>
+        </choose>
+    </select>
+
+    <insert id="insert">
+        INSERT INTO recruit_forecast_two_color_ball(
+            id,
+            issue_number,
+            red_one,
+            red_two,
+            red_three,
+            red_four,
+            red_five,
+            red_six,
+            blue,
+            happy_sunday,
+            bonus,
+            number_of_first_prize,
+            bonus_of_first_prize,
+            number_of_second_award,
+            bonus_of_second_award,
+            total_bets,
+            draw_date,
+            create_by,
+            create_date,
+            update_by,
+            update_date,
+            remarks,
+            del_flag
+        )VALUES (
+            #{id},
+            #{issue_number},
+            #{red_one},
+            #{red_two},
+            #{red_three},
+            #{red_four},
+            #{red_five},
+            #{red_six},
+            #{blue},
+            #{happy_sunday},
+            #{bonus},
+            #{number_of_first_prize},
+            #{bonus_of_first_prize},
+            #{number_of_second_award},
+            #{bonus_of_second_award},
+            #{total_bets},
+            #{draw_date},
+            #{createBy.id},
+            #{createDate},
+            #{updateBy.id},
+            #{updateDate},
+            #{remarks},
+            #{delFlag}
+        )
+    </insert>
+
+    <update id="update">
+        UPDATE recruit_forecast_two_color_ball SET
+            issue_number = #{issue_number},
+            red_one = #{red_one},
+            red_two = #{red_two},
+            red_three = #{red_three},
+            red_four = #{red_four},
+            red_five = #{red_five},
+            red_six = #{red_six},
+            blue = #{blue},
+            happy_sunday = #{happy_sunday},
+            bonus = #{bonus},
+            number_of_first_prize = #{number_of_first_prize},
+            bonus_of_first_prize = #{bonus_of_first_prize},
+            number_of_second_award = #{number_of_second_award},
+            bonus_of_second_award = #{bonus_of_second_award},
+            total_bets = #{total_bets},
+            draw_date = #{draw_date},
+            create_by = #{createBy.id},
+            create_date = #{createDate},
+            update_by = #{updateBy.id},
+            update_date = #{updateDate},
+            remarks = #{remarks},
+            del_flag = #{delFlag}
+        WHERE id=#{id}
+    </update>
+
+    <update id="deleteByLogic">
+        UPDATE recruit_forecast_two_color_ball SET del_flag = #{DEL_FLAG_DELETE}
+        WHERE id=#{id}
+    </update>
+
+    <update id="recovery">
+        UPDATE recruit_forecast_two_color_ball SET del_flag = #{DEL_FLAG_NORMAL}
+        WHERE id=#{id}
+    </update>
+
+    <delete id="deleteByPhysics">
+        DELETE FROM recruit_forecast_two_color_ball
+        WHERE id=#{id}
+    </delete>
+</mapper>
