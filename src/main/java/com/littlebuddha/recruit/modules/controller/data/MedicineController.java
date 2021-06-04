@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -103,7 +104,7 @@ public class MedicineController extends BaseController {
 
     @ResponseBody
     @GetMapping("/importTemplate")
-    public Result importTemplate(HttpServletResponse response){
+    public Result importTemplate(HttpServletResponse response) {
         Result result = new Result();
         try {
             String fileName = "药品模板.xlsx";
@@ -111,15 +112,15 @@ public class MedicineController extends BaseController {
             new ExportExcel("药品数据", Medicine.class, 1).setDataList(list).write(response, fileName).dispose();
             return null;
         } catch (Exception e) {
-            result.setCode("200");
-            result.setMsg( "导入模板下载失败！失败信息："+e.getMessage());
+            result.setSuccess(true);
+            result.setMsg("导入模板下载失败！失败信息：" + e.getMessage());
         }
         return result;
     }
 
     @ResponseBody
     @PostMapping("/importFile")
-    public Result importFile(@RequestParam("file") MultipartFile file, HttpServletResponse response, HttpServletRequest request){
+    public Result importFile(@RequestParam("file") MultipartFile file, HttpServletResponse response, HttpServletRequest request) {
         Result result = new Result();
         try {
             int successNum = 0;
@@ -127,40 +128,42 @@ public class MedicineController extends BaseController {
             StringBuilder failureMsg = new StringBuilder();
             ImportExcel ei = new ImportExcel(file, 1, 0);
             List<Medicine> list = ei.getDataList(Medicine.class);
-            for (Medicine mayApplyCost : list){
-                try{
+            for (Medicine mayApplyCost : list) {
+                try {
                     medicineService.save(mayApplyCost);
                     successNum++;
-                }catch (Exception ex) {
+                } catch (Exception ex) {
                     failureNum++;
                 }
             }
-            if (failureNum>0){
-                failureMsg.insert(0, "，失败 "+failureNum+" 条药品记录。");
+            if (failureNum > 0) {
+                failureMsg.insert(0, "，失败 " + failureNum + " 条药品记录。");
             }
             result.setSuccess(true);
-            result.setMsg( "已成功导入 "+successNum+" 条药品记录"+failureMsg);
+            result.setMsg("已成功导入 " + successNum + " 条药品记录" + failureMsg);
         } catch (Exception e) {
             result.setSuccess(false);
-            result.setMsg("导入药品失败！失败信息："+e.getMessage());
+            result.setMsg("导入药品失败！失败信息：" + e.getMessage());
         }
         return result;
     }
 
     @ResponseBody
     @GetMapping("/exportFile")
-    public Result exportFile(Medicine medicine, HttpServletRequest request, HttpServletResponse response){
+    public Result exportFile(Medicine medicine, HttpServletRequest request, HttpServletResponse response) {
         Result result = new Result();
         try {
-            String fileName = "药品"+ DateUtils.getDate("yyyyMMddHHmmss")+".xlsx";
-            PageInfo<Medicine> page = medicineService.findPage(new Page<Medicine>(), medicine);
-                new ExportExcel("药品", Medicine.class).setDataList(page.getList()).write(response, fileName).dispose();
-            result.setCode("200");
-            result.setMsg("导出成功！");
-            return result;
+            String fileName = "药品" + DateUtils.getDate("yyyyMMddHHmmss") + ".xlsx";
+            List<Medicine> list = medicineService.findList(medicine);
+            if (list != null & list.size() >0) {
+                new ExportExcel("药品", Medicine.class).setDataList(list).write(response, fileName).dispose();
+            }else {
+                new ExportExcel("药品", Medicine.class).setDataList(new ArrayList<>()).write(response, fileName).dispose();
+            }
+            return null;
         } catch (Exception e) {
-            result.setCode("433");
-            result.setMsg("导出药品记录失败！失败信息："+e.getMessage());
+            result.setSuccess(false);
+            result.setMsg("导出药品记录失败！失败信息：" + e.getMessage());
         }
         return result;
     }

@@ -108,11 +108,8 @@ layui.use(['form', 'table'], function () {
         page: true,
         skin: 'line',
         where: {
-            username: $("#username").val(),
-            sex: $("#sex").val(),
-            age: $("#age").val(),
-            address: $("#address").val(),
-            phone: $("#phone").val()
+            name: $("#name").val(),
+            brand: $("#brand").val()
         }, //如果无需传递额外参数，可不加该参数
         sort: true
     });
@@ -122,11 +119,8 @@ layui.use(['form', 'table'], function () {
         //执行搜索重载
         table.reload('medicineTable', {
             where: {
-                username: $("#username").val(),
-                sex: $("#sex").val(),
-                age: $("#age").val(),
-                address: $("#address").val(),
-                phone: $("#phone").val()
+                name: $("#name").val(),
+                brand: $("#brand").val()
             }
         });
         return false;
